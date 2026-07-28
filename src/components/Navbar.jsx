@@ -24,7 +24,7 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative z-50 w-full bg-wb-200">
+    <header className="sticky top-0 z-50 w-full bg-wb-200">
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-6 py-[15px] md:px-10 lg:px-12 xl:pl-[81px] xl:pr-[80px]">
         <Link
           to="/"
