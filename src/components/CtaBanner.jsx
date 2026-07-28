@@ -7,7 +7,7 @@ const DEFAULT_PILLS = [
     label: 'info@stephenstablecolorado.org',
     href: 'mailto:info@stephenstablecolorado.org',
   },
-  { icon: iconPhone, label: '970-375-9179', href: 'tel:9703759179' },
+  { icon: iconPhone, label: '970-375-9179', href: 'tel:970-375-9179' },
 ];
 
 /**
