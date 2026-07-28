@@ -89,16 +89,22 @@ function FaqSection({
                   src={iconFaqToggle}
                   alt=""
                   aria-hidden="true"
-                  className={`size-[40px] shrink-0 transition-transform md:size-[71px] ${
+                  className={`size-[40px] shrink-0 transition-transform duration-300 ease-in-out md:size-[71px] ${
                     isOpen ? '' : 'rotate-45'
                   }`}
                 />
               </button>
-              {isOpen && (
-                <p className="max-w-[892px] pb-[24px] font-sans text-[18px] text-gray-67 md:text-[20px]">
-                  {item.answer}
-                </p>
-              )}
+              <div
+                className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                  isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                }`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <p className="max-w-[892px] pb-[24px] font-sans text-[18px] text-gray-67 md:text-[20px]">
+                    {item.answer}
+                  </p>
+                </div>
+              </div>
             </div>
           );
         })}
