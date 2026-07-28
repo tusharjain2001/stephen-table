@@ -63,15 +63,16 @@ function WhoWeServeCard({ image, title, body, showCta }) {
   );
 }
 
-function GetInvolvedCard({ icon, title, body, bg, textWidth, cta }) {
+function GetInvolvedCard({ icon, iconSize = 46, title, body, bg, textWidth, offsetLeft = 39, offsetTop = 55, cta }) {
   const isDark = bg === 'dark';
   return (
     <div
-      className={`flex h-full min-h-[320px] w-full flex-col items-start gap-8 rounded-card px-8 py-10 xl:gap-[64px] xl:px-[39px] xl:pt-[55px] xl:pb-0 2xl:h-[478px] 2xl:w-[419px] ${
+      className={`flex h-full min-h-[320px] w-full flex-col items-start gap-8 rounded-card px-8 py-10 xl:gap-[64px] xl:pr-0 xl:pb-0 xl:pl-[var(--card-offset-l)] xl:pt-[var(--card-offset-t)] 2xl:h-[478px] 2xl:max-w-[419px] ${
         isDark ? 'bg-bl-600' : 'bg-bl-100'
       }`}
+      style={{ '--card-offset-l': `${offsetLeft}px`, '--card-offset-t': `${offsetTop}px` }}
     >
-      <img src={icon} alt="" style={{ width: 46, height: 46 }} />
+      <img src={icon} alt="" style={{ width: iconSize, height: iconSize }} />
       <div
         className="flex w-full min-w-0 max-w-full flex-col gap-[12px] xl:max-w-[var(--card-text-w)] 2xl:w-[var(--card-text-w)]"
         style={{ '--card-text-w': `${textWidth}px` }}
@@ -208,9 +209,12 @@ function Home() {
           <div className="grid w-full grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-10 lg:grid-cols-3 xl:justify-center xl:gap-[20px] xl:px-[72px]">
             <GetInvolvedCard
               icon={iconVolunteer}
+              iconSize={46}
               title="Volunteer"
               body="Share your time and skills by helping seniors with practical support, companionship, and community activities."
               textWidth={342}
+              offsetLeft={39}
+              offsetTop={55}
               cta={
                 <Button as={Link} to="/get-involved" variant="learn-more">
                   learn more
@@ -219,9 +223,12 @@ function Home() {
             />
             <GetInvolvedCard
               icon={iconPartnership}
+              iconSize={49}
               title="Corporate Partnerships"
               body="Partner with Stephen's Table to create lasting community impact through volunteering, sponsorships, and collaborative initiatives."
               textWidth={356}
+              offsetLeft={32}
+              offsetTop={52}
               cta={
                 <Button as={Link} to="/get-involved" variant="learn-more">
                   learn more
@@ -230,9 +237,12 @@ function Home() {
             />
             <GetInvolvedCard
               icon={iconDonate}
+              iconSize={46}
               title="Donate"
-              body="Share your time and skills by helping seniors with practical support, companionship, and community activities."
+              body="Your generosity helps provide practical support, nourishing meals, and meaningful connection to seniors who need it most."
               textWidth={342}
+              offsetLeft={39}
+              offsetTop={53}
               bg="dark"
               cta={
                 <Button as={Link} to="/get-involved" variant="learn-more-light">
