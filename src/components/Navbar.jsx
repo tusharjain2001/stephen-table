@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
+import Button from './Button.jsx';
 
 const NAV_LINKS = [
   { label: 'About Us', to: '/about' },
@@ -34,12 +35,9 @@ function Navbar() {
             </NavLink>
           ))}
 
-          <Link
-            to="/get-involved"
-            className="rounded-btn bg-s-800 px-[32px] py-[8px] font-sans text-[20px] font-bold uppercase tracking-[1px] text-white"
-          >
+          <Button as={Link} to="/get-involved" variant="donate-nav">
             Donate Now
-          </Link>
+          </Button>
         </div>
       </div>
     </header>
