@@ -2,12 +2,12 @@ import iconEmail from '../assets/icons/icon-email.svg';
 import iconPhone from '../assets/icons/icon-phone.svg';
 
 const DEFAULT_PILLS = [
-  { icon: iconPhone, label: '970-375-9179', href: 'tel:9703759179' },
   {
     icon: iconEmail,
     label: 'info@stephenstablecolorado.org',
     href: 'mailto:info@stephenstablecolorado.org',
   },
+  { icon: iconPhone, label: '970-375-9179', href: 'tel:9703759179' },
 ];
 
 /**
@@ -87,7 +87,7 @@ function CtaBanner({
               <a
                 key={pill.label}
                 href={pill.href}
-                className={`flex items-center gap-[24px] rounded-btn px-[32px] py-[8px] font-sans text-[24px] font-semibold ${pillClasses}`}
+                className={`flex items-center gap-[24px] rounded-btn px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize ${pillClasses}`}
               >
                 <img src={pill.icon} alt="" className="size-[28px]" aria-hidden="true" />
                 {pill.label}
