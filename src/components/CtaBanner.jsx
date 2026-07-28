@@ -14,6 +14,15 @@ const DEFAULT_PILLS = [
  * "Here When You Need Us" style CTA band used on Home, About, Get Involved,
  * Impact Stories and Blog (Implementation Plan §3.1 "CtaBanner").
  *
+ * Breakpoint behavior (plan §5, Task 14):
+ * - `lg`+ (≥1024): side-by-side text column + photo, matching Figma
+ *   exactly at 1440 via fixed pixel widths on a flex row (the row's own
+ *   flex-shrink keeps text and photo from overlapping as the viewport
+ *   narrows through the 1024–1439 range instead of jumping straight to
+ *   the mobile treatment).
+ * - <lg (768 and below): the photo becomes a full-bleed background with a
+ *   dark overlay and the text/pills stack centered on top.
+ *
  * Props:
  * - `image`      — photo shown on the right side of the banner
  * - `bg`         — `'brown'` (default, bg-b-600) | `'blue'` (bg-bl-600)
@@ -44,56 +53,77 @@ function CtaBanner({
     pillTheme === 'white' ? 'bg-white text-b-800' : 'bg-s-200 text-s-900';
 
   return (
-    <section className={`relative h-[421px] w-full overflow-hidden ${bgClass} ${className}`}>
+    <section className={`relative w-full overflow-hidden ${bgClass} ${className}`}>
+      {/* <lg: photo as a full-bleed background wash */}
       {image && (
-        <img
-          src={image}
-          alt=""
-          className="absolute right-0 top-0 h-full w-[732px] object-cover"
-        />
+        <>
+          <img
+            src={image}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover lg:hidden"
+          />
+          <div
+            className="absolute inset-0 lg:hidden"
+            style={{
+              background: `linear-gradient(to bottom, ${bgColor}b3 0%, ${bgColor}e6 100%)`,
+            }}
+          />
+        </>
       )}
 
-      {/* Blend strips: fade the banner background color into the photo's
-          edges on both sides (Plan §3.1: "two side gradients ... plus
-          mirrored 243px right strip"). */}
-      <div
-        className="pointer-events-none absolute top-0 h-full w-[243px]"
-        style={{
-          left: 708,
-          background: `linear-gradient(to right, ${bgColor} 0%, transparent 100%)`,
-        }}
-      />
-      <div
-        className="pointer-events-none absolute right-0 top-0 h-full w-[243px]"
-        style={{
-          background: `linear-gradient(to left, ${bgColor} 0%, transparent 100%)`,
-        }}
-      />
+      <div className="relative z-10 mx-auto flex max-w-[1440px] flex-col gap-10 px-6 py-14 md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
+        <div className="flex flex-col gap-9 lg:ml-[72px] lg:w-[529px] lg:shrink lg:gap-[36px]">
+          <div className="flex flex-col gap-[8px]">
+            {title && (
+              <h2 className="font-display text-[32px] capitalize text-white md:text-[36px] lg:text-[40px]">
+                {title}
+              </h2>
+            )}
+            {subtitle && <p className="font-sans text-[18px] text-white lg:text-[20px]">{subtitle}</p>}
+          </div>
 
-      <div
-        className="relative z-10 flex h-full flex-col justify-center gap-[36px]"
-        style={{ marginLeft: 72, width: 529 }}
-      >
-        <div className="flex flex-col gap-[8px]">
-          {title && (
-            <h2 className="font-display text-[40px] capitalize text-white">{title}</h2>
-          )}
-          {subtitle && <p className="font-sans text-[20px] text-white">{subtitle}</p>}
+          <div className="flex flex-wrap gap-3 lg:flex-col lg:gap-[9px]">
+            {actions ??
+              pills.map((pill) => (
+                <a
+                  key={pill.label}
+                  href={pill.href}
+                  className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] lg:text-[24px] ${pillClasses}`}
+                >
+                  <img src={pill.icon} alt="" className="size-[24px] shrink-0 lg:size-[28px]" aria-hidden="true" />
+                  {pill.label}
+                </a>
+              ))}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-[9px]">
-          {actions ??
-            pills.map((pill) => (
-              <a
-                key={pill.label}
-                href={pill.href}
-                className={`flex items-center gap-[24px] rounded-btn px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize ${pillClasses}`}
-              >
-                <img src={pill.icon} alt="" className="size-[28px]" aria-hidden="true" />
-                {pill.label}
-              </a>
-            ))}
-        </div>
+        {/* ≥lg: photo pinned to the right, blended into the banner color */}
+        {image && (
+          <div className="relative hidden h-full min-w-0 flex-1 overflow-hidden lg:block">
+            <img
+              src={image}
+              alt=""
+              className="absolute right-0 top-0 h-full object-cover"
+              style={{ width: 732, maxWidth: '100%' }}
+            />
+            {/* Decorative blend strips: exact Figma math only holds once the
+                photo is at its full 732px width, so keep these xl-only
+                (≥1280) rather than risk a misplaced gradient during the lg
+                flex-shrink range. */}
+            <div
+              className="pointer-events-none absolute inset-y-0 right-[489px] hidden w-[243px] xl:block"
+              style={{
+                background: `linear-gradient(to right, ${bgColor} 0%, transparent 100%)`,
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 hidden w-[243px] xl:block"
+              style={{
+                background: `linear-gradient(to left, ${bgColor} 0%, transparent 100%)`,
+              }}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

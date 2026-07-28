@@ -63,13 +63,13 @@ function FaqSection({
 
   return (
     <section
-      className={`flex w-full flex-col items-center gap-[36px] py-[80px] ${className}`}
+      className={`flex w-full flex-col items-center gap-[36px] px-6 py-16 md:px-10 xl:px-6 xl:py-[80px] ${className}`}
     >
-      <h2 className={`font-sans text-[20px] font-bold uppercase ${eyebrowClassName}`}>
+      <h2 className={`text-center font-sans text-[20px] font-bold uppercase ${eyebrowClassName}`}>
         Frequently Asked Questions
       </h2>
 
-      <div className="flex w-[1300px] flex-col gap-[16px]">
+      <div className="flex w-full max-w-[1300px] flex-col gap-[16px]">
         {items.map((item, index) => {
           const isOpen = openIndex === index;
           return (
@@ -78,24 +78,24 @@ function FaqSection({
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? -1 : index)}
                 aria-expanded={isOpen}
-                className={`flex w-full items-center justify-between text-left ${
-                  isOpen ? 'gap-[12px] py-[24px]' : 'gap-[10px] px-[10px] py-[24px]'
+                className={`flex w-full items-center justify-between gap-[16px] text-left ${
+                  isOpen ? 'py-[24px]' : 'px-[10px] py-[24px]'
                 }`}
               >
-                <span className="font-sans text-[24px] leading-[22.895px] tracking-[-0.24px] text-ink">
+                <span className="font-sans text-[18px] leading-[26px] tracking-[-0.24px] text-ink md:text-[24px] md:leading-[22.895px]">
                   {item.question}
                 </span>
                 <img
                   src={iconFaqToggle}
                   alt=""
                   aria-hidden="true"
-                  className={`size-[71px] shrink-0 transition-transform ${
+                  className={`size-[40px] shrink-0 transition-transform md:size-[71px] ${
                     isOpen ? '' : 'rotate-45'
                   }`}
                 />
               </button>
               {isOpen && (
-                <p className="w-[892px] pb-[24px] font-sans text-[20px] text-gray-67">
+                <p className="max-w-[892px] pb-[24px] font-sans text-[18px] text-gray-67 md:text-[20px]">
                   {item.answer}
                 </p>
               )}

@@ -33,14 +33,14 @@ function StoryCard({
 }) {
   return (
     <div
-      className={`w-[418.4px] rounded-[17.2px] bg-cream pb-[17.2px] pl-[4.3px] pr-[4.3px] pt-[4.3px] ${className}`}
+      className={`w-full rounded-[17.2px] bg-cream pb-[17.2px] pl-[4.3px] pr-[4.3px] pt-[4.3px] 2xl:w-[418.4px] ${className}`}
     >
       <div className="relative">
         {image && (
           <img
             src={image}
             alt=""
-            className="h-[364.7px] w-full rounded-t-[17.2px] object-cover"
+            className="h-[280px] w-full rounded-t-[17.2px] object-cover sm:h-[320px] 2xl:h-[364.7px]"
           />
         )}
         {showArrowBadge && (
@@ -48,8 +48,7 @@ function StoryCard({
             src={iconArrowBadge}
             alt=""
             aria-hidden="true"
-            className="absolute size-[36px]"
-            style={{ left: 361, top: 21 }}
+            className="absolute right-[21px] top-[21px] size-[36px]"
           />
         )}
       </div>

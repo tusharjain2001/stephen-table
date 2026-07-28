@@ -36,11 +36,11 @@ const LEADERS = [
 
 function MissionBlock({ title, body }) {
   return (
-    <div className="flex w-[466px] items-center gap-[44px]">
-      <img src={iconStarOutline} alt="" className="size-[50px] shrink-0" />
-      <div className="flex w-[372px] flex-col gap-[8px]">
-        <h3 className="font-neulis text-[28px] font-semibold text-bl-600">{title}</h3>
-        <p className="font-neulis text-[24px] text-bl-600">{body}</p>
+    <div className="flex w-full max-w-[466px] items-center gap-6 xl:gap-[44px]">
+      <img src={iconStarOutline} alt="" className="size-[40px] shrink-0 xl:size-[50px]" />
+      <div className="flex w-full max-w-[372px] flex-col gap-[8px]">
+        <h3 className="font-neulis text-[22px] font-semibold text-bl-600 xl:text-[28px]">{title}</h3>
+        <p className="font-neulis text-[18px] text-bl-600 xl:text-[24px]">{body}</p>
       </div>
     </div>
   );
@@ -48,12 +48,12 @@ function MissionBlock({ title, body }) {
 
 function LeaderCard({ image, name, role }) {
   return (
-    <div className="w-[419.34px] rounded-card bg-white p-[4px]">
-      <div className="w-[411.34px] rounded-card bg-cream">
+    <div className="w-full max-w-[419.34px] rounded-card bg-white p-[4px]">
+      <div className="w-full rounded-card bg-cream">
         <img
           src={image}
           alt={name}
-          className="h-[448.65px] w-full rounded-t-card object-cover"
+          className="h-[360px] w-full rounded-t-card object-cover sm:h-[400px] xl:h-[448.65px]"
         />
         <div className="flex flex-col gap-[7.9px] p-[16.9px]">
           <h3 className="font-neulis text-[28px] font-medium text-bl-600">{name}</h3>
@@ -79,25 +79,25 @@ function About() {
       />
 
       {/* Mission / Vision */}
-      <section className="w-full bg-gradient-to-b from-wb-200 to-cream py-[48px]">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-center gap-[108px]">
+      <section className="w-full bg-gradient-to-b from-wb-200 to-cream py-10 xl:py-[48px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-center gap-8 px-6 sm:flex-row sm:gap-10 md:px-10 xl:gap-[108px]">
           <MissionBlock title="Mission" body="Helping older adults age safely and live with dignity." />
-          <span className="h-[45px] w-px bg-bl-600/30" />
+          <span className="hidden h-[45px] w-px bg-bl-600/30 sm:block" />
           <MissionBlock title="Vision" body="to build A community where every senior thrives" />
         </div>
       </section>
 
       {/* Our Story */}
-      <section className="w-full bg-wb-100 py-[113.5px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] px-[72px]">
-          <SectionChip variant="beige">Our Story</SectionChip>
-          <div className="flex gap-[53px]">
+      <section className="w-full bg-wb-100 py-14 xl:py-[113.5px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] px-6 md:px-10 xl:px-[72px]">
+          <SectionChip variant="beige" className="self-start">Our Story</SectionChip>
+          <div className="flex flex-col gap-8 lg:flex-row lg:gap-[53px]">
             <img
               src={aboutStory}
               alt=""
-              className="h-[520px] w-[419px] shrink-0 rounded-card object-cover"
+              className="h-[280px] w-full shrink-0 rounded-card object-cover sm:h-[360px] lg:h-[520px] lg:w-[419px]"
             />
-            <div className="flex w-[824px] flex-col gap-[20px] text-justify font-neulis text-[20px] text-gray-59">
+            <div className="flex flex-col gap-[20px] text-justify font-neulis text-[18px] text-gray-59 lg:w-[824px] xl:text-[20px]">
               {STORY_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
@@ -109,15 +109,15 @@ function About() {
       <StatsBand stats={STATS} />
 
       {/* Leadership */}
-      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-[84.85px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[38px]">
-          <div className="flex items-center justify-center gap-[247px]">
-            <SectionChip className="shrink-0 whitespace-nowrap">Leadership</SectionChip>
-            <p className="w-[857px] shrink-0 font-sans text-[24px] text-gray-59">
+      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-14 xl:py-[84.85px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[38px]">
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[247px] xl:px-[72px]">
+            <SectionChip className="shrink-0">Leadership</SectionChip>
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Meet the leaders of Stephen&apos;s Table
             </p>
           </div>
-          <div className="flex gap-[20px] px-[72px]">
+          <div className="grid w-full grid-cols-1 gap-6 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-3 xl:gap-[20px] xl:px-[72px]">
             {LEADERS.map((leader) => (
               <LeaderCard key={leader.name} {...leader} />
             ))}

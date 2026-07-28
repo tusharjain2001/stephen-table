@@ -86,7 +86,7 @@ const DONATE_TILES = [
 function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
   return (
     <div
-      className={`flex flex-1 flex-col gap-[25px] rounded-card border p-[50px] ${bgClassName}`}
+      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card border p-6 sm:p-8 xl:p-[50px] ${bgClassName}`}
     >
       <div className="flex flex-col gap-[16px]">
         <img src={icon} alt="" className="size-[37px]" aria-hidden="true" />
@@ -110,7 +110,7 @@ function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
 
 function DonateTile({ icon, bgClassName, title, body }) {
   return (
-    <div className={`flex h-[263.4px] w-[312.6px] flex-col gap-[47.7px] rounded-[11.9px] px-[29px] py-[30px] ${bgClassName}`}>
+    <div className={`flex h-full w-full min-h-[220px] flex-col gap-8 rounded-[11.9px] px-6 py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px] ${bgClassName}`}>
       <img src={icon} alt="" className="size-[34px]" aria-hidden="true" />
       <div className="flex flex-col gap-[9px]">
         <h3 className="font-sans text-[20px] font-medium leading-[30px] text-bl-800">{title}</h3>
@@ -135,27 +135,27 @@ function GetInvolved() {
       />
 
       {/* Volunteering */}
-      <section className="w-full bg-gradient-to-b from-[#fffcf6] to-wb-100 py-[100px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[44px]">
+      <section className="w-full bg-gradient-to-b from-[#fffcf6] to-wb-100 py-14 xl:py-[100px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[44px]">
           <SectionHeader
             chipLabel="volunteering"
             lede="Join our mission by volunteering your time and skills to support seniors and strengthen our community."
           />
 
-          <div className="flex flex-col gap-[18px] px-[72px]">
-            <div className="flex gap-[20px]">
+          <div className="flex w-full flex-col gap-5 px-6 md:px-10 xl:gap-[18px] xl:px-[72px]">
+            <div className="flex flex-col gap-5 md:flex-row xl:gap-[20px]">
               {VOLUNTEER_CARDS.map((card) => (
                 <VolunteerCard key={card.title} {...card} />
               ))}
             </div>
 
-            <div className="flex flex-col gap-[25px] rounded-card border border-bl-200 bg-bl-100 py-[50px] pl-[50px] pr-[103px]">
+            <div className="flex flex-col gap-[25px] rounded-card border border-bl-200 bg-bl-100 p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
               <div className="flex flex-col gap-[16px]">
                 <img src={iconHandshake} alt="" className="size-[37px]" aria-hidden="true" />
-                <h3 className="capitalize font-sans text-[28px] font-medium text-bl-800">
+                <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 xl:text-[28px]">
                   corporate partnership
                 </h3>
-                <p className="font-sans text-[20px] text-gray-59">
+                <p className="font-sans text-[18px] text-gray-59 xl:text-[20px]">
                   Partner with Stephen&apos;s Table Colorado to create lasting impact through
                   sponsorships, volunteer initiatives, and community programs.
                 </p>
@@ -176,7 +176,7 @@ function GetInvolved() {
             </div>
           </div>
 
-          <div className="relative mx-auto h-[569px] w-[1296px] overflow-hidden rounded-card">
+          <div className="relative h-[360px] w-[calc(100%-48px)] overflow-hidden rounded-card sm:h-[440px] sm:w-[calc(100%-64px)] md:w-[calc(100%-80px)] xl:h-[569px] xl:w-[calc(100%-144px)] 2xl:w-[1296px]">
             <img src={signupBanner} alt="" className="absolute inset-0 h-full w-full object-cover" />
             <div
               className="absolute inset-0"
@@ -184,14 +184,11 @@ function GetInvolved() {
                 background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.84))',
               }}
             />
-            <div
-              className="absolute left-1/2 flex w-[692px] -translate-x-1/2 flex-col items-center gap-[18px]"
-              style={{ top: 406 }}
-            >
-              <p className="text-center font-neulis text-[24px] text-white">
+            <div className="absolute inset-x-0 bottom-8 flex flex-col items-center gap-[18px] px-6 sm:bottom-10 xl:bottom-auto xl:left-1/2 xl:top-[406px] xl:w-[692px] xl:-translate-x-1/2 xl:px-0">
+              <p className="text-center font-neulis text-[18px] text-white sm:text-[20px] xl:text-[24px]">
                 you can make a difference. sign up now
               </p>
-              <span className="rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[24px] font-medium uppercase text-black">
+              <span className="rounded-btn bg-s-200 px-[24px] py-[8px] text-center font-sans text-[18px] font-medium uppercase text-black xl:px-[32px] xl:text-[24px]">
                 Sign up for Volunteering
               </span>
             </div>
@@ -200,15 +197,15 @@ function GetInvolved() {
       </section>
 
       {/* Donate */}
-      <section className="w-full py-[72px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[72px]">
+      <section className="w-full py-14 xl:py-[72px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 xl:gap-[72px]">
           <SectionHeader
             align="between"
             chipLabel="donate"
             lede="Your generosity helps us provide practical support, meaningful companionship, and essential community resources for seniors across Northern Colorado."
             actions={<Button variant="fill-soft">DONATE NOW</Button>}
           />
-          <div className="flex gap-[14.9px] px-[72px]">
+          <div className="grid w-full grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 xl:px-[72px] 2xl:flex 2xl:gap-[14.9px]">
             {DONATE_TILES.map((tile) => (
               <DonateTile key={tile.title} {...tile} />
             ))}

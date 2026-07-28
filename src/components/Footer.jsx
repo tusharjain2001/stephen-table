@@ -46,10 +46,10 @@ const LEGAL_LINKS = [
 function Footer() {
   return (
     <footer className="w-full bg-espresso">
-      <div className="mx-auto max-w-[1440px] px-[128px] pt-[80px]">
-        <div className="flex items-start">
+      <div className="mx-auto max-w-[1440px] px-6 pt-10 md:px-10 md:pt-14 lg:px-16 xl:px-[128px] xl:pt-[80px]">
+        <div className="flex flex-col items-start gap-10 md:gap-12 lg:flex-row lg:gap-0">
           {/* Left column: logo + contact info */}
-          <div className="flex w-[352px] flex-col gap-[24px]">
+          <div className="flex w-full flex-col gap-[24px] lg:w-[352px]">
             <span className="font-neulis text-[22px] font-normal text-white">
               Stephen&apos;s Table
             </span>
@@ -72,7 +72,7 @@ function Footer() {
           </div>
 
           {/* Links block */}
-          <div className="ml-[124px] flex flex-1 gap-[72px] pb-[80px]">
+          <div className="grid w-full grid-cols-1 gap-8 pb-10 sm:grid-cols-3 sm:gap-6 lg:ml-[124px] lg:flex lg:flex-1 lg:gap-[72px] lg:pb-[80px]">
             {LINK_COLUMNS.map((column) => (
               <div key={column.heading} className="flex flex-col gap-[16px]">
                 <h3 className="font-sans text-[20px] font-bold text-white">
@@ -96,9 +96,9 @@ function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto h-px w-[1365px] bg-white" />
+      <div className="mx-auto h-px w-[calc(100%-48px)] max-w-[1365px] bg-white md:w-[calc(100%-80px)] 2xl:w-[1365px]" />
 
-      <div className="mx-auto flex h-[99px] max-w-[1440px] items-center justify-between p-[32px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 p-6 md:flex-row md:p-8 xl:h-[99px] xl:p-[32px]">
         <div className="flex items-center gap-[12px]">
           <a href="https://facebook.com" target="_blank" rel="noreferrer">
             <img src={iconFacebook} alt="Facebook" className="size-[44px]" />
@@ -108,7 +108,7 @@ function Footer() {
           </a>
         </div>
 
-        <div className="flex items-center gap-[24px]">
+        <div className="flex flex-wrap items-center justify-center gap-x-[24px] gap-y-2">
           {LEGAL_LINKS.map((link) => (
             <span key={link.label} className="flex items-center gap-[24px]">
               <a href={link.to} className="font-sans text-[20px] leading-[20px] text-white">
@@ -117,7 +117,7 @@ function Footer() {
               <img src={iconDot} alt="" className="size-[4px]" aria-hidden="true" />
             </span>
           ))}
-          <span className="font-sans text-[20px] leading-[20px] text-white">
+          <span className="text-center font-sans text-[20px] leading-[20px] text-white">
             © 2026 Stephen&apos;s Table Colorado. All Rights Reserved.
           </span>
         </div>

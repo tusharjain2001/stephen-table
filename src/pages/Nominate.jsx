@@ -52,7 +52,7 @@ const INITIAL_FORM = {
 };
 
 function FieldRow({ children }) {
-  return <div className="flex gap-[29px]">{children}</div>;
+  return <div className="flex flex-col gap-4 md:flex-row md:gap-[29px]">{children}</div>;
 }
 
 function Nominate() {
@@ -92,16 +92,16 @@ function Nominate() {
       <EligibilityBand />
 
       {/* How it works */}
-      <section className="w-full py-[102px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[53px]">
-          <div className="flex items-center justify-center gap-[226px] px-[72px]">
-            <SectionChip className="shrink-0 whitespace-nowrap">how it works</SectionChip>
-            <p className="w-[857px] shrink-0 font-sans text-[24px] text-gray-59">
+      <section className="w-full py-14 xl:py-[102px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[53px]">
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+            <SectionChip className="shrink-0">how it works</SectionChip>
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>
           </div>
-          <div className="flex gap-[17px]">
+          <div className="grid w-full grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[17px]">
             {STEPS.map((s) => (
               <StepCard key={s.title} {...s} />
             ))}
@@ -110,17 +110,17 @@ function Nominate() {
       </section>
 
       {/* Nomination form */}
-      <section className="w-full bg-bl-300 py-[69px]">
-        <div className="mx-auto flex max-w-[1440px] justify-center">
+      <section className="w-full bg-bl-300 py-12 xl:py-[69px]">
+        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0">
           <form
             onSubmit={handleSubmit}
-            className="flex w-[1273px] flex-col gap-[36px] rounded-card bg-white px-[55px] pb-[47px] pt-[48px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[47px] xl:pt-[48px]"
           >
             <div className="flex flex-col gap-[11px]">
-              <h2 className="capitalize font-sans text-[28px] font-medium text-bl-600">
+              <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px]">
                 fill the form to nominate a senior
               </h2>
-              <p className="w-[1009px] font-sans text-[20px] text-gray-9c">
+              <p className="font-sans text-[18px] text-gray-9c xl:w-[1009px] xl:text-[20px]">
                 if you are aware of any senior around you, who might benefit from our service, you can
                 fill the form below to nominate them and our team will get in touch with them
               </p>
@@ -131,7 +131,7 @@ function Nominate() {
                 <h3 className="font-sans text-[24px] font-medium text-bl-800">Your Information</h3>
                 <FieldRow>
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="First Name"
                     required
                     name="firstName"
@@ -139,7 +139,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Last Name"
                     required
                     name="lastName"
@@ -187,7 +187,7 @@ function Nominate() {
                 </h3>
                 <FieldRow>
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Senior's Full Name"
                     required
                     name="seniorName"
@@ -195,7 +195,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Enter Age"
                     required
                     type="number"
@@ -206,7 +206,7 @@ function Nominate() {
                 </FieldRow>
                 <FieldRow>
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Phone Number"
                     required
                     type="tel"
@@ -215,7 +215,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Email Address"
                     required
                     type="email"
@@ -233,7 +233,7 @@ function Nominate() {
                 />
                 <FieldRow>
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="City"
                     required
                     name="city"
@@ -241,7 +241,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
-                    className="w-[566px]"
+                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Zip Code"
                     required
                     name="zip"

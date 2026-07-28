@@ -16,7 +16,7 @@ const INITIAL_FORM = {
 };
 
 function FieldRow({ children }) {
-  return <div className="flex gap-[29px]">{children}</div>;
+  return <div className="flex flex-col gap-4 md:flex-row md:gap-[29px]">{children}</div>;
 }
 
 function Contact() {
@@ -47,13 +47,13 @@ function Contact() {
         title="Contact Us"
       />
 
-      <section className="w-full py-[79px]">
-        <div className="mx-auto flex max-w-[1440px] justify-center px-[72px]">
+      <section className="w-full py-12 xl:py-[79px]">
+        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-[72px]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-[1273px] flex-col gap-[42px] rounded-card bg-white px-[55px] pb-[47px] pt-[52px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[42px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[47px] xl:pt-[52px]"
           >
-            <h2 className="capitalize font-sans text-[28px] font-medium text-bl-600">
+            <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px]">
               Get in Touch with us
             </h2>
 
@@ -62,7 +62,7 @@ function Contact() {
                 <div className="flex flex-col gap-[24px]">
                   <FieldRow>
                     <FormField
-                      className="w-[566px]"
+                      className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                       label="First Name"
                       required
                       name="firstName"
@@ -70,7 +70,7 @@ function Contact() {
                       onChange={updateField}
                     />
                     <FormField
-                      className="w-[566px]"
+                      className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                       label="Last Name"
                       required
                       name="lastName"
@@ -130,7 +130,7 @@ function Contact() {
                 <p className="font-sans text-[17px] text-error">Fields marked * are mandatory</p>
               </div>
 
-              <label className="flex w-[723px] items-center gap-[14px]">
+              <label className="flex w-full max-w-[723px] items-center gap-[14px]">
                 <input
                   type="checkbox"
                   name="agree"

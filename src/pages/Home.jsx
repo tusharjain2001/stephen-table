@@ -44,13 +44,17 @@ const STATS = [
 
 function WhoWeServeCard({ image, title, body, showCta }) {
   return (
-    <div className="flex h-[285px] w-full items-center gap-[79px] rounded-card border border-wb-400 bg-wb-200 px-[21px] py-[21px]">
-      <img src={image} alt="" className="h-[243px] w-[450px] shrink-0 rounded-card object-cover" />
-      <div className="flex flex-col gap-[12px]">
-        <h3 className="font-sans text-[28px] font-semibold text-bl-900">{title}</h3>
-        <p className="w-[661px] font-sans text-[20px] text-gray-67">{body}</p>
+    <div className="flex w-full flex-col items-start gap-6 rounded-card border border-wb-400 bg-wb-200 p-5 sm:flex-row sm:items-center sm:gap-8 xl:min-h-[285px] xl:gap-[79px] xl:px-[21px] xl:py-[21px] 2xl:h-[285px]">
+      <img
+        src={image}
+        alt=""
+        className="h-[220px] w-full shrink-0 rounded-card object-cover sm:h-[200px] sm:w-[300px] xl:h-[243px] xl:w-[450px]"
+      />
+      <div className="flex min-w-0 flex-1 flex-col gap-[12px]">
+        <h3 className="font-sans text-[22px] font-semibold text-bl-900 xl:text-[28px]">{title}</h3>
+        <p className="font-sans text-[18px] text-gray-67 xl:max-w-[661px] xl:text-[20px] 2xl:w-[661px]">{body}</p>
         {showCta && (
-          <Button as={Link} to="/nominate" variant="primary" className="mt-[36px] self-start capitalize">
+          <Button as={Link} to="/nominate" variant="primary" className="mt-[24px] self-start capitalize xl:mt-[36px]">
             Nominate a Senior
           </Button>
         )}
@@ -63,16 +67,19 @@ function GetInvolvedCard({ icon, title, body, bg, textWidth, cta }) {
   const isDark = bg === 'dark';
   return (
     <div
-      className={`flex h-[478px] w-[419px] flex-col items-start gap-[64px] rounded-card px-[39px] pt-[55px] ${
+      className={`flex h-full min-h-[320px] w-full flex-col items-start gap-8 rounded-card px-8 py-10 xl:gap-[64px] xl:px-[39px] xl:pt-[55px] xl:pb-0 2xl:h-[478px] 2xl:w-[419px] ${
         isDark ? 'bg-bl-600' : 'bg-bl-100'
       }`}
     >
       <img src={icon} alt="" style={{ width: 46, height: 46 }} />
-      <div className="flex flex-col gap-[12px]" style={{ width: textWidth }}>
-        <h3 className={`font-sans text-[32px] font-medium ${isDark ? 'text-white' : 'text-navy'}`}>
+      <div
+        className="flex w-full min-w-0 max-w-full flex-col gap-[12px] xl:max-w-[var(--card-text-w)] 2xl:w-[var(--card-text-w)]"
+        style={{ '--card-text-w': `${textWidth}px` }}
+      >
+        <h3 className={`font-sans text-[26px] font-medium ${isDark ? 'text-white' : 'text-navy'} xl:text-[32px]`}>
           {title}
         </h3>
-        <p className={`font-sans text-[20px] ${isDark ? 'text-[#d9d9d9]' : 'text-gray-59'}`}>{body}</p>
+        <p className={`font-sans text-[18px] ${isDark ? 'text-[#d9d9d9]' : 'text-gray-59'} xl:text-[20px]`}>{body}</p>
       </div>
       {cta}
     </div>
@@ -91,23 +98,23 @@ function Home() {
         title="Helping Seniors Age Safely, Live with Dignity"
         subtitle="Providing practical home support, meaningful fellowship, and community connections for older adults across Colorado."
       >
-        <div className="mt-[20px] flex items-center gap-[21px]">
+        <div className="mt-[20px] flex flex-wrap items-center gap-[21px]">
           <Button variant="hero-primary">GET HELP</Button>
           <Button variant="outline-light">DONATE</Button>
         </div>
       </PageHero>
 
       {/* Feature strip */}
-      <section className="w-full py-[43px]">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-center gap-[40px]">
+      <section className="w-full py-8 xl:py-[43px]">
+        <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-x-6 gap-y-8 px-6 sm:grid-cols-4 sm:gap-x-8 md:px-10 xl:flex xl:items-center xl:justify-center xl:gap-[40px] xl:px-0">
           {FEATURES.map((feature, index) => (
             <div key={feature.label} className="flex items-center gap-[40px]">
-              {index > 0 && <span className="h-[48px] w-px bg-b-300" />}
-              <div className="flex flex-col items-center gap-[8px]">
-                <img src={feature.icon} alt="" className="size-[50px]" />
+              {index > 0 && <span className="hidden h-[48px] w-px bg-b-300 xl:block" />}
+              <div className="flex w-full flex-col items-center gap-[8px]">
+                <img src={feature.icon} alt="" className="size-[40px] xl:size-[50px]" />
                 <p
-                  className="text-center font-sans text-[24px] capitalize text-bl-600"
-                  style={{ width: feature.width }}
+                  className="w-full text-center font-sans text-[16px] capitalize text-bl-600 xl:w-[var(--feature-w)] xl:text-[24px]"
+                  style={{ '--feature-w': `${feature.width}px` }}
                 >
                   {feature.label}
                 </p>
@@ -120,16 +127,16 @@ function Home() {
       <StatsBand image={statsStreet} stats={STATS} />
 
       {/* Who we serve */}
-      <section className="w-full py-[108px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[61px]">
-          <div className="flex items-center justify-center gap-[226px] px-[72px]">
-            <SectionChip className="shrink-0 whitespace-nowrap">Who we serve</SectionChip>
-            <p className="w-[857px] shrink-0 font-sans text-[24px] text-gray-59">
+      <section className="w-full py-14 xl:py-[108px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[61px]">
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+            <SectionChip className="shrink-0">Who we serve</SectionChip>
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>
           </div>
-          <div className="flex flex-col gap-[31px] px-[72px]">
+          <div className="flex flex-col gap-6 px-6 md:px-10 xl:gap-[31px] xl:px-[72px]">
             <WhoWeServeCard
               image={serveSeniors}
               title="Seniors"
@@ -146,17 +153,17 @@ function Home() {
       </section>
 
       {/* How we help */}
-      <section className="w-full bg-bl-100 py-[110px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[64px]">
-          <div className="flex items-center justify-center gap-[226px] px-[72px]">
-            <SectionChip variant="blue" className="shrink-0 whitespace-nowrap">How we help</SectionChip>
-            <p className="w-[877px] shrink-0 font-sans text-[24px] text-gray-59">
+      <section className="w-full bg-bl-100 py-14 xl:py-[110px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+            <SectionChip variant="blue" className="shrink-0">How we help</SectionChip>
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[877px] lg:shrink lg:grow-0 2xl:w-[877px]">
               Every senior&apos;s needs are unique. That&apos;s why our support is delivered through three
               key service categories, ensuring older adults receive the care, connection, and resources
               they need to thrive.
             </p>
           </div>
-          <div className="flex gap-[20px] px-[72px]">
+          <div className="grid w-full grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-10 lg:grid-cols-3 xl:gap-[20px] xl:px-[72px]">
             <StoryCard
               image={cardPractical}
               title="Practical home support"
@@ -189,16 +196,16 @@ function Home() {
       />
 
       {/* Get involved */}
-      <section className="w-full py-[110px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[72px]">
-          <div className="flex items-center justify-center gap-[226px] px-[72px]">
-            <SectionChip className="shrink-0 whitespace-nowrap">Get involved</SectionChip>
-            <p className="w-[857px] shrink-0 font-sans text-[24px] text-gray-59">
+      <section className="w-full py-14 xl:py-[110px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[72px]">
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+            <SectionChip className="shrink-0">Get involved</SectionChip>
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Join us in making a meaningful difference in the lives of seniors. Whether you volunteer,
               donate, or partner with us, your support helps build a stronger community.
             </p>
           </div>
-          <div className="flex justify-center gap-[20px] px-[72px]">
+          <div className="grid w-full grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-10 lg:grid-cols-3 xl:justify-center xl:gap-[20px] xl:px-[72px]">
             <GetInvolvedCard
               icon={iconVolunteer}
               title="Volunteer"

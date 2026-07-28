@@ -23,7 +23,7 @@ function BlogDetail() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative h-[470px] w-full overflow-hidden">
+      <section className="relative h-[260px] w-full overflow-hidden sm:h-[340px] xl:h-[470px]">
         <img src={heroBlog} alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div
           className="absolute inset-0"
@@ -32,22 +32,19 @@ function BlogDetail() {
               'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
           }}
         />
-        <div
-          className="absolute bottom-0 flex flex-col gap-[16px] pb-[42px]"
-          style={{ left: 82, width: 738 }}
-        >
-          <h1 className="capitalize font-display text-[40px] tracking-[2px] text-white">
+        <div className="absolute inset-x-6 bottom-0 flex flex-col gap-[10px] pb-6 sm:inset-x-10 sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:pb-[42px]">
+          <h1 className="capitalize font-display text-[26px] tracking-[1.3px] text-white sm:text-[32px] xl:text-[40px] xl:tracking-[2px]">
             Helping seniors age safely at home
           </h1>
-          <p className="font-sans text-[28px] text-wb-400">
+          <p className="font-sans text-[16px] text-wb-400 sm:text-[20px] xl:text-[28px]">
             Published on: July 2026 &bull; Category: Senior Care
           </p>
         </div>
       </section>
 
       {/* Article body */}
-      <section className="w-full py-[72px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[20px] px-[72px] text-justify font-sans text-[20px] text-gray-59">
+      <section className="w-full py-12 xl:py-[72px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[20px] px-6 text-justify font-sans text-[18px] text-gray-59 md:px-10 xl:px-[72px] xl:text-[20px]">
           {PARAGRAPHS.map((paragraph) => (
             <p key={paragraph.slice(0, 24)}>{paragraph}</p>
           ))}
@@ -55,9 +52,10 @@ function BlogDetail() {
       </section>
 
       {/* Image gallery */}
-      <section className="w-full pb-[72px]">
-        <div className="mx-auto max-w-[1440px] px-[72px]">
-          <div className="relative mx-auto h-[822px] w-[1296px]">
+      <section className="w-full pb-12 xl:pb-[72px]">
+        <div className="mx-auto max-w-[1440px] px-6 md:px-10 xl:px-[72px]">
+          {/* xl (≥1280): pixel-exact fixed masonry from Figma */}
+          <div className="relative mx-auto hidden h-[822px] w-[1296px] 2xl:block">
             <img
               src={blogImg1}
               alt=""
@@ -78,6 +76,14 @@ function BlogDetail() {
               alt=""
               className="absolute left-0 top-[402px] h-[420px] w-[857px] rounded-card object-cover"
             />
+          </div>
+
+          {/* <xl: simple responsive grid instead of the fixed-pixel masonry */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:hidden">
+            <img src={blogImg1} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
+            <img src={blogImg2} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
+            <img src={blogImg3} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
+            <img src={blogImg4} alt="" className="h-[240px] w-full rounded-card object-cover sm:col-span-2 sm:h-[280px]" />
           </div>
         </div>
       </section>

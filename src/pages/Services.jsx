@@ -153,7 +153,7 @@ const CONNECTION_TILES = [
 
 function ServiceActions() {
   return (
-    <div className="flex items-center gap-[22px]">
+    <div className="flex flex-wrap items-center gap-[16px] xl:gap-[22px]">
       <Button variant="fill-soft" className="shrink-0 whitespace-nowrap">
         REQUEST ASSISTANCE
       </Button>
@@ -166,9 +166,13 @@ function ServiceActions() {
 
 function ServiceCard({ image, title, ticks }) {
   return (
-    <div className="flex h-[206px] w-[638px] items-center justify-center gap-[20px] rounded-card border border-wb-300 bg-white">
-      <img src={image} alt="" className="h-[176px] w-[296px] shrink-0 rounded-card object-cover" />
-      <div className="flex w-[285px] flex-col gap-[13px]">
+    <div className="flex h-full w-full min-h-[176px] flex-col items-center gap-5 rounded-card border border-wb-300 bg-white p-5 xl:gap-[20px] 2xl:flex-row 2xl:justify-center 2xl:p-0">
+      <img
+        src={image}
+        alt=""
+        className="h-[200px] w-full shrink-0 rounded-card object-cover sm:h-[220px] 2xl:h-[176px] 2xl:w-[296px]"
+      />
+      <div className="flex w-full flex-col gap-[13px] 2xl:w-[285px]">
         <h3 className="capitalize font-neulis text-[20px] text-bl-900">{title}</h3>
         <div className="flex flex-col gap-[7px]">
           {ticks.map((tick) => (
@@ -185,7 +189,7 @@ function ServiceCard({ image, title, ticks }) {
 
 function FellowshipTile({ icon, title, body }) {
   return (
-    <div className="flex h-[263.4px] w-[312.6px] flex-col gap-[47.7px] rounded-[11.9px] bg-b-300 px-[29px] py-[30px]">
+    <div className="flex h-full w-full min-h-[220px] flex-col gap-8 rounded-[11.9px] bg-b-300 px-6 py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px]">
       <img src={icon} alt="" className="size-[34px]" />
       <div className="flex flex-col gap-[9px]">
         <h3 className="capitalize font-sans text-[24px] font-medium text-b-800">{title}</h3>
@@ -210,6 +214,21 @@ function ConnectionTile({ image, left, top, width, height, title, body }) {
   );
 }
 
+/** <xl fallback for the masonry grid above: a simple stacked/2-col grid of
+ * image + caption cards instead of the fixed-pixel absolute masonry, which
+ * only holds together exactly at the Figma 1296px content width. */
+function ConnectionTileSimple({ image, title, body }) {
+  return (
+    <div className="overflow-hidden rounded-card">
+      <img src={image} alt="" className="h-[220px] w-full object-cover sm:h-[260px]" />
+      <div className="flex flex-col gap-[8px] rounded-b-card border border-bl-300 bg-bl-100 px-[22px] py-[10px]">
+        <p className="capitalize font-sans text-[22px] font-medium text-black">{title}</p>
+        <p className="font-neulis text-[18px] text-gray-59">{body}</p>
+      </div>
+    </div>
+  );
+}
+
 function Services() {
   return (
     <div>
@@ -227,16 +246,16 @@ function Services() {
       <EligibilityBand />
 
       {/* How it works */}
-      <section className="w-full py-[102px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[53px]">
-          <div className="flex items-center justify-center gap-[226px] px-[72px]">
-            <SectionChip className="shrink-0 whitespace-nowrap">how it works</SectionChip>
-            <p className="w-[857px] shrink-0 font-sans text-[24px] text-gray-59">
+      <section className="w-full py-14 xl:py-[102px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[53px]">
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+            <SectionChip className="shrink-0">how it works</SectionChip>
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>
           </div>
-          <div className="flex gap-[17px]">
+          <div className="grid w-full grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[17px]">
             {STEPS.map((step) => (
               <StepCard key={step.title} borderClassName="border-[#ddcdc2]" {...step} />
             ))}
@@ -245,35 +264,32 @@ function Services() {
       </section>
 
       {/* Practical Home Support */}
-      <section className="w-full bg-gradient-to-b from-cream to-wb-200 py-[106px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[76px]">
+      <section className="w-full bg-gradient-to-b from-cream to-wb-200 py-14 xl:py-[106px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[76px]">
           <SectionHeader
             align="between"
             chipLabel="Practical home support"
             lede="Supporting seniors and their families with practical care, community connections, and compassionate assistance."
             actions={<ServiceActions />}
           />
-          <div className="flex flex-col gap-[40px] px-[72px]">
-            {[0, 2, 4].map((i) => (
-              <div key={i} className="flex gap-[19px]">
-                <ServiceCard {...PRACTICAL_CARDS[i]} />
-                <ServiceCard {...PRACTICAL_CARDS[i + 1]} />
-              </div>
+          <div className="grid grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-10 xl:gap-x-[19px] xl:gap-y-[40px] xl:px-[72px]">
+            {PRACTICAL_CARDS.map((card) => (
+              <ServiceCard key={card.title} {...card} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Fellowship */}
-      <section className="w-full py-[103px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[96px]">
+      <section className="w-full py-14 xl:py-[103px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
             chipLabel="Fellowship"
             lede="Creating meaningful relationships and fostering a sense of belonging through companionship and engaging social activities."
             actions={<ServiceActions />}
           />
-          <div className="flex justify-center gap-[14.9px] px-[72px]">
+          <div className="grid grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 xl:px-[72px] 2xl:flex 2xl:justify-center 2xl:gap-[14.9px]">
             {FELLOWSHIP_TILES.map((tile) => (
               <FellowshipTile key={tile.title} {...tile} />
             ))}
@@ -282,17 +298,28 @@ function Services() {
       </section>
 
       {/* Community Connections */}
-      <section className="w-full bg-bl-50 py-[95px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[96px]">
+      <section className="w-full bg-bl-50 py-14 xl:py-[95px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
             chipLabel="community connections"
             lede="Connecting seniors with trusted community resources, essential services, and programs that support their health, well-being, and independence."
             actions={<ServiceActions />}
           />
-          <div className="relative mx-auto h-[741px] w-[1296px]">
+
+          {/* xl (≥1280): pixel-exact fixed masonry from Figma */}
+          <div className="relative mx-auto hidden h-[741px] w-[1296px] 2xl:block">
             {CONNECTION_TILES.map((tile) => (
               <ConnectionTile key={tile.title} {...tile} />
+            ))}
+          </div>
+
+          {/* <xl: the masonry's fixed px/left/top math only holds at the
+              1296px content width, so fall back to a simple responsive
+              grid of image + caption cards. */}
+          <div className="grid grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 2xl:hidden">
+            {CONNECTION_TILES.map((tile) => (
+              <ConnectionTileSimple key={tile.title} {...tile} />
             ))}
           </div>
         </div>
