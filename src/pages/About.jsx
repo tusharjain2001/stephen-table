@@ -5,7 +5,7 @@ import CtaBanner from '../components/CtaBanner.jsx';
 
 import heroAbout from '../assets/images/hero-about.jpg';
 import aboutStory from '../assets/images/about-story.png';
-import ctaBannerImg from '../assets/images/cta-banner.png';
+import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
 import leaderJim from '../assets/images/leader-jim.png';
 import leaderJess from '../assets/images/leader-jess.png';
 import leaderRyan from '../assets/images/leader-ryan.png';
@@ -127,7 +127,7 @@ function About() {
 
       <CtaBanner
         bg="blue"
-        image={ctaBannerImg}
+        image={ctaBannerBlueImg}
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
       />

@@ -10,7 +10,7 @@ import story3 from '../assets/images/story-3.png';
 import story4 from '../assets/images/story-4.png';
 import story5 from '../assets/images/story-5.png';
 import story6 from '../assets/images/story-6.png';
-import ctaBannerImg from '../assets/images/cta-banner.png';
+import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
 import iconArrowPrev from '../assets/icons/icon-arrow-prev.svg';
 import iconArrowNext from '../assets/icons/icon-arrow-next.svg';
 
@@ -120,7 +120,7 @@ function ImpactStories() {
       </section>
 
       <CtaBanner
-        image={ctaBannerImg}
+        image={ctaBannerBlueImg}
         bg="blue"
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
