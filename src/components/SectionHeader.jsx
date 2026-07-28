@@ -48,13 +48,15 @@ function SectionHeader({
 
   return (
     <div
-      className={`flex flex-col items-center text-center ${className}`}
+      className={`flex items-center justify-center px-[72px] ${className}`}
       style={{ gap }}
     >
-      <SectionChip variant={chipVariant}>{chipLabel}</SectionChip>
+      <SectionChip variant={chipVariant} className="shrink-0 whitespace-nowrap">
+        {chipLabel}
+      </SectionChip>
       {lede && (
         <p
-          className={`font-sans text-[24px] text-gray-59 ${ledeClassName}`}
+          className={`shrink-0 font-sans text-[24px] text-gray-59 ${ledeClassName}`}
           style={{ width: ledeWidth }}
         >
           {lede}
