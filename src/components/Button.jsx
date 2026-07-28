@@ -23,9 +23,9 @@ const VARIANTS = {
   'outline-light':
     'rounded-btn border-2 border-cream bg-transparent px-[44px] py-[12px] font-sans text-[24px] font-semibold text-white',
   'learn-more':
-    'rounded-[8.6px] border-[2.15px] border-s-outline bg-transparent px-[34.4px] py-[8.6px] font-sans text-[17.211px] font-semibold text-navy',
+    'rounded-[8.6px] border-[2.15px] border-s-outline bg-transparent px-[34.4px] py-[8.6px] font-sans text-[17.211px] font-semibold capitalize text-navy',
   'learn-more-light':
-    'rounded-[8.6px] border-[2.15px] border-white bg-transparent px-[34.4px] py-[8.6px] font-sans text-[17.211px] font-semibold text-white',
+    'rounded-[8.6px] border-[2.15px] border-white bg-transparent px-[34.4px] py-[8.6px] font-sans text-[17.211px] font-semibold capitalize text-white',
   submit:
     'rounded-btn bg-bl-700 px-[32px] py-[10px] font-sans text-[20px] font-semibold text-white',
   'donate-nav':

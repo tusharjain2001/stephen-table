@@ -19,7 +19,7 @@ function StatsBand({ stats = [], image, className = '' }) {
     return (
       <section className={`w-full overflow-hidden bg-b-500 ${className}`}>
         <div className="mx-auto flex max-w-[1440px] flex-col lg:h-[440px] lg:flex-row lg:items-center">
-          <div className="flex flex-col gap-8 px-6 py-12 md:px-10 md:py-14 lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:py-0 lg:pl-12 xl:pl-[176px]">
+          <div className="flex flex-col gap-8 px-6 py-12 md:px-10 md:py-14 lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 lg:ml-12 xl:ml-[176px]">
             {stats.map((stat) => (
               <div key={stat.caption} className="flex flex-col gap-[8px]">
                 <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>

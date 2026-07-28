@@ -37,7 +37,7 @@ function BlogDetail() {
             Helping seniors age safely at home
           </h1>
           <p className="font-sans text-[16px] text-wb-400 sm:text-[20px] xl:text-[28px]">
-            Published on: July 2026 &bull; Category: Senior Care
+            Published On: July 2026 &bull; Category: Senior Care
           </p>
         </div>
       </section>

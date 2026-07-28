@@ -164,12 +164,11 @@ function GetInvolved() {
                 <p className="font-sans text-[16px] font-medium uppercase text-bl-600">
                   Ways to Partner:
                 </p>
-                <div className="flex flex-col gap-[7px]">
+                <div className="flex flex-col gap-[7px] pl-[22px]">
                   {PARTNER_ITEMS.map((item) => (
-                    <div key={item} className="flex items-center gap-[6px]">
-                      <img src={iconTick} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
-                      <p className="capitalize font-sans text-[20px] text-bl-600">{item}</p>
-                    </div>
+                    <p key={item} className="capitalize font-sans text-[20px] text-bl-600">
+                      {item}
+                    </p>
                   ))}
                 </div>
               </div>
