@@ -1,8 +1,28 @@
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout.jsx';
+import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
+import Services from './pages/Services.jsx';
+import Nominate from './pages/Nominate.jsx';
+import GetInvolved from './pages/GetInvolved.jsx';
+import ImpactStories from './pages/ImpactStories.jsx';
+import BlogDetail from './pages/BlogDetail.jsx';
+import Contact from './pages/Contact.jsx';
+
 function App() {
   return (
-    <>
-      <div className="text-lime-800">dfdsdsdsdsdfddf</div>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="services" element={<Services />} />
+        <Route path="nominate" element={<Nominate />} />
+        <Route path="get-involved" element={<GetInvolved />} />
+        <Route path="impact-stories" element={<ImpactStories />} />
+        <Route path="stories/helping-seniors-age-safely" element={<BlogDetail />} />
+        <Route path="contact" element={<Contact />} />
+      </Route>
+    </Routes>
   );
 }
 
