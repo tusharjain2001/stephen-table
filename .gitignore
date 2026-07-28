@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Project-local agent rules (kept out of the repo)
+CLAUDE.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
