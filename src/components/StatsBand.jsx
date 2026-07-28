@@ -21,7 +21,7 @@ function StatsBand({ stats = [], image, className = '' }) {
         <div className="mx-auto flex max-w-[1440px] flex-col lg:h-[440px] lg:flex-row lg:items-center">
           <div className="flex flex-col gap-8 px-6 py-12 md:px-10 md:py-14 lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 lg:ml-12 xl:ml-[176px]">
             {stats.map((stat) => (
-              <div key={stat.caption} className="flex flex-col gap-[8px]">
+              <div key={stat.caption} className="flex flex-col items-center gap-[8px] text-center">
                 <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>
                 <span className="font-sans text-[16px] text-white">{stat.caption}</span>
               </div>
@@ -49,7 +49,7 @@ function StatsBand({ stats = [], image, className = '' }) {
           const block = (
             <div
               key={stat.caption}
-              className="flex w-full max-w-[308px] flex-col items-center gap-[8px] text-center sm:items-start sm:text-left"
+              className="flex w-full max-w-[308px] flex-col items-center gap-[8px] text-center"
             >
               <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>
               <span className="font-sans text-[16px] text-white">{stat.caption}</span>
