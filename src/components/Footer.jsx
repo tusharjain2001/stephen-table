@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import iconFacebook from '../assets/icons/icon-facebook.svg';
 import iconInstagram from '../assets/icons/icon-instagram.svg';
-import iconEmail from '../assets/icons/icon-email.svg';
+import iconEmail from '../assets/icons/icon-email-footer.svg';
 import iconPhoneSmall from '../assets/icons/icon-phone-small.svg';
 import iconDot from '../assets/icons/dot.svg';
 
@@ -62,7 +62,7 @@ function Footer() {
                 info@stephenstablecolorado.org
               </a>
               <a
-                href="tel:9703759179"
+                href="tel:970-375-9179"
                 className="flex items-center gap-[12px] font-sans text-[18px] leading-[32px] text-white"
               >
                 <img src={iconPhoneSmall} alt="" className="size-[20px]" aria-hidden="true" />
