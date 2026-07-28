@@ -1,1 +1,79 @@
 @import "tailwindcss";
+
+@theme {
+  /* Breakpoints — Figma defines desktop 1440 only; others are derived (see plan §5) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+
+  /* Neutral / page */
+  --color-cream: #fffcf7; /* page bg (Impact page uses #fffffe — treat as white) */
+  --color-espresso: #38291f; /* nav link text, footer bg, hero overlay base */
+  --color-ink: #111111; /* Figma "Primary" — FAQ questions */
+  --color-navy: #001d36; /* button labels on green */
+
+  /* Warm beige (WB) */
+  --color-wb-100: #fbf6ee;
+  --color-wb-200: #f7f0e3;
+  --color-wb-300: #f4ebda;
+  --color-wb-400: #e8dcc6;
+  --color-wb-900: #5d4b38;
+
+  /* Brown (B) */
+  --color-b-200: #ddcdc2;
+  --color-b-300: #c8af9d;
+  --color-b-500: #9f816a;
+  --color-b-600: #886b56;
+  --color-b-800: #564136;
+
+  /* Sage (S) */
+  --color-s-200: #d0e4db;
+  --color-s-300: #b6d2c5;
+  --color-s-500: #8db2a1;
+  --color-s-600: #709585;
+  --color-s-800: #415b4f;
+  --color-s-900: #2b3b34;
+  --color-s-btn: #a1c2b2; /* literal: filled green CTA */
+  --color-s-outline: #57786a; /* literal: outlined button border */
+
+  /* Blue (BL) */
+  --color-bl-50: #f3f6f9;
+  --color-bl-100: #e5ebf2;
+  --color-bl-200: #cbd7e4;
+  --color-bl-300: #aabcd0;
+  --color-bl-500: #5c7694;
+  --color-bl-600: #3e4f69;
+  --color-bl-700: #324156;
+  --color-bl-800: #253244;
+  --color-bl-900: #18212d;
+
+  /* Grays / form */
+  --color-gray-59: #595959;
+  --color-gray-67: #676767;
+  --color-gray-9c: #9c9999;
+  --color-gray-94: #949494;
+  --color-gray-d9: #d9d9d9;
+  --color-gray-c7: #c7c7c7;
+  --color-field: #f7f7f7;
+  --color-error: #c80000;
+
+  /* Fonts */
+  --font-display: "Lettertype", "Playfair Display", serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-neulis: "Neulis Sans", "Poppins", sans-serif;
+  --font-form: "Acumin Pro", "Inter", sans-serif;
+
+  --radius-card: 16px;
+  --radius-btn: 8px;
+}
+
+body {
+  background: var(--color-cream);
+  font-family: var(--font-sans);
+}
+
+.font-sans {
+  font-variation-settings: "opsz" 14;
+}
