@@ -65,7 +65,7 @@ function FaqSection({
     <section
       className={`flex w-full flex-col items-center gap-[36px] px-6 py-16 md:px-10 xl:px-6 xl:py-[80px] ${className}`}
     >
-      <h2 className={`text-center font-sans text-[20px] font-bold uppercase ${eyebrowClassName}`}>
+      <h2 className={`w-full max-w-[1300px] text-left font-sans text-[20px] font-bold uppercase ${eyebrowClassName}`}>
         Frequently Asked Questions
       </h2>
 
