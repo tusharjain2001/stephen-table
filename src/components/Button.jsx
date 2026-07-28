@@ -33,7 +33,7 @@ const VARIANTS = {
   'fill-soft':
     'rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize text-navy',
   'outline-soft':
-    'rounded-btn border-2 border-s-500 bg-transparent px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize tracking-[1.2px] text-navy',
+    'rounded-btn border-2 border-[#8db2a1] bg-transparent px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize tracking-[1.2px] text-navy',
 };
 
 function Button({
