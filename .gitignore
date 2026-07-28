@@ -15,6 +15,9 @@ dist-ssr
 # Project-local agent rules (kept out of the repo)
 CLAUDE.md
 
+# Playwright MCP screenshot output
+.playwright-mcp/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
