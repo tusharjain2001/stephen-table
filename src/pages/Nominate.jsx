@@ -7,7 +7,7 @@ import FormField from '../components/FormField.jsx';
 import Button from '../components/Button.jsx';
 import FaqSection from '../components/FaqSection.jsx';
 
-import heroNominate from '../assets/images/hero-nominate.jpg';
+import heroNominate from '../assets/images/hero-nominate.png';
 import iconStepReview from '../assets/icons/icon-step-review.svg';
 import iconStepChat from '../assets/icons/icon-step-chat.svg';
 import iconStepSpeak from '../assets/icons/icon-step-speak.svg';
