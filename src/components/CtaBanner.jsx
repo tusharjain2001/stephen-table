@@ -90,7 +90,9 @@ function CtaBanner({
                   href={pill.href}
                   className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] lg:text-[24px] ${pillClasses}`}
                 >
-                  <img src={pill.icon} alt="" className="size-[24px] shrink-0 lg:size-[28px]" aria-hidden="true" />
+                  <span className="flex shrink-0 items-center justify-center rounded-[10px] bg-s-300 p-[8px] lg:rounded-[12px] lg:p-[10px]">
+                    <img src={pill.icon} alt="" className="size-[24px] lg:size-[28px]" aria-hidden="true" />
+                  </span>
                   {pill.label}
                 </a>
               ))}
