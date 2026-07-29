@@ -16,7 +16,7 @@ import iconDonate from '../assets/icons/icon-donate.svg';
 import iconRecurring from '../assets/icons/icon-recurring.svg';
 import iconClothes from '../assets/icons/icon-clothes.svg';
 import iconCandle from '../assets/icons/icon-candle.svg';
-import iconEmail from '../assets/icons/icon-email.svg';
+import iconEmail from '../assets/icons/icon-email-brownbg.svg';
 
 const VOLUNTEER_CARDS = [
   {
