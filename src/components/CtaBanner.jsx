@@ -82,7 +82,7 @@ function CtaBanner({
             {subtitle && <p className="font-sans text-[18px] text-white lg:text-[20px]">{subtitle}</p>}
           </div>
 
-          <div className="flex flex-wrap gap-3 lg:flex-col lg:gap-[9px]">
+          <div className="flex flex-wrap gap-3 lg:flex-col lg:items-start lg:gap-[9px]">
             {actions ??
               pills.map((pill) => (
                 <a
@@ -106,20 +106,21 @@ function CtaBanner({
               className="absolute right-0 top-0 h-full object-cover"
               style={{ width: 732, maxWidth: '100%' }}
             />
-            {/* Decorative blend strips: exact Figma math only holds once the
-                photo is at its full 732px width, so keep these xl-only
-                (≥1280) rather than risk a misplaced gradient during the lg
+            {/* Blend strips (Figma 342:998 / 342:999): the photo fades into
+                the banner colour across its full width on the left, and a
+                243px strip pins it back to solid at the right edge. Both are
+                anchored to the photo box, so the math holds through the lg
                 flex-shrink range. */}
             <div
-              className="pointer-events-none absolute inset-y-0 right-[489px] hidden w-[243px] xl:block"
+              className="pointer-events-none absolute inset-y-0 right-0 w-[732px] max-w-full"
               style={{
-                background: `linear-gradient(to right, ${bgColor} 0%, transparent 100%)`,
+                background: `linear-gradient(90deg, ${bgColor} 0%, ${bgColor}d9 16.79%, ${bgColor}00 100%)`,
               }}
             />
             <div
-              className="pointer-events-none absolute inset-y-0 right-0 hidden w-[243px] xl:block"
+              className="pointer-events-none absolute inset-y-0 right-0 w-[243px] max-w-full"
               style={{
-                background: `linear-gradient(to left, ${bgColor} 0%, transparent 100%)`,
+                background: `linear-gradient(270deg, ${bgColor} 0%, ${bgColor}d9 34.14%, ${bgColor}a8 60.58%, ${bgColor}00 100%)`,
               }}
             />
           </div>
