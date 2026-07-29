@@ -202,7 +202,7 @@ function GetInvolved() {
             align="between"
             chipLabel="donate"
             lede="Your generosity helps us provide practical support, meaningful companionship, and essential community resources for seniors across Northern Colorado."
-            actions={<Button variant="fill-soft">DONATE NOW</Button>}
+            actions={<Button variant="fill-soft" className="w-fit">DONATE NOW</Button>}
           />
           <div className="grid w-full grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 xl:px-[72px] 2xl:flex 2xl:gap-[14.9px]">
             {DONATE_TILES.map((tile) => (
