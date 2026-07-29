@@ -3,7 +3,7 @@ import SectionChip from '../components/SectionChip.jsx';
 import StatsBand from '../components/StatsBand.jsx';
 import CtaBanner from '../components/CtaBanner.jsx';
 
-import heroAbout from '../assets/images/hero-about.jpg';
+import heroAbout from '../assets/images/hero-about.png';
 import aboutStory from '../assets/images/about-story.png';
 import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
 import leaderJim from '../assets/images/leader-jim.png';
@@ -82,7 +82,7 @@ function About() {
       <section className="w-full bg-gradient-to-b from-wb-200 to-cream py-10 xl:py-[48px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-center gap-8 px-6 sm:flex-row sm:gap-10 md:px-10 xl:gap-[108px]">
           <MissionBlock title="Mission" body="Helping older adults age safely and live with dignity." />
-          <span className="hidden h-[45px] w-px bg-bl-600/30 sm:block" />
+          <span className="hidden h-[45px] w-[2px] bg-[#3E4F69] sm:block" />
           <MissionBlock title="Vision" body="to build A community where every senior thrives" />
         </div>
       </section>
