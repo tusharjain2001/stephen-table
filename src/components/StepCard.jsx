@@ -13,7 +13,7 @@
 function StepCard({ icon, title, body, borderClassName = 'border-wb-400', className = '' }) {
   return (
     <div
-      className={`flex h-full w-full flex-col items-center gap-[28px] rounded-card border bg-wb-200 px-[20px] py-[36px] text-center xl:min-h-[300px] 2xl:h-[341px] 2xl:w-[306px] 2xl:py-[50px] ${borderClassName} ${className}`}
+      className={`flex h-full w-full flex-col items-start gap-[28px] rounded-card border bg-wb-200 px-[20px] py-[36px] text-left xl:min-h-[300px] 2xl:h-[341px] 2xl:w-[306px] 2xl:py-[50px] ${borderClassName} ${className}`}
     >
       {icon && <img src={icon} alt="" className="size-[37px]" aria-hidden="true" />}
       <div className="flex flex-col gap-[8px]">
