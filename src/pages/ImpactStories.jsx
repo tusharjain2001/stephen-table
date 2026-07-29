@@ -62,8 +62,8 @@ function ImpactStories() {
       />
 
       {/* Real World stories */}
-      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-14 xl:py-[108px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
+      <section className="flex w-full flex-col justify-center bg-gradient-to-b from-cream to-bl-100 py-14 xl:min-h-[981px] xl:py-16">
+        <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
           <SectionHeader
             chipVariant="blue"
             chipLabel="Real World stories"
@@ -71,8 +71,8 @@ function ImpactStories() {
             ledeWidth={877}
             gap={159}
           />
-          <div className="flex w-full flex-col items-center gap-[24px] px-6 md:px-10 xl:px-0">
-            <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-[20px]">
+          <div className="flex w-full flex-col items-center gap-[24px] px-6 md:px-10 xl:px-[72px]">
+            <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:w-[1294px] xl:max-w-full xl:gap-[20px]">
               {STORIES.map((story, index) => (
                 <StoryCard
                   key={story.title}
@@ -91,8 +91,8 @@ function ImpactStories() {
       </section>
 
       {/* Blogs */}
-      <section className="w-full bg-bl-100 py-14 xl:py-[108px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
+      <section className="flex w-full flex-col justify-center bg-bl-100 py-14 xl:min-h-[981px] xl:py-16">
+        <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
           <SectionHeader
             chipVariant="blue"
             chipLabel="Blogs"
@@ -100,8 +100,8 @@ function ImpactStories() {
             ledeWidth={877}
             gap={310}
           />
-          <div className="flex w-full flex-col items-center gap-[24px] px-6 md:px-10 xl:px-0">
-            <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-[20px]">
+          <div className="flex w-full flex-col items-center gap-[24px] px-6 md:px-10 xl:px-[72px]">
+            <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:w-[1294px] xl:max-w-full xl:gap-[20px]">
               {STORIES.map((story, index) => (
                 <StoryCard
                   key={story.title}

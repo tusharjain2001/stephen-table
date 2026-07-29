@@ -33,7 +33,7 @@ function StoryCard({
 }) {
   return (
     <div
-      className={`w-full rounded-[17.2px] bg-cream pb-[17.2px] pl-[4.3px] pr-[4.3px] pt-[4.3px] 2xl:w-[418.4px] ${className}`}
+      className={`flex w-full flex-col gap-[18.3px] rounded-[17.2px] bg-cream pb-[17.2px] pl-[4.3px] pr-[4.3px] pt-[4.3px] 2xl:w-[418.4px] ${className}`}
     >
       <div className="relative">
         {image && (
@@ -53,11 +53,14 @@ function StoryCard({
         )}
       </div>
 
-      <div className="flex flex-col gap-[16px] p-[17.2px]">
-        {title && (
-          <h3 className={`font-sans text-[24px] font-medium ${titleClassName}`}>{title}</h3>
-        )}
-        {body && <p className="font-sans text-[16px] text-gray-59">{body}</p>}
+      {/* Figma: 24px between the copy block and the CTA, 16px inside it. */}
+      <div className="flex flex-col gap-[24px] p-[17.2px]">
+        <div className="flex flex-col gap-[16px]">
+          {title && (
+            <h3 className={`font-sans text-[24px] font-medium ${titleClassName}`}>{title}</h3>
+          )}
+          {body && <p className="font-sans text-[16px] text-gray-59">{body}</p>}
+        </div>
 
         {ctaHref ? (
           <Button as={Link} to={ctaHref} variant="learn-more" className="self-start">
