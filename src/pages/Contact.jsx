@@ -47,7 +47,7 @@ function Contact() {
         title="Contact Us"
       />
 
-      <section className="w-full py-12 xl:py-[79px]">
+      <section id="contact-form" className="w-full scroll-mt-[96px] py-12 xl:py-[79px]">
         <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-[72px]">
           <form
             onSubmit={handleSubmit}

@@ -23,6 +23,21 @@ import iconCommunity from '../assets/icons/icon-community.svg';
 import iconVolunteer from '../assets/icons/icon-volunteer.svg';
 import iconPartnership from '../assets/icons/icon-partnership.svg';
 import iconDonate from '../assets/icons/icon-donate.svg';
+import iconEmail from '../assets/icons/icon-email.svg';
+import iconPhone from '../assets/icons/icon-phone.svg';
+
+/**
+ * On Home the CTA banner's contact pills route into the Contact page's form
+ * rather than opening a mail/phone client.
+ */
+const CONTACT_PILLS = [
+  {
+    icon: iconEmail,
+    label: 'info@stephenstablecolorado.org',
+    to: '/contact#contact-form',
+  },
+  { icon: iconPhone, label: '970-375-9179', to: '/contact#contact-form' },
+];
 
 const FEATURES = [
   { icon: iconOldWoman, label: 'Safe & Dignified Aging', width: 188 },
@@ -194,6 +209,7 @@ function Home() {
         image={ctaBannerImg}
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
+        pills={CONTACT_PILLS}
       />
 
       {/* Get involved */}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import iconEmail from '../assets/icons/icon-email.svg';
 import iconPhone from '../assets/icons/icon-phone.svg';
 
@@ -30,8 +31,10 @@ const DEFAULT_PILLS = [
  * - `subtitle`   — optional sub copy under the title
  * - `pillTheme`  — `'sage'` (default, bg-s-200 / text-s-900) | `'white'`
  *                  (bg-white / text-b-800, used on the Blog page)
- * - `pills`      — array of `{ icon, label, href }` rendered as icon+label
- *                  contact pills; defaults to the standard phone/email pair
+ * - `pills`      — array of `{ icon, label, href, to }` rendered as icon+label
+ *                  contact pills; defaults to the standard phone/email pair.
+ *                  Use `to` for an in-app route (rendered as a <Link>) and
+ *                  `href` for external/mailto/tel targets.
  * - `actions`    — optional custom node rendered instead of `pills` (covers
  *                  the Home hero banner's "Get in touch" Button and Get
  *                  Involved's single white "Sign up for Volunteering" pill)
@@ -84,18 +87,23 @@ function CtaBanner({
 
           <div className="flex flex-wrap gap-3 lg:flex-col lg:items-start lg:gap-[9px]">
             {actions ??
-              pills.map((pill) => (
-                <a
-                  key={pill.label}
-                  href={pill.href}
-                  className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] lg:text-[24px] ${pillClasses}`}
-                >
-                  <span className="flex shrink-0 items-center justify-center rounded-[10px] bg-s-300 p-[8px] lg:rounded-[12px] lg:p-[10px]">
-                    <img src={pill.icon} alt="" className="size-[24px] lg:size-[28px]" aria-hidden="true" />
-                  </span>
-                  {pill.label}
-                </a>
-              ))}
+              pills.map((pill) => {
+                const PillTag = pill.to ? Link : 'a';
+                const target = pill.to ? { to: pill.to } : { href: pill.href };
+
+                return (
+                  <PillTag
+                    key={pill.label}
+                    {...target}
+                    className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] lg:text-[24px] ${pillClasses}`}
+                  >
+                    <span className="flex shrink-0 items-center justify-center rounded-[10px] bg-s-300 p-[8px] lg:rounded-[12px] lg:p-[10px]">
+                      <img src={pill.icon} alt="" className="size-[24px] lg:size-[28px]" aria-hidden="true" />
+                    </span>
+                    {pill.label}
+                  </PillTag>
+                );
+              })}
           </div>
         </div>
 
