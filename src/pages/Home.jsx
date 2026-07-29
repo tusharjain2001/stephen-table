@@ -18,7 +18,7 @@ import ctaBannerImg from '../assets/images/cta-banner.png';
 
 import iconOldWoman from '../assets/icons/icon-old-woman.svg';
 import iconHome from '../assets/icons/icon-home.svg';
-import iconBooks from '../assets/icons/icon-books.svg';
+import iconBooks from '../assets/icons/icon-books-blue.svg';
 import iconCommunity from '../assets/icons/icon-community.svg';
 import iconVolunteer from '../assets/icons/icon-volunteer.svg';
 import iconPartnership from '../assets/icons/icon-partnership.svg';
