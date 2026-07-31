@@ -29,7 +29,9 @@ const VOLUNTEER_CARDS = [
       'Transportation Assistance',
       'Community Events',
     ],
-    bgClassName: 'border-[#c8af9d] bg-b-200',
+    // Figma strokes are drawn inside the frame, so an inset ring rather than
+    // a CSS border — a border would add 2px to the 503px card.
+    bgClassName: 'shadow-[inset_0_0_0_1px_#c8af9d] bg-b-200',
     font: 'font-sans',
   },
   {
@@ -43,7 +45,7 @@ const VOLUNTEER_CARDS = [
       'Holiday Gift Wrapping',
       'Hygiene & Wellness Kit Assembly',
     ],
-    bgClassName: 'border-[#cbd7e4] bg-bl-100',
+    bgClassName: 'shadow-[inset_0_0_0_1px_#cbd7e4] bg-bl-100',
     font: 'font-neulis',
   },
 ];
@@ -86,20 +88,24 @@ const DONATE_TILES = [
 function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
   return (
     <div
-      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card border p-6 sm:p-8 xl:p-[50px] ${bgClassName}`}
+      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card p-6 sm:p-8 xl:p-[50px] ${bgClassName}`}
     >
+      {/* The corporate card is Neulis Sans, which falls back to Poppins
+          (~1.5 leading vs Neulis' ~1.32) and ran the card 40px tall. Pin the
+          line boxes to Figma's: title 37, body/items 26, label 21. DM Sans
+          already lands on these, so both cards can share them. */}
       <div className="flex flex-col gap-[16px]">
         <img src={icon} alt="" className="size-[37px]" aria-hidden="true" />
-        <h3 className={`capitalize ${font} text-[28px] font-medium text-bl-800`}>{title}</h3>
-        <p className={`${font} text-[20px] text-gray-59`}>{body}</p>
+        <h3 className={`capitalize ${font} text-[28px] font-medium leading-[37px] text-bl-800`}>{title}</h3>
+        <p className={`${font} text-[20px] leading-[26px] text-gray-59`}>{body}</p>
       </div>
       <div className="flex flex-col gap-[15px]">
-        <p className={`${font} text-[16px] font-medium uppercase text-bl-600`}>Opportunities:</p>
+        <p className={`${font} text-[16px] font-medium uppercase leading-[21px] text-bl-600`}>Opportunities:</p>
         <div className="flex flex-col gap-[7px]">
           {items.map((item) => (
             <div key={item} className="flex items-center gap-[6px]">
               <img src={iconTick} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
-              <p className={`capitalize ${font} text-[20px] text-bl-600`}>{item}</p>
+              <p className={`capitalize ${font} text-[20px] leading-[26px] text-bl-600`}>{item}</p>
             </div>
           ))}
         </div>
@@ -128,20 +134,25 @@ function GetInvolved() {
         height={548}
         textLeft={81}
         textWidth={821}
-        textBottom={48}
+        // 371:2954 sits at y=385 h=150 in a hero ending at 620.
+        textBottom={85}
         title="Get Involved"
         subtitleClassName="text-[24px]"
-        subtitle="Read inspiring stories of how our volunteers, partners, and supporters are making a meaningful difference in the lives of seniors."
+        subtitle="Join our community of volunteers, partners, and supporters making a lasting difference in the lives of seniors."
       />
 
       {/* Volunteering */}
-      <section className="w-full bg-gradient-to-b from-[#fffcf6] to-wb-100 py-14 xl:py-[100px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[44px]">
+      {/* Figma 367:1554: fixed h-2019 box, content centred. The gaps nest —
+          62 below the header, then 44 above the sign-up banner, then 18
+          between the two card rows. */}
+      <section className="w-full bg-gradient-to-b from-[#fffcf6] to-wb-100 py-14 xl:h-[2019px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 xl:gap-[62px]">
           <SectionHeader
             chipLabel="volunteering"
             lede="Join our mission by volunteering your time and skills to support seniors and strengthen our community."
           />
 
+          <div className="flex w-full flex-col items-center gap-8 xl:gap-[44px]">
           <div className="flex w-full flex-col gap-5 px-6 md:px-10 xl:gap-[18px] xl:px-[72px]">
             <div className="flex flex-col gap-5 md:flex-row xl:gap-[20px]">
               {VOLUNTEER_CARDS.map((card) => (
@@ -149,26 +160,31 @@ function GetInvolved() {
               ))}
             </div>
 
-            <div className="flex flex-col gap-[25px] rounded-card border border-bl-200 bg-bl-100 p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
+            <div className="flex flex-col gap-[25px] rounded-card bg-bl-100 shadow-[inset_0_0_0_1px_#cbd7e4] p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
               <div className="flex flex-col gap-[16px]">
                 <img src={iconHandshake} alt="" className="size-[37px]" aria-hidden="true" />
-                <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 xl:text-[28px]">
+                <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 xl:text-[28px] xl:leading-[36px]">
                   corporate partnership
                 </h3>
-                <p className="font-sans text-[18px] text-gray-59 xl:text-[20px]">
+                {/* Figma 367:1525 holds this to 847px inside the 1143px
+                    content box, so it breaks to two lines (h=52). */}
+                <p className="font-sans text-[18px] text-gray-59 xl:w-[847px] xl:text-[20px] xl:leading-[26px]">
                   Partner with Stephen&apos;s Table Colorado to create lasting impact through
                   sponsorships, volunteer initiatives, and community programs.
                 </p>
               </div>
               <div className="flex flex-col gap-[15px]">
-                <p className="font-sans text-[16px] font-medium uppercase text-bl-600">
+                <p className="font-sans text-[16px] font-medium uppercase leading-[21px] text-bl-600">
                   Ways to Partner:
                 </p>
-                <div className="flex flex-col gap-[7px] pl-[22px]">
+                {/* Figma 658:3321 ticks each item, same as the two cards
+                    above — this list was rendering as bare indented text. */}
+                <div className="flex flex-col gap-[7px]">
                   {PARTNER_ITEMS.map((item) => (
-                    <p key={item} className="capitalize font-sans text-[20px] text-bl-600">
-                      {item}
-                    </p>
+                    <div key={item} className="flex items-center gap-[6px]">
+                      <img src={iconTick} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
+                      <p className="capitalize font-sans text-[20px] leading-[26px] text-bl-600">{item}</p>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -192,11 +208,14 @@ function GetInvolved() {
               </span>
             </div>
           </div>
+          </div>
         </div>
       </section>
 
       {/* Donate */}
-      <section className="w-full py-14 xl:py-[72px]">
+      {/* Figma 370:1644 is 714 tall: 99.29 + header 180 + 72 + tiles 263.43
+          + 99.29. Only the padding was off. */}
+      <section className="w-full py-14 xl:py-[99.29px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 xl:gap-[72px]">
           <SectionHeader
             align="between"
@@ -227,10 +246,9 @@ function GetInvolved() {
         }
       />
 
-      <FaqSection
-        excludeQuestions={["How can I support Stephen's Table?"]}
-        eyebrowClassName="text-navy"
-      />
+      {/* Figma 370:1705 carries all six questions — the exclusion here left
+          the section one collapsed row (71 + 16) short of the frame. */}
+      <FaqSection eyebrowClassName="text-navy" />
     </div>
   );
 }

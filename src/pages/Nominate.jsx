@@ -83,7 +83,8 @@ function Nominate() {
         height={548}
         textLeft={82}
         textWidth={798}
-        textBottom={68}
+        // 367:770 sits at y=313 h=150 inside the 548 hero.
+        textBottom={85}
         title="Nominate a Senior"
         subtitleClassName="text-[24px]"
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
@@ -114,10 +115,16 @@ function Nominate() {
         <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[47px] xl:pt-[48px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:gap-[43px] xl:px-[55px] xl:pb-[47px] xl:pt-[48px]"
           >
+            {/* Figma 381:5701 nests the gaps rather than spacing everything
+                evenly: 11 inside the header, 51 below it, 36 under "Your
+                Information", 24 between rows, 11 before the mandatory note,
+                then 43 down to the step button. */}
+            <div className="flex flex-col gap-[36px] xl:gap-[51px]">
             <div className="flex flex-col gap-[11px]">
-              <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px]">
+              {/* Figma 381:5703 h=36 */}
+              <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px] xl:leading-[36px]">
                 fill the form to nominate a senior
               </h2>
               <p className="font-sans text-[18px] text-gray-9c xl:w-[1009px] xl:text-[20px]">
@@ -126,9 +133,13 @@ function Nominate() {
               </p>
             </div>
 
+            <div className="flex flex-col gap-[24px] xl:gap-[36px]">
+              <h3 className="font-sans text-[24px] font-medium text-bl-800">
+                {step === 1 ? 'Your Information' : "Senior's Information"}
+              </h3>
+              <div className="flex flex-col gap-[24px] xl:gap-[11px]">
             {step === 1 ? (
               <div className="flex flex-col gap-[24px]">
-                <h3 className="font-sans text-[24px] font-medium text-bl-800">Your Information</h3>
                 <FieldRow>
                   <FormField
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
@@ -182,9 +193,6 @@ function Nominate() {
               </div>
             ) : (
               <div className="flex flex-col gap-[24px]">
-                <h3 className="font-sans text-[24px] font-medium text-bl-800">
-                  Senior&apos;s Information
-                </h3>
                 <FieldRow>
                   <FormField
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
@@ -252,13 +260,21 @@ function Nominate() {
               </div>
             )}
 
-            <p className="font-sans text-[17px] text-error">Fields marked * are mandatory</p>
+                {/* Figma 381:5723 h=21 */}
+                <p className="font-sans text-[17px] leading-[21px] text-error">
+                  Fields marked * are mandatory
+                </p>
+              </div>
+            </div>
+            </div>
 
             <div className="flex justify-end">
               {step === 1 ? (
                 <button
                   type="submit"
-                  className="rounded-btn border-2 border-[#709585] px-[32px] py-[10px] font-sans text-[20px] font-semibold text-black"
+                  // Figma 381:5724 frames this at 46; the stroke is inside, so
+                  // the border-2 must not add its 4px on top of py-10.
+                  className="flex h-[46px] items-center rounded-btn border-2 border-[#709585] px-[32px] font-sans text-[20px] font-semibold text-black"
                 >
                   Step 1/2
                 </button>

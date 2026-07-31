@@ -18,6 +18,10 @@ import iconArrowBadge from '../assets/icons/icon-arrow-badge.svg';
  * - `onCtaClick`      — click handler when no `ctaHref` is given
  * - `showArrowBadge` — Home "How we help" variant: adds the circular arrow
  *                      badge over the top-right of the photo
+ * - `ctaGap`         — px between the copy block and the CTA. Home's frame
+ *                      (377:3065) uses 16; Impact Stories / Blog cards
+ *                      (370:2329) use 24, which is what makes their card
+ *                      643 tall rather than 635.
  * - `className`       — extra classes on the outer wrapper
  */
 function StoryCard({
@@ -29,6 +33,7 @@ function StoryCard({
   ctaHref,
   onCtaClick,
   showArrowBadge = false,
+  ctaGap = 16,
   className = '',
 }) {
   return (
@@ -55,7 +60,10 @@ function StoryCard({
 
       {/* Figma 377:3065 stacks title (y17.2) → body (y64.2) → CTA (y143.2)
           with a 16px gap at both joins, inside 17.2px padding. */}
-      <div className="flex flex-col gap-[16px] p-[17.2px]">
+      <div
+        className="flex flex-col p-[17.2px] gap-[var(--card-cta-gap)]"
+        style={{ '--card-cta-gap': `${ctaGap}px` }}
+      >
         <div className="flex flex-col gap-[16px]">
           {title && (
             <h3 className={`font-sans text-[24px] font-medium ${titleClassName}`}>{title}</h3>

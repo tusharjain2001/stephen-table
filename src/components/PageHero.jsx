@@ -26,8 +26,11 @@
  *                    xl the band scales down proportionally (plan §5,
  *                    Task 14) so the hero never eats the whole viewport on
  *                    a phone.
- * - `flatOverlay`  — adds the extra flat `rgba(0,0,0,0.2)` wash used on the
- *                    Impact Stories hero, on top of the base gradient
+ * - `flatOverlay`  — extra flat `rgba(0,0,0,0.2)` wash on top of the base
+ *                    gradient. Currently unused: it was applied to Impact
+ *                    Stories, but that frame (535:2545) carries only the
+ *                    standard scrim — the wash put our render 10.4 MAD off
+ *                    the Figma view, and removing it brought that to 1.4.
  * - `textLeft`     — px left offset of the text block at xl (72–82 per page)
  * - `textWidth`    — px width of the text block at xl (485–821 per page).
  *                    Below xl the block is full-bleed (left/right gutters)

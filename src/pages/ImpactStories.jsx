@@ -52,10 +52,10 @@ function ImpactStories() {
       <PageHero
         image={heroImpact}
         height={548}
-        flatOverlay
         textLeft={76}
         textWidth={789}
-        textBottom={100}
+        // 371:2948 sits at y=313 h=150 inside the 548 hero.
+        textBottom={85}
         title="Impact Stories"
         subtitleClassName="text-[24px]"
         subtitle="Read inspiring stories of how our volunteers, partners, and supporters are making a meaningful difference in the lives of seniors."
@@ -82,6 +82,7 @@ function ImpactStories() {
                   body={story.body}
                   ctaLabel="read More →"
                   ctaHref={story.ctaHref}
+                  ctaGap={24}
                 />
               ))}
             </div>
@@ -111,6 +112,7 @@ function ImpactStories() {
                   body={story.body}
                   ctaLabel="read More →"
                   ctaHref={story.ctaHref}
+                  ctaGap={24}
                 />
               ))}
             </div>
