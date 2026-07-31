@@ -23,17 +23,20 @@ function StatsBand({ stats = [], image, className = '' }) {
             the sections above/below, while the photo takes whatever is left
             and keeps bleeding to the right edge at any width. At 1440 the
             gutter is 0, so this is Figma-exact: 176 + 308 + 133 = 617 with an
-            823px photo (342:173 / 342:240). */}
+            823px photo (342:173 / 342:240). Mobile frame (662:9459) puts the
+            photo FIRST — `order` flips the visual stacking below `lg` without
+            touching the DOM (so the `lg:flex-row` desktop row keeps its
+            original stat-column-then-photo order untouched). */}
         <div className="flex w-full flex-col lg:h-[440px] lg:flex-row lg:items-center">
-          <div className="flex flex-col gap-8 px-6 py-12 md:px-10 md:py-14 lg:ml-[calc(var(--gutter)+48px)] lg:mr-[80px] lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 xl:ml-[calc(var(--gutter)+176px)] xl:mr-[133px]">
+          <div className="order-2 flex flex-col gap-[64px] px-[48px] py-[60px] md:order-none md:gap-8 md:px-10 md:py-14 lg:ml-[calc(var(--gutter)+48px)] lg:mr-[80px] lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 xl:ml-[calc(var(--gutter)+176px)] xl:mr-[133px]">
             {stats.map((stat) => (
-              <div key={stat.caption} className="flex flex-col items-center gap-[8px] text-center">
+              <div key={stat.caption} className="flex flex-col items-center gap-[10px] text-center md:gap-[8px]">
                 <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>
                 <span className="font-sans text-[16px] text-white">{stat.caption}</span>
               </div>
             ))}
           </div>
-          <div className="relative h-[220px] w-full md:h-[300px] lg:h-full lg:min-w-0 lg:flex-1">
+          <div className="order-1 relative h-[439px] w-full md:order-none md:h-[300px] lg:h-full lg:min-w-0 lg:flex-1">
             <img src={image} alt="" className="h-full w-full object-cover" />
           </div>
         </div>
@@ -43,9 +46,9 @@ function StatsBand({ stats = [], image, className = '' }) {
 
   return (
     <section
-      className={`flex w-full items-center justify-center bg-b-500 px-6 py-12 sm:py-14 xl:h-[203px] xl:py-0 ${className}`}
+      className={`flex w-full items-center justify-center bg-b-500 px-[48px] py-[60px] md:px-6 md:py-14 xl:h-[203px] xl:py-0 ${className}`}
     >
-      <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-14 xl:gap-[108px]">
+      <div className="flex flex-col items-center gap-[64px] md:flex-row md:gap-14 xl:gap-[108px]">
         {stats.flatMap((stat, index) => {
           const block = (
             <div
@@ -60,7 +63,7 @@ function StatsBand({ stats = [], image, className = '' }) {
           return [
             <span
               key={`divider-${stat.caption}`}
-              className="h-px w-16 bg-white sm:h-[45px] sm:w-px"
+              className="hidden h-px w-16 bg-white sm:block sm:h-[45px] sm:w-px"
             />,
             block,
           ];
