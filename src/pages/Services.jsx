@@ -166,7 +166,9 @@ function ServiceActions() {
 
 function ServiceCard({ image, title, ticks }) {
   return (
-    <div className="flex h-full w-full min-h-[176px] flex-col items-center gap-5 rounded-card border border-wb-300 bg-white p-5 xl:gap-[20px] 2xl:flex-row 2xl:justify-center 2xl:p-0">
+    // Figma 363:290 is a 206px card: the 176px photo sits inside 15px of
+    // vertical and 18.5px of horizontal padding, not flush to the edges.
+    <div className="flex h-full w-full min-h-[176px] flex-col items-center gap-5 rounded-card border border-wb-300 bg-white p-5 xl:gap-[20px] 2xl:h-[206px] 2xl:flex-row 2xl:justify-center 2xl:px-[18.5px] 2xl:py-[15px]">
       <img
         src={image}
         alt=""
@@ -234,10 +236,17 @@ function Services() {
     <div>
       <PageHero
         image={heroServices}
-        height={746}
+        // 363:154 (inside the layout frame) is 548 — the 746 rect at page
+        // level is a leftover; only 548 makes the section stack sum to 6074.
+        height={548}
+        // Our asset is the mirror of Figma 363:152 and a taller crop
+        // (1672x941 vs the frame's 1440x746); flipped, the best vertical
+        // alignment is 12% (MAD 18.2 against 36.1/30.5 either side).
+        flipImage
+        imagePosition="50% 12%"
         textLeft={72}
         textWidth={618}
-        textBottom={87}
+        textBottom={54}
         title="Our Services"
         subtitleClassName="text-[24px]"
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."

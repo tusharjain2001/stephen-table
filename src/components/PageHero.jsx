@@ -10,6 +10,11 @@
  *                    gives (verified against the Figma render: at 34% the
  *                    column luminances match to ~1/255, at 50% they are off
  *                    by 33px vertically).
+ * - `flipImage`    — mirror the photo horizontally. hero-services.png ships
+ *                    mirrored relative to its Figma frame (363:152), which
+ *                    puts the mower on the left and the porch on the right;
+ *                    flipping lands the dark end of the scrim on the lawn
+ *                    rather than on the white house behind the headline.
  * - `overlay`      — `'gradient'` (default) dark left-to-right scrim, or
  *                    `'none'`. Home's Figma frame has no scrim at all — the
  *                    dark left side there is the photograph, not a wash — so
@@ -46,6 +51,7 @@
 function PageHero({
   image,
   imagePosition = '50% 50%',
+  flipImage = false,
   overlay = 'gradient',
   height = 548,
   flatOverlay = false,
@@ -77,7 +83,9 @@ function PageHero({
         <img
           src={image}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover ${
+            flipImage ? 'scale-x-[-1]' : ''
+          }`}
           style={{ objectPosition: imagePosition }}
         />
       )}

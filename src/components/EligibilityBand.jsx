@@ -32,24 +32,27 @@ function EligibilityBand({
           column and the intro line + bullet list share the second column, so
           the bullets stay flush with the intro instead of running back to the
           section's left edge. Below md it collapses to a single stack. */}
-      <div className="grid gap-y-[27px] md:grid-cols-[max-content_1fr] md:items-center md:gap-x-10 xl:gap-x-16 2xl:gap-x-[226px]">
+      <div className="mx-auto grid w-full max-w-[1296px] gap-y-[27px] md:grid-cols-[max-content_1fr] md:items-center md:gap-x-10 xl:gap-x-16 2xl:gap-x-[226px]">
         <SectionChip
           variant="onBrown"
           className="justify-self-start md:col-start-1 md:row-start-1"
         >
           Eligibility Criteria
         </SectionChip>
-        <p className="min-w-0 font-sans text-[20px] text-white md:col-start-2 md:row-start-1 md:text-[22px] xl:text-[24px]">
+        <p className="min-w-0 font-sans text-[20px] text-white md:col-start-2 md:row-start-1 md:text-[22px] xl:text-[24px] 2xl:w-[819px]">
           {intro}
         </p>
 
         {/* Figma runs the bullets as one continuous 37px-leading block — no
-            extra spacing between items. */}
+            extra spacing between items. The 797px measure (363:118) is load
+            bearing: it wraps items 3 and 4 onto two lines, so the block is
+            7 lines / 259px, not 5 lines / 185px. Left unbounded it stops
+            wrapping above ~1440 and the band goes hollow. */}
         <ul className="min-w-0 md:col-start-2 md:row-start-2">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-[16px] xl:gap-[15px]">
               <span className="mt-[11px] size-[10px] shrink-0 rotate-45 bg-white xl:mt-[13px]" />
-              <span className="font-sans text-[18px] leading-[28px] text-white md:text-[20px] xl:text-[24px] xl:leading-[37px]">
+              <span className="font-sans text-[18px] leading-[28px] text-white md:text-[20px] xl:text-[24px] xl:leading-[37px] 2xl:w-[797px]">
                 {item}
               </span>
             </li>

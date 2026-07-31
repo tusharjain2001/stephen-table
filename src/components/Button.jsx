@@ -35,8 +35,11 @@ const VARIANTS = {
     'rounded-btn bg-s-800 px-[32px] py-[8px] font-sans text-[20px] font-bold uppercase tracking-[1px] text-white',
   'fill-soft':
     'rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize text-navy',
+  // Figma frames this at 47px, same as its filled sibling (363:225 /
+  // 363:228) — the stroke is drawn inside, so the CSS border must not add
+  // its 4px on top of the 8+8 padding.
   'outline-soft':
-    'rounded-btn border-2 border-[#8db2a1] bg-transparent px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize tracking-[1.2px] text-navy',
+    'h-[47px] rounded-btn border-2 border-[#8db2a1] bg-transparent px-[32px] font-sans text-[24px] font-semibold capitalize tracking-[1.2px] text-navy',
 };
 
 function Button({
