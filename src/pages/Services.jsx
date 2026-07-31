@@ -104,6 +104,7 @@ const FELLOWSHIP_TILES = [
     icon: iconCrossMed,
     title: 'Bible Studies',
     body: 'Providing opportunities for faith, reflection, and spiritual fellowship.',
+    mobileIconSize: 36.552,
   },
   {
     icon: iconSmiley,
@@ -121,6 +122,12 @@ const CONNECTION_TILES = [
     height: 378,
     title: 'Essential Resources',
     body: 'Access to food, clothing, and other everyday necessities.',
+    // True-mobile (<md) stacked order per the Figma mobile frame (662:10555):
+    // Essential, Educational, Community Activities, Partner Network — a swap
+    // of the last two vs. this array's own (desktop masonry / md-tablet
+    // 2-col) order. `order-*` only applies below md (md:order-none resets
+    // to source order) so the ≥768 grid/masonry stay untouched.
+    mobileOrder: 1,
   },
   {
     image: svcConn2,
@@ -130,6 +137,7 @@ const CONNECTION_TILES = [
     height: 378,
     title: 'Educational Programs',
     body: 'Workshops on financial literacy, estate planning, fitness, and nutrition.',
+    mobileOrder: 2,
   },
   {
     image: svcConn3,
@@ -139,6 +147,7 @@ const CONNECTION_TILES = [
     height: 741,
     title: 'Partner Network',
     body: 'Connecting seniors with trusted local organizations and specialized support services.',
+    mobileOrder: 4,
   },
   {
     image: svcConn4,
@@ -148,12 +157,15 @@ const CONNECTION_TILES = [
     height: 341,
     title: 'Community Activities',
     body: 'Group outings, classes, and events that encourage engagement and social connection.',
+    mobileOrder: 3,
   },
 ];
 
 function ServiceActions() {
   return (
-    <div className="flex flex-wrap items-center gap-[16px] xl:gap-[22px]">
+    // Mobile frame (662:10555) stacks these full-width with an 8px gap;
+    // md: restores the original wrapping row untouched.
+    <div className="flex w-full flex-col gap-[8px] md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-[16px] xl:gap-[22px]">
       <Button variant="fill-soft" className="shrink-0 whitespace-nowrap">
         REQUEST ASSISTANCE
       </Button>
@@ -168,11 +180,11 @@ function ServiceCard({ image, title, ticks }) {
   return (
     // Figma 363:290 is a 206px card: the 176px photo sits inside 15px of
     // vertical and 18.5px of horizontal padding, not flush to the edges.
-    <div className="flex h-full w-full min-h-[176px] flex-col items-center gap-5 rounded-card border border-wb-300 bg-white p-5 xl:gap-[20px] 2xl:h-[206px] 2xl:flex-row 2xl:justify-center 2xl:px-[18.5px] 2xl:py-[15px]">
+    <div className="flex h-full w-full min-h-[176px] flex-col items-center gap-5 rounded-card border border-wb-300 bg-white p-[16px] md:p-5 xl:gap-[20px] 2xl:h-[206px] 2xl:flex-row 2xl:justify-center 2xl:px-[18.5px] 2xl:py-[15px]">
       <img
         src={image}
         alt=""
-        className="h-[200px] w-full shrink-0 rounded-card object-cover sm:h-[220px] 2xl:h-[176px] 2xl:w-[296px]"
+        className="h-[176px] w-full shrink-0 rounded-card object-cover md:h-[220px] 2xl:h-[176px] 2xl:w-[296px]"
       />
       <div className="flex w-full flex-col gap-[13px] 2xl:w-[285px]">
         <h3 className="capitalize font-neulis text-[20px] text-bl-900">{title}</h3>
@@ -189,10 +201,17 @@ function ServiceCard({ image, title, ticks }) {
   );
 }
 
-function FellowshipTile({ icon, title, body }) {
+function FellowshipTile({ icon, title, body, mobileIconSize = 34.315 }) {
   return (
-    <div className="flex h-full w-full min-h-[220px] flex-col gap-8 rounded-[11.9px] bg-b-300 px-6 py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px]">
-      <img src={icon} alt="" className="size-[34px]" />
+    <div
+      className="flex h-[209px] w-full flex-col gap-[36px] rounded-[11.9px] bg-b-300 px-[31px] py-[24px] md:h-auto md:min-h-[220px] md:gap-8 md:px-6 md:py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px]"
+    >
+      <img
+        src={icon}
+        alt=""
+        className="size-[var(--tile-icon-mobile)] md:size-[34px]"
+        style={{ '--tile-icon-mobile': `${mobileIconSize}px` }}
+      />
       <div className="flex flex-col gap-[9px]">
         <h3 className="capitalize font-sans text-[24px] font-medium text-b-800">{title}</h3>
         <p className="font-sans text-[16px] text-gray-59">{body}</p>
@@ -219,13 +238,18 @@ function ConnectionTile({ image, left, top, width, height, title, body }) {
 /** <xl fallback for the masonry grid above: a simple stacked/2-col grid of
  * image + caption cards instead of the fixed-pixel absolute masonry, which
  * only holds together exactly at the Figma 1296px content width. */
-function ConnectionTileSimple({ image, title, body }) {
+const ORDER_CLASS = { 1: 'order-1', 2: 'order-2', 3: 'order-3', 4: 'order-4' };
+
+function ConnectionTileSimple({ image, title, body, mobileOrder }) {
   return (
-    <div className="overflow-hidden rounded-card">
-      <img src={image} alt="" className="h-[220px] w-full object-cover sm:h-[260px]" />
-      <div className="flex flex-col gap-[8px] rounded-b-card border border-bl-300 bg-bl-100 px-[22px] py-[10px]">
-        <p className="capitalize font-sans text-[22px] font-medium text-black">{title}</p>
-        <p className="font-neulis text-[18px] text-gray-59">{body}</p>
+    <div className={`overflow-hidden rounded-card ${ORDER_CLASS[mobileOrder] ?? ''} md:order-none`}>
+      <img src={image} alt="" className="h-[266px] w-full object-cover md:h-[260px]" />
+      {/* Mobile frame (662:10555) draws no border on the top edge — the
+          caption bar sits flush under the image there — while md:+ restores
+          the original all-sides border untouched. */}
+      <div className="flex flex-col gap-[8px] rounded-b-card border-x border-b border-bl-300 bg-bl-100 px-[22px] py-[10px] md:border">
+        <p className="capitalize font-sans text-[20px] font-medium text-black md:text-[22px]">{title}</p>
+        <p className="font-neulis text-[16px] text-gray-59 md:text-[18px]">{body}</p>
       </div>
     </div>
   );
@@ -244,6 +268,7 @@ function Services() {
         // alignment is 12% (MAD 18.2 against 36.1/30.5 either side).
         flipImage
         imagePosition="50% 12%"
+        mobileTextTop={571}
         textLeft={72}
         textWidth={618}
         textBottom={54}
@@ -258,16 +283,16 @@ function Services() {
       <EligibilityBand />
 
       {/* How it works */}
-      <section className="w-full py-14 xl:py-[102px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[53px]">
-          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+      <section className="w-full py-[60px] md:py-14 xl:py-[102px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[39px] md:gap-8 xl:gap-[53px]">
+          <div className="flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:gap-6 md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
             <SectionChip className="shrink-0">how it works</SectionChip>
-            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[17px]">
+          <div className="grid w-full grid-cols-1 gap-[24px] px-[16px] md:gap-4 md:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[17px]">
             {STEPS.map((step) => (
               <StepCard key={step.title} borderClassName="border-[#ddcdc2]" {...step} />
             ))}
@@ -276,15 +301,15 @@ function Services() {
       </section>
 
       {/* Practical Home Support */}
-      <section className="w-full bg-gradient-to-b from-cream to-wb-200 py-14 xl:py-[106px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[76px]">
+      <section className="w-full bg-gradient-to-b from-cream to-wb-200 py-[60px] md:py-14 xl:py-[106px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[48px] md:gap-10 xl:gap-[76px]">
           <SectionHeader
             align="between"
             chipLabel="Practical home support"
             lede="Supporting seniors and their families with practical care, community connections, and compassionate assistance."
             actions={<ServiceActions />}
           />
-          <div className="grid grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-10 xl:gap-x-[19px] xl:gap-y-[40px] xl:px-[72px]">
+          <div className="grid grid-cols-1 gap-[30px] px-[16px] md:gap-6 md:grid-cols-2 md:px-10 xl:gap-x-[19px] xl:gap-y-[40px] xl:px-[72px]">
             {PRACTICAL_CARDS.map((card) => (
               <ServiceCard key={card.title} {...card} />
             ))}
@@ -293,15 +318,15 @@ function Services() {
       </section>
 
       {/* Fellowship */}
-      <section className="w-full py-14 xl:py-[103px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[96px]">
+      <section className="w-full py-[60px] md:py-14 xl:py-[103px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
             chipLabel="Fellowship"
             lede="Creating meaningful relationships and fostering a sense of belonging through companionship and engaging social activities."
             actions={<ServiceActions />}
           />
-          <div className="grid grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 xl:px-[72px] 2xl:flex 2xl:justify-center 2xl:gap-[14.9px]">
+          <div className="grid grid-cols-1 gap-[17px] px-[16px] md:gap-5 md:grid-cols-2 md:px-10 xl:px-[72px] 2xl:flex 2xl:justify-center 2xl:gap-[14.9px]">
             {FELLOWSHIP_TILES.map((tile) => (
               <FellowshipTile key={tile.title} {...tile} />
             ))}
@@ -310,8 +335,8 @@ function Services() {
       </section>
 
       {/* Community Connections */}
-      <section className="w-full bg-bl-50 py-14 xl:py-[95px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-10 xl:gap-[96px]">
+      <section className="w-full bg-bl-50 py-[60px] md:py-14 xl:py-[95px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
             chipLabel="community connections"
@@ -328,8 +353,10 @@ function Services() {
 
           {/* <xl: the masonry's fixed px/left/top math only holds at the
               1296px content width, so fall back to a simple responsive
-              grid of image + caption cards. */}
-          <div className="grid grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 2xl:hidden">
+              grid of image + caption cards. Mobile frame (662:10555) stacks
+              these single-column in a different order than the md-tablet
+              2-col grid below — see each tile's `mobileOrder` above. */}
+          <div className="grid grid-cols-1 gap-[32px] px-[16px] md:gap-5 md:grid-cols-2 md:px-10 2xl:hidden">
             {CONNECTION_TILES.map((tile) => (
               <ConnectionTileSimple key={tile.title} {...tile} />
             ))}
