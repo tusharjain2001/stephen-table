@@ -44,6 +44,13 @@
  *                    its own pair. Below xl the H1 keeps its own smaller
  *                    steps (mobile is out of scope for now).
  * - `titleTracking`— px letter-spacing at xl, paired with `titleSize`
+ * - `titleLeading` — px line box for the H1 at xl. Omit to keep
+ *                    `leading-[normal]`, which is what most heroes want.
+ *                    Contact passes 72 because its title frame (377:3036) is
+ *                    exactly 72 tall while Playfair's `normal` at 56px is
+ *                    74.7 — and its text block is anchored from the bottom,
+ *                    so the extra 2.7px would push the headline up off the
+ *                    designed baseline.
  * - `titleClassName`
  * - `subtitle`     — optional sub copy under the title
  * - `subtitleClassName`
@@ -64,6 +71,7 @@ function PageHero({
   title,
   titleSize = 56,
   titleTracking = 2.8,
+  titleLeading,
   titleClassName = '',
   subtitle,
   subtitleClassName = '',
@@ -118,11 +126,14 @@ function PageHero({
             '--hero-text-pb': `${textBottom}px`,
             '--hero-title-size': `${titleSize}px`,
             '--hero-title-track': `${titleTracking}px`,
+            ...(titleLeading ? { '--hero-title-leading': `${titleLeading}px` } : {}),
           }}
         >
           {title && (
             <h1
-              className={`font-display text-[32px] capitalize tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${titleClassName}`}
+              className={`font-display text-[32px] capitalize tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
+                titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''
+              } ${titleClassName}`}
             >
               {title}
             </h1>

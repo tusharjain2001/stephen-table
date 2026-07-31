@@ -41,9 +41,16 @@ function Contact() {
       <PageHero
         image={heroContact}
         height={548}
+        // 377:3033 is a bare image fill — this frame has no scrim over the
+        // photo at all, so the default gradient was darkening a band Figma
+        // leaves untouched.
+        
+        // 377:3036 sits at x=76 y=483 w=789 h=72 inside the 72..620 band,
+        // so the title box ends 65px above the bottom edge.
         textLeft={76}
-        textWidth={420}
-        textBottom={12}
+        textWidth={789}
+        textBottom={65}
+        titleLeading={72}
         title="Contact Us"
       />
 
@@ -51,9 +58,12 @@ function Contact() {
         <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-[72px]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[1273px] flex-col gap-[42px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[47px] xl:pt-[52px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[42px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[51px] xl:pt-[52px]"
           >
-            <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px]">
+            {/* 381:5531 is 849 tall; its content frame (381:5532) is 746 and
+                sits at 52 from the top, so the bottom pad is 51, not 47. */}
+            {/* 381:5533 h=36 */}
+            <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px] xl:leading-[36px]">
               Get in Touch with us
             </h2>
 
@@ -106,31 +116,45 @@ function Contact() {
                     <option value="Other">Other</option>
                   </FormField>
 
+                  {/* Not FormField: 381:5553 carries a chevron over the
+                      textarea as well as over the select. It is almost
+                      certainly a copy-paste of 381:5552 in the design file,
+                      but it is in the frame, so it is drawn here. */}
                   <label className="flex flex-col gap-[2px]">
-                    <span className="font-form text-[20px] text-gray-94">
+                    <span className="font-form text-[20px] leading-[24px] text-gray-94">
                       Write a Message <span className="text-error">*</span>
                     </span>
                     <div className="relative">
                       <textarea
-                        className="h-[135px] w-full resize-none rounded-none border border-gray-d9 bg-field px-[16px] py-[16px] font-form text-[16px] text-espresso outline-none"
+                        // `block` matters: a textarea is inline-block by
+                        // default, so its wrapper picked up 5px of descender
+                        // space under the box and the field measured 166
+                        // instead of the 161 in 381:5553.
+                        className="block h-[135px] w-full resize-none rounded-none border border-gray-d9 bg-field px-[16px] py-[16px] font-form text-[16px] text-espresso outline-none"
                         name="message"
                         value={form.message}
                         onChange={updateField}
                       />
+                      {/* 381:5556 sits at x=1097 y=51.5 in the 1163-wide field
+                          frame; the field frame starts 26px above the box. */}
                       <img
                         src={iconChevronDown}
                         alt=""
                         aria-hidden="true"
-                        className="pointer-events-none absolute right-[66px] top-[51px] h-[9px] w-[18px]"
+                        className="pointer-events-none absolute right-[48px] top-[25.5px] h-[9px] w-[18px]"
                       />
                     </div>
                   </label>
                 </div>
 
-                <p className="font-sans text-[17px] text-error">Fields marked * are mandatory</p>
+                {/* 381:5557 h=21 */}
+                <p className="font-sans text-[17px] leading-[21px] text-error">
+                  Fields marked * are mandatory
+                </p>
               </div>
 
-              <label className="flex w-full max-w-[723px] items-center gap-[14px]">
+              {/* 381:5558 is 723.145 x 24 */}
+              <label className="flex w-full max-w-[723.145px] items-center gap-[14px]">
                 <input
                   type="checkbox"
                   name="agree"
@@ -138,7 +162,7 @@ function Contact() {
                   onChange={updateField}
                   className="size-[23px] shrink-0 appearance-none rounded-none border border-gray-c7 bg-field checked:bg-bl-600"
                 />
-                <span className="flex-1 font-form text-[20px] text-gray-94">
+                <span className="flex-1 font-form text-[20px] leading-[24px] text-gray-94">
                   I agree to be contacted regarding my inquiry.
                 </span>
               </label>
