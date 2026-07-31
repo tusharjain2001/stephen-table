@@ -4,6 +4,17 @@
  *
  * Props:
  * - `image`        — imported hero photo
+ * - `imagePosition`— CSS `object-position` for the photo. The default centres
+ *                    the crop; Home needs `50% 34%` because its 548px band
+ *                    shows a higher slice of hero-main.png than centring
+ *                    gives (verified against the Figma render: at 34% the
+ *                    column luminances match to ~1/255, at 50% they are off
+ *                    by 33px vertically).
+ * - `overlay`      — `'gradient'` (default) dark left-to-right scrim, or
+ *                    `'none'`. Home's Figma frame has no scrim at all — the
+ *                    dark left side there is the photograph, not a wash — so
+ *                    Home opts out. Pages with bright hero photos keep it,
+ *                    otherwise the white H1 loses contrast.
  * - `height`       — px height of the hero band at ≥1280 (xl). Figma uses
  *                    746 (Home, Services), 548 (About, Nominate, Get
  *                    Involved, Impact, Contact) or 470 (Blog detail). Below
@@ -34,6 +45,8 @@
  */
 function PageHero({
   image,
+  imagePosition = '50% 50%',
+  overlay = 'gradient',
   height = 548,
   flatOverlay = false,
   textLeft = 72,
@@ -65,17 +78,20 @@ function PageHero({
           src={image}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: imagePosition }}
         />
       )}
 
       {/* Base gradient: dark side on the left, behind the text block */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
-        }}
-      />
+      {overlay === 'gradient' && (
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
+          }}
+        />
+      )}
       {flatOverlay && <div className="absolute inset-0 bg-black/20" />}
 
       {/* The photo and its overlay stay full-bleed at any width, but the copy

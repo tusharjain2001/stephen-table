@@ -107,6 +107,8 @@ function Home() {
     <div>
       <PageHero
         image={heroMain}
+        imagePosition="50% 34%"
+        overlay="none"
         height={548}
         textLeft={78}
         textWidth={485}
