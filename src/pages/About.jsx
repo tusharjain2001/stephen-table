@@ -35,16 +35,20 @@ const LEADERS = [
 ];
 
 function MissionBlock({ title, body }) {
-  // Figma 342:626 top-aligns the star with the title, not centred.
+  // Figma 342:626 top-aligns the star with the title, not centred; the
+  // mobile frame (662:10346 node 662:10363) also top-aligns (items-start),
+  // it's only the ≥768 tiers that centre the star until xl restores start.
   return (
-    <div className="flex w-full max-w-[466px] items-center gap-6 xl:items-start xl:gap-[44px]">
-      <img src={iconStarOutline} alt="" className="size-[40px] shrink-0 xl:size-[50px]" />
+    <div className="flex w-full max-w-[466px] items-start gap-6 md:items-center xl:items-start xl:gap-[44px]">
+      <img src={iconStarOutline} alt="" className="size-[25px] shrink-0 md:size-[40px] xl:size-[50px]" />
       <div className="flex w-full max-w-[372px] flex-col gap-[8px]">
         {/* Neulis Sans isn't licensed here so font-neulis falls back to
             Poppins, whose normal leading is ~1.5 vs Neulis' ~1.32. Pin the
-            line boxes to Figma's (342:629 h=37, 342:630 h=62 over 2 lines). */}
-        <h3 className="font-neulis text-[22px] font-semibold text-bl-600 xl:text-[28px] xl:leading-[37px]">{title}</h3>
-        <p className="font-neulis text-[18px] text-bl-600 xl:text-[24px] xl:leading-[31px]">{body}</p>
+            line boxes to Figma's (342:629 h=37, 342:630 h=62 over 2 lines) —
+            the mobile frame doesn't call out a custom leading, so base stays
+            "normal". */}
+        <h3 className="font-neulis text-[20px] font-semibold text-bl-600 md:text-[22px] xl:text-[28px] xl:leading-[37px]">{title}</h3>
+        <p className="font-neulis text-[16px] text-bl-600 md:text-[18px] xl:text-[24px] xl:leading-[31px]">{body}</p>
       </div>
     </div>
   );
@@ -52,17 +56,19 @@ function MissionBlock({ title, body }) {
 
 function LeaderCard({ image, name, role }) {
   return (
-    <div className="w-full max-w-[419.34px] rounded-card bg-white p-[4px]">
-      <div className="w-full rounded-card bg-cream">
+    <div className="w-full max-w-[419.34px] rounded-[14.117px] bg-white p-[3.529px] md:rounded-card md:p-[4px]">
+      <div className="w-full rounded-[14.117px] bg-cream md:rounded-card">
         <img
           src={image}
           alt={name}
-          className="h-[360px] w-full rounded-t-card object-cover sm:h-[400px] xl:h-[448.65px]"
+          className="h-[395.858px] w-full rounded-t-[14.117px] object-cover md:h-[400px] md:rounded-t-card xl:h-[448.65px]"
         />
-        <div className="flex flex-col gap-[7.9px] p-[16.9px]">
-          {/* Figma 342:938 h=37, 342:939 h=26 — see the Poppins note above. */}
-          <h3 className="font-neulis text-[28px] font-medium leading-[37px] text-bl-600">{name}</h3>
-          <p className="font-neulis text-[20px] capitalize leading-[26px] text-bl-600">{role}</p>
+        <div className="flex flex-col gap-[6.93px] p-[14.908px] md:gap-[7.9px] md:p-[16.9px]">
+          {/* Figma 342:938 h=37, 342:939 h=26 — see the Poppins note above;
+              the mobile frame's 24.705/17.647px sizes don't call out a
+              custom leading, so base uses "normal". */}
+          <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[28px] md:leading-[37px]">{name}</h3>
+          <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[20px] md:leading-[26px]">{role}</p>
         </div>
       </div>
     </div>
@@ -80,6 +86,7 @@ function About() {
         // top darkened it twice.
         overlay="none"
         height={548}
+        mobileTextTop={571}
         textLeft={72}
         textWidth={618}
         textBottom={54}
@@ -97,30 +104,36 @@ function About() {
 
       {/* Mission / Vision */}
       {/* Figma 342:625 declares this band as a fixed h-203 box with its
-          content centred, not as padding around content. */}
-      <section className="w-full bg-gradient-to-b from-wb-200 to-cream py-10 xl:h-[203px] xl:py-0">
-        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 px-6 sm:flex-row sm:gap-10 md:px-10 xl:gap-[108px]">
+          content centred, not as padding around content. The mobile frame
+          (662:10346 node 662:10362) drops the gradient/divider entirely and
+          just stacks the two blocks with a 20px gap. */}
+      <section className="w-full py-[60px] md:bg-gradient-to-b md:from-wb-200 md:to-cream md:py-10 xl:h-[203px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-[20px] px-6 md:flex-row md:gap-10 md:px-10 xl:gap-[108px]">
           <MissionBlock title="Mission" body="Helping older adults age safely and live with dignity." />
-          <span className="hidden h-[45px] w-[2px] bg-[#3E4F69] sm:block" />
+          <span className="hidden h-[45px] w-[2px] bg-[#3E4F69] md:block" />
           <MissionBlock title="Vision" body="to build A community where every senior thrives" />
         </div>
       </section>
 
       {/* Our Story */}
-      {/* Figma 342:838: fixed h-826 box, content centred. */}
-      <section className="w-full bg-wb-100 py-14 xl:h-[826px] xl:py-0">
-        <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-center gap-[32px] px-6 md:px-10 xl:px-[72px]">
+      {/* Figma 342:838: fixed h-826 box, content centred. Mobile frame
+          (662:10346 node 662:10502) uses the same wb-100 (#fbf6ee) bg but a
+          tighter 23px gap between chip/image/copy, an image cropped to its
+          bottom edge, and un-justified body copy. */}
+      <section className="w-full bg-wb-100 py-[60px] md:py-14 xl:h-[826px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-center gap-[23px] px-6 md:gap-[32px] md:px-10 xl:px-[72px]">
           <SectionChip variant="beige" className="self-start">Our Story</SectionChip>
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-[53px]">
+          <div className="flex flex-col gap-[23px] md:gap-8 lg:flex-row lg:items-center lg:gap-[53px]">
             <img
               src={aboutStory}
               alt=""
-              className="h-[280px] w-full shrink-0 rounded-card object-cover sm:h-[360px] lg:h-[520px] lg:w-[419px]"
+              className="h-[460px] w-full shrink-0 rounded-card object-cover object-bottom md:h-[360px] md:object-center lg:h-[520px] lg:w-[419px]"
             />
             {/* Figma 342:828 sets 20px on a normal (26px) leading and
                 separates paragraphs with a single blank line, i.e. one more
-                26px line — not an arbitrary gap. */}
-            <div className="flex flex-col gap-[20px] text-justify font-neulis text-[18px] text-gray-59 lg:w-[824px] xl:gap-[26px] xl:text-[20px] xl:leading-[26px]">
+                26px line — not an arbitrary gap. Mobile frame drops the
+                justify (md:text-justify) and bumps the body to 20px. */}
+            <div className="flex flex-col gap-[20px] font-neulis text-[20px] text-gray-59 md:text-justify md:text-[18px] lg:w-[824px] xl:gap-[26px] xl:text-[20px] xl:leading-[26px]">
               {STORY_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
@@ -133,15 +146,15 @@ function About() {
 
       {/* Leadership */}
       {/* Figma 342:964: fixed h-816 box, content centred. */}
-      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-14 xl:h-[816px] xl:py-0">
-        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 xl:gap-[38px]">
-          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[247px] xl:px-[72px]">
+      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-[60px] md:py-14 xl:h-[816px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-[24px] md:gap-8 xl:gap-[38px]">
+          <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[247px] xl:px-[72px]">
             <SectionChip className="shrink-0">Leadership</SectionChip>
-            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Meet the leaders of Stephen&apos;s Table
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-6 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-3 xl:gap-[20px] xl:px-[72px]">
+          <div className="grid w-full grid-cols-1 gap-6 px-[16px] md:grid-cols-2 md:px-10 lg:grid-cols-3 xl:gap-[20px] xl:px-[72px]">
             {LEADERS.map((leader) => (
               <LeaderCard key={leader.name} {...leader} />
             ))}
