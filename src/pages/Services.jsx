@@ -248,7 +248,10 @@ function Services() {
         textWidth={618}
         textBottom={54}
         title="Our Services"
-        subtitleClassName="md:text-[24px]"
+        // subtitleClassName intentionally omitted — see About.jsx: the old
+        // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
+        // so dropping it keeps ≥768 byte-identical and lands the mobile
+        // default (16px) for the Figma mobile frame.
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
       />
 

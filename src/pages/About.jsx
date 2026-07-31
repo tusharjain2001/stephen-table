@@ -84,7 +84,14 @@ function About() {
         textWidth={618}
         textBottom={54}
         title="About us"
-        subtitleClassName="md:text-[24px]"
+        // subtitleClassName is deliberately omitted: the pre-mobile-pass
+        // "text-[24px]" override never actually won at md/xl (the
+        // component's own md:text-[18px]/xl:text-[20px] always beat it —
+        // verified via computed style, 18px/20px respectively) — its only
+        // real effect was at base (<768), where it's now superseded by the
+        // component's own base text-[16px] mobile default. Omitting it
+        // keeps ≥768 byte-identical while landing exactly on the Figma
+        // mobile subtitle size.
         subtitle="we provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
       />
 

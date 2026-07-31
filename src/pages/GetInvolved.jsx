@@ -138,7 +138,10 @@ function GetInvolved() {
         // 371:2954 sits at y=385 h=150 in a hero ending at 620.
         textBottom={85}
         title="Get Involved"
-        subtitleClassName="md:text-[24px]"
+        // subtitleClassName intentionally omitted — see About.jsx: the old
+        // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
+        // so dropping it keeps ≥768 byte-identical and lands the mobile
+        // default (16px) for the Figma mobile frame.
         subtitle="Join our community of volunteers, partners, and supporters making a lasting difference in the lives of seniors."
       />
 

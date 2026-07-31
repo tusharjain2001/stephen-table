@@ -58,7 +58,10 @@ function ImpactStories() {
         // 371:2948 sits at y=313 h=150 inside the 548 hero.
         textBottom={85}
         title="Impact Stories"
-        subtitleClassName="md:text-[24px]"
+        // subtitleClassName intentionally omitted — see About.jsx: the old
+        // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
+        // so dropping it keeps ≥768 byte-identical and lands the mobile
+        // default (16px) for the Figma mobile frame.
         subtitle="Read inspiring stories of how our volunteers, partners, and supporters are making a meaningful difference in the lives of seniors."
       />
 
