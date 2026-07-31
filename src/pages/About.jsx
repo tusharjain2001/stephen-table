@@ -35,12 +35,16 @@ const LEADERS = [
 ];
 
 function MissionBlock({ title, body }) {
+  // Figma 342:626 top-aligns the star with the title, not centred.
   return (
-    <div className="flex w-full max-w-[466px] items-center gap-6 xl:gap-[44px]">
+    <div className="flex w-full max-w-[466px] items-center gap-6 xl:items-start xl:gap-[44px]">
       <img src={iconStarOutline} alt="" className="size-[40px] shrink-0 xl:size-[50px]" />
       <div className="flex w-full max-w-[372px] flex-col gap-[8px]">
-        <h3 className="font-neulis text-[22px] font-semibold text-bl-600 xl:text-[28px]">{title}</h3>
-        <p className="font-neulis text-[18px] text-bl-600 xl:text-[24px]">{body}</p>
+        {/* Neulis Sans isn't licensed here so font-neulis falls back to
+            Poppins, whose normal leading is ~1.5 vs Neulis' ~1.32. Pin the
+            line boxes to Figma's (342:629 h=37, 342:630 h=62 over 2 lines). */}
+        <h3 className="font-neulis text-[22px] font-semibold text-bl-600 xl:text-[28px] xl:leading-[37px]">{title}</h3>
+        <p className="font-neulis text-[18px] text-bl-600 xl:text-[24px] xl:leading-[31px]">{body}</p>
       </div>
     </div>
   );
@@ -56,8 +60,9 @@ function LeaderCard({ image, name, role }) {
           className="h-[360px] w-full rounded-t-card object-cover sm:h-[400px] xl:h-[448.65px]"
         />
         <div className="flex flex-col gap-[7.9px] p-[16.9px]">
-          <h3 className="font-neulis text-[28px] font-medium text-bl-600">{name}</h3>
-          <p className="font-neulis text-[20px] capitalize text-bl-600">{role}</p>
+          {/* Figma 342:938 h=37, 342:939 h=26 — see the Poppins note above. */}
+          <h3 className="font-neulis text-[28px] font-medium leading-[37px] text-bl-600">{name}</h3>
+          <p className="font-neulis text-[20px] capitalize leading-[26px] text-bl-600">{role}</p>
         </div>
       </div>
     </div>
@@ -69,18 +74,25 @@ function About() {
     <div>
       <PageHero
         image={heroAbout}
+        // hero-about.png is a flattened 1440x548 export of the Figma hero —
+        // it already contains the scrim (it matches the Figma render at a
+        // mean abs difference of 1.21/255), so adding the CSS gradient on
+        // top darkened it twice.
+        overlay="none"
         height={548}
         textLeft={72}
         textWidth={618}
-        textBottom={49}
+        textBottom={54}
         title="About us"
         subtitleClassName="text-[24px]"
         subtitle="we provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
       />
 
       {/* Mission / Vision */}
-      <section className="w-full bg-gradient-to-b from-wb-200 to-cream py-10 xl:py-[48px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-center gap-8 px-6 sm:flex-row sm:gap-10 md:px-10 xl:gap-[108px]">
+      {/* Figma 342:625 declares this band as a fixed h-203 box with its
+          content centred, not as padding around content. */}
+      <section className="w-full bg-gradient-to-b from-wb-200 to-cream py-10 xl:h-[203px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 px-6 sm:flex-row sm:gap-10 md:px-10 xl:gap-[108px]">
           <MissionBlock title="Mission" body="Helping older adults age safely and live with dignity." />
           <span className="hidden h-[45px] w-[2px] bg-[#3E4F69] sm:block" />
           <MissionBlock title="Vision" body="to build A community where every senior thrives" />
@@ -88,16 +100,20 @@ function About() {
       </section>
 
       {/* Our Story */}
-      <section className="w-full bg-wb-100 py-14 xl:py-[113.5px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] px-6 md:px-10 xl:px-[72px]">
+      {/* Figma 342:838: fixed h-826 box, content centred. */}
+      <section className="w-full bg-wb-100 py-14 xl:h-[826px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-center gap-[32px] px-6 md:px-10 xl:px-[72px]">
           <SectionChip variant="beige" className="self-start">Our Story</SectionChip>
-          <div className="flex flex-col gap-8 lg:flex-row lg:gap-[53px]">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-[53px]">
             <img
               src={aboutStory}
               alt=""
               className="h-[280px] w-full shrink-0 rounded-card object-cover sm:h-[360px] lg:h-[520px] lg:w-[419px]"
             />
-            <div className="flex flex-col gap-[20px] text-justify font-neulis text-[18px] text-gray-59 lg:w-[824px] xl:text-[20px]">
+            {/* Figma 342:828 sets 20px on a normal (26px) leading and
+                separates paragraphs with a single blank line, i.e. one more
+                26px line — not an arbitrary gap. */}
+            <div className="flex flex-col gap-[20px] text-justify font-neulis text-[18px] text-gray-59 lg:w-[824px] xl:gap-[26px] xl:text-[20px] xl:leading-[26px]">
               {STORY_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
@@ -109,8 +125,9 @@ function About() {
       <StatsBand stats={STATS} />
 
       {/* Leadership */}
-      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-14 xl:py-[84.85px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[38px]">
+      {/* Figma 342:964: fixed h-816 box, content centred. */}
+      <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-14 xl:h-[816px] xl:py-0">
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 xl:gap-[38px]">
           <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[247px] xl:px-[72px]">
             <SectionChip className="shrink-0">Leadership</SectionChip>
             <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">

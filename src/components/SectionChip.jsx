@@ -19,7 +19,10 @@ function SectionChip({ variant = 'beige', className = '', children }) {
 
   return (
     <span
-      className={`inline-block rounded-btn border-2 px-[18px] py-[6px] font-display text-[18px] capitalize tracking-[1.2px] md:px-[24px] md:py-[8px] md:text-[24px] ${variantClasses} ${className}`}
+      // Figma draws the chip 47px tall (24px label + 8+8 padding + 2+2
+      // border = a 27px line box). Playfair Display stands in for Lettertype
+      // and its normal leading is 32, which made every chip 52.
+      className={`inline-block rounded-btn border-2 px-[18px] py-[6px] font-display text-[18px] capitalize tracking-[1.2px] md:px-[24px] md:py-[8px] md:text-[24px] md:leading-[27px] ${variantClasses} ${className}`}
     >
       {children}
     </span>
