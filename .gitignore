@@ -28,3 +28,4 @@ CLAUDE.md
 *.njsproj
 *.sln
 *.sw?
+.gstack/
