@@ -114,7 +114,11 @@ function CtaBanner({
                 background: `linear-gradient(to top, ${bgColor} 0%, ${bgColor}d9 34.1%, ${bgColor}a8 60.6%, ${bgColor}00 100%)`,
               }}
             />
-            <div className="relative z-10 flex flex-col items-center gap-[12px] px-[16px] pt-[8px]">
+            {/* Figma anchors the pills inside the photo's bottom fade
+                (644/689 of a 784px section), not below the photo — pulling
+                the row up with a negative margin lands it there regardless
+                of how tall the header text above happens to wrap. */}
+            <div className="relative z-10 -mt-[28px] flex flex-col items-center gap-[12px] px-[16px]">
               {mobilePills}
             </div>
           </div>
