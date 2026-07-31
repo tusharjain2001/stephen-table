@@ -248,7 +248,7 @@ function Services() {
         textWidth={618}
         textBottom={54}
         title="Our Services"
-        subtitleClassName="text-[24px]"
+        subtitleClassName="md:text-[24px]"
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
       />
 

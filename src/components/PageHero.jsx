@@ -19,30 +19,46 @@
  *                    `'none'`. Home's Figma frame has no scrim at all — the
  *                    dark left side there is the photograph, not a wash — so
  *                    Home opts out. Pages with bright hero photos keep it,
- *                    otherwise the white H1 loses contrast.
+ *                    otherwise the white H1 loses contrast. This only
+ *                    governs the ≥768 horizontal scrim — the base (mobile)
+ *                    vertical scrim below always renders regardless.
  * - `height`       — px height of the hero band at ≥1280 (xl). Figma uses
  *                    746 (Home, Services), 548 (About, Nominate, Get
  *                    Involved, Impact, Contact) or 470 (Blog detail). Below
  *                    xl the band scales down proportionally (plan §5,
  *                    Task 14) so the hero never eats the whole viewport on
- *                    a phone.
+ *                    a tablet.
+ * - `mobileHeight` — px height of the hero band at base (<768, true mobile).
+ *                    The Figma mobile frames run the hero near full-screen
+ *                    on every page (745, or 746 for Home) regardless of the
+ *                    page's xl `height` — unlike the md tier, this is not a
+ *                    proportional scale-down of `height`.
  * - `flatOverlay`  — extra flat `rgba(0,0,0,0.2)` wash on top of the base
- *                    gradient. Currently unused: it was applied to Impact
- *                    Stories, but that frame (535:2545) carries only the
- *                    standard scrim — the wash put our render 10.4 MAD off
- *                    the Figma view, and removing it brought that to 1.4.
+ *                    (≥768) gradient. Currently unused: it was applied to
+ *                    Impact Stories, but that frame (535:2545) carries only
+ *                    the standard scrim — the wash put our render 10.4 MAD
+ *                    off the Figma view, and removing it brought that to 1.4.
+ * - `mobileFlatOverlay` — same extra `rgba(0,0,0,0.2)` wash, but for the base
+ *                    (mobile) vertical scrim. Impact Stories and the Blog
+ *                    detail hero carry this in their Figma mobile frames.
  * - `textLeft`     — px left offset of the text block at xl (72–82 per page)
  * - `textWidth`    — px width of the text block at xl (485–821 per page).
  *                    Below xl the block is full-bleed (left/right gutters)
  *                    instead of this fixed width.
  * - `textBottom`   — px padding from the bottom edge of the hero to the
  *                    start of the text block at xl (default 96)
+ * - `mobileTextTop`  — px offset from the TOP of the hero to the text block
+ *                    at base (mobile). The mobile frames anchor the copy
+ *                    from the top of the hero, not the bottom (default 499;
+ *                    Get Involved 516, Contact 587, Home 410).
+ * - `mobileTextInset`— px left/right gutter for the text block at base
+ *                    (default 29; Home 16).
  * - `title`        — H1 copy
  * - `titleSize`    — px H1 size at xl. Defaults to 56, which is what the
  *                    inner-page heroes are drawn at; Home's Figma frame
  *                    (342:22) specifies 48/2.4px tracking, so Home passes
  *                    its own pair. Below xl the H1 keeps its own smaller
- *                    steps (mobile is out of scope for now).
+ *                    steps.
  * - `titleTracking`— px letter-spacing at xl, paired with `titleSize`
  * - `titleLeading` — px line box for the H1 at xl. Omit to keep
  *                    `leading-[normal]`, which is what most heroes want.
@@ -51,6 +67,10 @@
  *                    74.7 — and its text block is anchored from the bottom,
  *                    so the extra 2.7px would push the headline up off the
  *                    designed baseline.
+ * - `titleCapitalizeBase` — whether the H1 gets `capitalize` at base
+ *                    (mobile). Defaults to true; Nominate passes false since
+ *                    its mobile frame keeps "Nominate a Senior" lowercase-a.
+ *                    ≥768 always keeps `capitalize`, unaffected by this prop.
  * - `titleClassName`
  * - `subtitle`     — optional sub copy under the title
  * - `subtitleClassName`
@@ -64,28 +84,32 @@ function PageHero({
   flipImage = false,
   overlay = 'gradient',
   height = 548,
+  mobileHeight = 745,
   flatOverlay = false,
+  mobileFlatOverlay = false,
   textLeft = 72,
   textWidth = 618,
   textBottom = 96,
+  mobileTextTop = 499,
+  mobileTextInset = 29,
   title,
   titleSize = 56,
   titleTracking = 2.8,
   titleLeading,
+  titleCapitalizeBase = true,
   titleClassName = '',
   subtitle,
   subtitleClassName = '',
   children,
   className = '',
 }) {
-  const heightBase = Math.round(height * 0.52);
   const heightMd = Math.round(height * 0.76);
 
   return (
     <section
       className={`relative w-full overflow-hidden h-[var(--hero-h-base)] md:h-[var(--hero-h-md)] xl:h-[var(--hero-h-xl)] ${className}`}
       style={{
-        '--hero-h-base': `${heightBase}px`,
+        '--hero-h-base': `${mobileHeight}px`,
         '--hero-h-md': `${heightMd}px`,
         '--hero-h-xl': `${height}px`,
       }}
@@ -101,10 +125,22 @@ function PageHero({
         />
       )}
 
-      {/* Base gradient: dark side on the left, behind the text block */}
+      {/* Base (mobile) scrim: every Figma mobile frame carries this
+          top-light/bottom-dark vertical wash regardless of what the ≥768
+          `overlay` prop says — Home's desktop frame has no scrim at all, but
+          its mobile frame still wants one. */}
+      <div
+        className="absolute inset-0 md:hidden"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+        }}
+      />
+      {mobileFlatOverlay && <div className="absolute inset-0 bg-black/20 md:hidden" />}
+
+      {/* ≥768 gradient: dark side on the left, behind the text block */}
       {overlay === 'gradient' && (
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hidden md:block"
           style={{
             background:
               'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
@@ -119,11 +155,13 @@ function PageHero({
           navbar and the sections below instead of hugging the viewport edge. */}
       <div className="absolute inset-0 mx-auto w-full max-w-[1440px]">
         <div
-          className="absolute bottom-0 left-6 right-6 flex w-auto flex-col gap-[10px] pb-8 md:left-10 md:right-10 md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]"
+          className="absolute left-[var(--hero-text-inset-base)] right-[var(--hero-text-inset-base)] top-[var(--hero-text-top-base)] flex w-auto flex-col gap-[16px] md:bottom-0 md:left-10 md:right-10 md:top-auto md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]"
           style={{
             '--hero-text-left': `${textLeft}px`,
             '--hero-text-w': `${textWidth}px`,
             '--hero-text-pb': `${textBottom}px`,
+            '--hero-text-top-base': `${mobileTextTop}px`,
+            '--hero-text-inset-base': `${mobileTextInset}px`,
             '--hero-title-size': `${titleSize}px`,
             '--hero-title-track': `${titleTracking}px`,
             ...(titleLeading ? { '--hero-title-leading': `${titleLeading}px` } : {}),
@@ -131,9 +169,9 @@ function PageHero({
         >
           {title && (
             <h1
-              className={`font-display text-[32px] capitalize tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
-                titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''
-              } ${titleClassName}`}
+              className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] md:capitalize xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
+                titleCapitalizeBase ? 'capitalize' : ''
+              } ${titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''} ${titleClassName}`}
             >
               {title}
             </h1>

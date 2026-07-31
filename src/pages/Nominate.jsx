@@ -86,7 +86,8 @@ function Nominate() {
         // 367:770 sits at y=313 h=150 inside the 548 hero.
         textBottom={85}
         title="Nominate a Senior"
-        subtitleClassName="text-[24px]"
+        titleCapitalizeBase={false}
+        subtitleClassName="md:text-[24px]"
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
       />
 

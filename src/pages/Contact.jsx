@@ -44,7 +44,7 @@ function Contact() {
         // 377:3033 is a bare image fill — this frame has no scrim over the
         // photo at all, so the default gradient was darkening a band Figma
         // leaves untouched.
-        
+        mobileTextTop={587}
         // 377:3036 sits at x=76 y=483 w=789 h=72 inside the 72..620 band,
         // so the title box ends 65px above the bottom edge.
         textLeft={76}

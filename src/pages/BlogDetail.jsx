@@ -22,18 +22,32 @@ const PARAGRAPHS = [
 function BlogDetail() {
   return (
     <div>
-      {/* Hero */}
-      <section className="relative h-[260px] w-full overflow-hidden sm:h-[340px] xl:h-[470px]">
+      {/* Hero. This page has no Figma desktop counterpart in PageHero.jsx —
+          it's a hand-coded hero — so the mobile-pass base values (full
+          height, vertical scrim, top-anchored text) are pinned to the `sm:`
+          breakpoint here rather than `md:`, matching this hero's existing
+          sm/xl-only breakpoint scheme (nothing changes ≥640, which already
+          covers the whole ≥768 tablet/desktop range untouched). */}
+      <section className="relative h-[745px] w-full overflow-hidden sm:h-[340px] xl:h-[470px]">
         <img src={heroBlog} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        {/* Base (mobile) scrim + extra flat wash — Blog's Figma mobile frame
+            carries both, same as Impact Stories. */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 sm:hidden"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+          }}
+        />
+        <div className="absolute inset-0 bg-black/20 sm:hidden" />
+        <div
+          className="absolute inset-0 hidden sm:block"
           style={{
             background:
               'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
           }}
         />
-        <div className="absolute inset-x-6 bottom-0 flex flex-col gap-[10px] pb-6 sm:inset-x-10 sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:pb-[42px]">
-          <h1 className="capitalize font-display text-[26px] tracking-[1.3px] text-white sm:text-[32px] xl:text-[40px] xl:tracking-[2px]">
+        <div className="absolute inset-x-[29px] top-[551px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:pb-[42px]">
+          <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:text-[40px] xl:tracking-[2px]">
             Helping seniors age safely at home
           </h1>
           <p className="font-sans text-[16px] text-wb-400 sm:text-[20px] xl:text-[28px]">

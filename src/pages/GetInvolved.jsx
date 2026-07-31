@@ -132,12 +132,13 @@ function GetInvolved() {
       <PageHero
         image={heroGetInvolved}
         height={548}
+        mobileTextTop={516}
         textLeft={81}
         textWidth={821}
         // 371:2954 sits at y=385 h=150 in a hero ending at 620.
         textBottom={85}
         title="Get Involved"
-        subtitleClassName="text-[24px]"
+        subtitleClassName="md:text-[24px]"
         subtitle="Join our community of volunteers, partners, and supporters making a lasting difference in the lives of seniors."
       />
 

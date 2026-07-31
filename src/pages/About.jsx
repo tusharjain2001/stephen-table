@@ -84,7 +84,7 @@ function About() {
         textWidth={618}
         textBottom={54}
         title="About us"
-        subtitleClassName="text-[24px]"
+        subtitleClassName="md:text-[24px]"
         subtitle="we provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
       />
 

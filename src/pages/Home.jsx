@@ -110,6 +110,9 @@ function Home() {
         imagePosition="50% 34%"
         overlay="none"
         height={548}
+        mobileHeight={746}
+        mobileTextTop={410}
+        mobileTextInset={16}
         textLeft={78}
         textWidth={485}
         textBottom={68}
