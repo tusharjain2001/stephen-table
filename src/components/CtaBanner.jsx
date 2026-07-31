@@ -55,18 +55,86 @@ function CtaBanner({
   const pillClasses =
     pillTheme === 'white' ? 'bg-white text-b-800' : 'bg-s-200 text-s-900';
 
+  // Mobile pills (plan §4.7) are always sage regardless of `pillTheme` — the
+  // Blog page keeps white pills at md+ via `pillTheme` but wants sage ones on
+  // its mobile frame, so hardcoding sage here makes that page-level prop
+  // already "responsive-capable" with zero call-site changes.
+  const mobilePills =
+    actions ??
+    pills.map((pill, index) => {
+      const PillTag = pill.to ? Link : 'a';
+      const target = pill.to ? { to: pill.to } : { href: pill.href };
+      // Every current caller orders pills as [email, phone]; the first pill
+      // is the 19px underlined email treatment, the rest are bare 18px icons.
+      const isEmail = index === 0;
+
+      return (
+        <PillTag
+          key={pill.label}
+          {...target}
+          className="flex w-[319px] max-w-[calc(100%-52px)] items-center gap-[10px] rounded-[8px] bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold text-s-900"
+        >
+          <img
+            src={pill.icon}
+            alt=""
+            aria-hidden="true"
+            className={isEmail ? 'size-[19px] shrink-0' : 'size-[18px] shrink-0'}
+          />
+          <span className={isEmail ? 'underline' : ''}>{pill.label}</span>
+        </PillTag>
+      );
+    });
+
   return (
     <section className={`relative w-full overflow-hidden ${bgClass} ${className}`}>
-      {/* <lg: photo as a full-bleed background wash */}
+      {/* Mobile (<768): Figma-exact block (plan §4.7) — centered header,
+          full-width photo with top/bottom blend gradients, pills anchored to
+          the photo's bottom edge. `md:` below fully restores the previous
+          tablet/desktop markup, untouched. */}
+      <div className="flex w-full flex-col gap-[48px] py-[60px] md:hidden">
+        <div className="flex flex-col items-center gap-[8px] px-[16px] text-center">
+          {title && <h2 className="font-display text-[28px] capitalize text-white">{title}</h2>}
+          {subtitle && (
+            <p className="w-[318px] max-w-full font-sans text-[16px] text-white">{subtitle}</p>
+          )}
+        </div>
+
+        {image ? (
+          <div className="relative w-full">
+            <img src={image} alt="" className="h-[455px] w-full object-cover" />
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-[89px]"
+              style={{
+                background: `linear-gradient(to bottom, ${bgColor} 0%, ${bgColor}d9 34.1%, ${bgColor}a8 60.6%, ${bgColor}00 100%)`,
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[111px]"
+              style={{
+                background: `linear-gradient(to top, ${bgColor} 0%, ${bgColor}d9 34.1%, ${bgColor}a8 60.6%, ${bgColor}00 100%)`,
+              }}
+            />
+            <div className="relative z-10 flex flex-col items-center gap-[12px] px-[16px] pt-[8px]">
+              {mobilePills}
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-[12px] px-[16px]">{mobilePills}</div>
+        )}
+      </div>
+
+      {/* >=md: previous tablet/desktop markup, byte-identical, now scoped
+          behind `hidden md:*` instead of always-on. */}
+      {/* md-lg: photo as a full-bleed background wash */}
       {image && (
         <>
           <img
             src={image}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover lg:hidden"
+            className="absolute inset-0 hidden h-full w-full object-cover md:block lg:hidden"
           />
           <div
-            className="absolute inset-0 lg:hidden"
+            className="absolute inset-0 hidden md:block lg:hidden"
             style={{
               background: `linear-gradient(to bottom, ${bgColor}b3 0%, ${bgColor}e6 100%)`,
             }}
@@ -80,7 +148,7 @@ function CtaBanner({
           bleeding to the right edge at any width. At 1440 the gutter is 0, so
           this is Figma-exact: 72 + 529 + 107 = 708 with a 732px photo
           (342:1000 / 342:997). */}
-      <div className="relative z-10 flex w-full flex-col gap-10 px-6 py-14 md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
+      <div className="relative z-10 hidden w-full flex-col gap-10 px-6 py-14 md:flex md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
         <div className="flex flex-col gap-9 lg:ml-[calc(var(--gutter)+72px)] lg:mr-[107px] lg:w-[529px] lg:shrink lg:gap-[36px]">
           <div className="flex flex-col gap-[8px]">
             {title && (

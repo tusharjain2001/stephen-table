@@ -18,12 +18,20 @@ import iconArrowBadge from '../assets/icons/icon-arrow-badge.svg';
  * - `onCtaClick`      — click handler when no `ctaHref` is given
  * - `showArrowBadge` — Home "How we help" variant: adds the circular arrow
  *                      badge over the top-right of the photo
- * - `ctaGap`         — px between the copy block and the CTA. Home's frame
- *                      (377:3065) uses 16; Impact Stories / Blog cards
+ * - `ctaGap`         — px between the copy block and the CTA at md+. Home's
+ *                      frame (377:3065) uses 16; Impact Stories / Blog cards
  *                      (370:2329) use 24, which is what makes their card
- *                      643 tall rather than 635.
+ *                      643 tall rather than 635. The mobile frame (662:9459)
+ *                      scales both down (14.1 / 21.2 respectively) — see
+ *                      `MOBILE_CTA_GAP` below; no page-level prop needed.
  * - `className`       — extra classes on the outer wrapper
  */
+// The Figma mobile frame scales every card metric by the same ~0.883 ratio
+// (15.2/17.2 padding, 21.2/24 title, 31.8/36 badge, ...); `ctaGap` is the one
+// numeric prop pages already pass in explicitly (16 or 24), so its mobile
+// counterpart is looked up here rather than requiring a second prop.
+const MOBILE_CTA_GAP = { 16: 14.1, 24: 21.2 };
+
 function StoryCard({
   image,
   title,
@@ -36,16 +44,18 @@ function StoryCard({
   ctaGap = 16,
   className = '',
 }) {
+  const mobileCtaGap = MOBILE_CTA_GAP[ctaGap] ?? ctaGap * (15.2 / 17.2);
+
   return (
     <div
-      className={`flex w-full flex-col gap-[18.3px] rounded-[17.2px] bg-cream pb-[17.2px] pl-[4.3px] pr-[4.3px] pt-[4.3px] 2xl:w-[418.4px] ${className}`}
+      className={`flex w-full flex-col gap-[18.3px] rounded-[15.2px] bg-cream pb-[15.2px] pl-[3.8px] pr-[3.8px] pt-[3.8px] md:rounded-[17.2px] md:pb-[17.2px] md:pl-[4.3px] md:pr-[4.3px] md:pt-[4.3px] 2xl:w-[418.4px] ${className}`}
     >
       <div className="relative">
         {image && (
           <img
             src={image}
             alt=""
-            className="h-[280px] w-full rounded-t-[17.2px] object-cover sm:h-[320px] 2xl:h-[364.7px]"
+            className="h-[322px] w-full rounded-t-[15.2px] object-cover sm:h-[320px] md:rounded-t-[17.2px] 2xl:h-[364.7px]"
           />
         )}
         {showArrowBadge && (
@@ -53,22 +63,23 @@ function StoryCard({
             src={iconArrowBadge}
             alt=""
             aria-hidden="true"
-            className="absolute right-[21px] top-[21px] size-[36px]"
+            className="absolute right-[19.6px] top-[18.6px] size-[31.8px] md:right-[21px] md:top-[21px] md:size-[36px]"
           />
         )}
       </div>
 
       {/* Figma 377:3065 stacks title (y17.2) → body (y64.2) → CTA (y143.2)
-          with a 16px gap at both joins, inside 17.2px padding. */}
+          with a 16px gap at both joins, inside 17.2px padding. Mobile frame
+          (662:9459) uses 15.2px padding and a 14.1px title-body gap. */}
       <div
-        className="flex flex-col p-[17.2px] gap-[var(--card-cta-gap)]"
-        style={{ '--card-cta-gap': `${ctaGap}px` }}
+        className="flex flex-col p-[15.2px] gap-[var(--card-cta-gap-mobile)] md:gap-[var(--card-cta-gap)] md:p-[17.2px]"
+        style={{ '--card-cta-gap': `${ctaGap}px`, '--card-cta-gap-mobile': `${mobileCtaGap}px` }}
       >
-        <div className="flex flex-col gap-[16px]">
+        <div className="flex flex-col gap-[14.1px] md:gap-[16px]">
           {title && (
-            <h3 className={`font-sans text-[24px] font-medium ${titleClassName}`}>{title}</h3>
+            <h3 className={`font-sans text-[21.2px] font-medium md:text-[24px] ${titleClassName}`}>{title}</h3>
           )}
-          {body && <p className="font-sans text-[16px] text-gray-59">{body}</p>}
+          {body && <p className="font-sans text-[14.15px] text-gray-59 md:text-[16px]">{body}</p>}
         </div>
 
         {ctaHref ? (

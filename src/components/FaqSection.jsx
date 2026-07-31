@@ -41,6 +41,18 @@ const DEFAULT_FAQS = [
   },
 ];
 
+// Tailwind's JIT scanner only generates a utility class when it sees the
+// exact literal token somewhere in a scanned source file — it can't see
+// runtime string concatenation, so building "md:" + eyebrowClassName at
+// render time silently produces a class with NO matching CSS rule (verified
+// via the compiled stylesheet: no `.md\:text-navy` rule existed even though
+// the class name was present in the DOM). Known overrides are mapped to
+// their literal, statically-scannable `md:`-prefixed class instead — add a
+// new entry here if a future page needs a different eyebrow override color.
+const EYEBROW_MD_OVERRIDES = {
+  'text-navy': 'md:text-navy',
+};
+
 /**
  * Working FAQ accordion, first item open by default.
  *
@@ -48,24 +60,32 @@ const DEFAULT_FAQS = [
  * - `faqs`             — optional override array of `{ question, answer }`
  * - `excludeQuestions` — question strings to omit (Get Involved drops
  *                        "How can I support Stephen's Table?")
- * - `eyebrowClassName` — color override for the eyebrow label; defaults to
- *                        `text-bl-500`, use `text-navy` on Get Involved
+ * - `eyebrowClassName` — color override for the eyebrow label, applied from
+ *                        `md:` up only (e.g. `text-navy` on Get Involved);
+ *                        below `md` the eyebrow is always `text-bl-500`
+ *                        (plan §4.8 — Get Involved shows navy on desktop but
+ *                        blue on its mobile frame). Must be a key of
+ *                        `EYEBROW_MD_OVERRIDES` above (see note there).
  * - `className`        — extra classes on the outer <section>
  */
 function FaqSection({
   faqs = DEFAULT_FAQS,
   excludeQuestions = [],
-  eyebrowClassName = 'text-bl-500',
+  eyebrowClassName = '',
   className = '',
 }) {
   const items = faqs.filter((item) => !excludeQuestions.includes(item.question));
   const [openIndex, setOpenIndex] = useState(0);
 
+  const mdEyebrowClassName = EYEBROW_MD_OVERRIDES[eyebrowClassName.trim()] ?? '';
+
   return (
     <section
-      className={`flex w-full flex-col items-center gap-[36px] px-6 py-16 md:px-10 xl:px-6 xl:py-[91px] ${className}`}
+      className={`flex w-full flex-col items-center gap-[24px] px-[16px] py-[60px] md:gap-[36px] md:px-10 md:py-16 xl:px-6 xl:py-[91px] ${className}`}
     >
-      <h2 className={`w-full max-w-[1300px] text-left font-sans text-[20px] font-bold uppercase ${eyebrowClassName}`}>
+      <h2
+        className={`w-full max-w-[1300px] text-left font-sans text-[16px] font-bold uppercase text-bl-500 md:text-[20px] ${mdEyebrowClassName}`}
+      >
         Frequently Asked Questions
       </h2>
 
@@ -75,27 +95,34 @@ function FaqSection({
             row is 24 + (question 23 + 12 + answer 52) + 24 = 135, with the
             toggle pinned to the top so it overlaps the answer instead of
             stretching the row. Hence the absolutely positioned toggle: in
-            flow it would force every open row to at least 24 + 71. */}
+            flow it would force every open row to at least 24 + 71. Mobile
+            (662:9459) uses a plainer flow: py-16 rows, a lighter #d9d9d9
+            rule, and a smaller 35px toggle. */}
         {items.map((item, index) => {
           const isOpen = openIndex === index;
           // Figma strokes sit inside the frame, so the rule must not add to
-          // the 71/135 row height — inset shadow, not border-b.
+          // the 71/135 row height — inset shadow, not border-b. Mobile rule
+          // color is lighter (#d9d9d9 vs #9c9999 at md+).
           return (
             <div
               key={item.question}
-              className="relative shadow-[inset_0_-1px_0_var(--color-gray-9c)]"
+              className="relative shadow-[inset_0_-1px_0_#d9d9d9] md:shadow-[inset_0_-1px_0_var(--color-gray-9c)]"
             >
               <button
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? -1 : index)}
                 aria-expanded={isOpen}
-                className={`flex w-full items-center pr-[83px] text-left ${
+                className={`flex w-full items-center py-[16px] pr-[48px] text-left md:pr-[83px] ${
                   isOpen
-                    ? 'py-[16px] md:pt-[24px] md:pb-0'
-                    : 'px-[10px] py-[16px] md:min-h-[71px] md:py-0'
+                    ? 'md:pt-[24px] md:pb-0'
+                    : 'md:min-h-[71px] md:px-[10px] md:py-0'
                 }`}
               >
-                <span className="font-sans text-[18px] leading-[26px] tracking-[-0.24px] text-ink md:text-[24px] md:leading-[22.895px]">
+                <span
+                  className={`font-sans text-[20px] leading-[22.895px] tracking-[-0.2px] text-ink md:text-[24px] md:leading-[22.895px] md:tracking-[-0.24px] ${
+                    isOpen ? 'font-medium md:font-normal' : ''
+                  }`}
+                >
                   {item.question}
                 </span>
               </button>
@@ -103,7 +130,7 @@ function FaqSection({
                 src={iconFaqToggle}
                 alt=""
                 aria-hidden="true"
-                className={`pointer-events-none absolute right-0 size-[40px] transition-transform duration-300 ease-in-out md:size-[71px] ${
+                className={`pointer-events-none absolute right-0 size-[35px] transition-transform duration-300 ease-in-out md:size-[71px] ${
                   isOpen
                     ? 'top-[16px] md:top-[24px]'
                     : 'top-1/2 -translate-y-1/2 rotate-45 md:top-0 md:translate-y-0'
@@ -115,7 +142,7 @@ function FaqSection({
                 }`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <p className="max-w-[892px] pb-[24px] pt-[12px] font-sans text-[18px] text-gray-67 md:text-[20px]">
+                  <p className="max-w-[273px] pb-[24px] pt-[12px] font-sans text-[16px] text-gray-67 md:max-w-[892px] md:text-[20px]">
                     {item.answer}
                   </p>
                 </div>
