@@ -16,30 +16,41 @@
  */
 
 const VARIANTS = {
+  // Mobile (base) sizes come from the Figma mobile frames (Implementation
+  // Plan §3/§4.4); `md:` restores every value exactly as it was before the
+  // mobile pass so ≥768 rendering is untouched.
   primary:
-    'rounded-btn bg-s-btn px-[32px] py-[8px] font-sans text-[24px] font-semibold text-navy',
+    'rounded-btn bg-s-btn px-[32px] py-[8px] font-sans text-[14px] font-semibold text-navy md:text-[24px]',
   'hero-primary':
-    'rounded-btn bg-s-300 px-[44px] py-[12px] font-sans text-[20px] font-semibold text-navy',
+    'rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold uppercase text-navy md:bg-s-300 md:px-[44px] md:py-[12px] md:text-[20px] md:normal-case',
   'outline-light':
-    'rounded-btn border-2 border-cream bg-transparent px-[44px] py-[12px] font-sans text-[24px] font-semibold text-white',
+    'rounded-btn border-2 border-cream bg-transparent px-[32px] py-[8px] font-sans text-[14px] font-semibold uppercase text-white md:px-[44px] md:py-[12px] md:text-[24px] md:normal-case',
   // Figma frames these at exactly 39.211px tall (377:3068) with the stroke
   // drawn inside; a CSS border sits outside the padding box and would add
-  // 4.3px, so the height is pinned instead.
+  // 4.3px, so the height is pinned instead. Mobile frame (662:9459) pins the
+  // same shape at 33.6px tall / 15.22px type.
   'learn-more':
-    'h-[39.211px] rounded-[8.6px] border-[2.15px] border-s-outline bg-transparent px-[34.4px] font-sans text-[17.211px] font-semibold capitalize text-navy',
+    'h-[33.6px] rounded-[7.6px] border-[1.9px] border-s-outline bg-transparent px-[30.4px] font-sans text-[15.22px] font-semibold capitalize text-navy md:h-[39.211px] md:rounded-[8.6px] md:border-[2.15px] md:px-[34.4px] md:text-[17.211px]',
   'learn-more-light':
-    'h-[39.211px] rounded-[8.6px] border-[2.15px] border-white bg-transparent px-[34.4px] font-sans text-[17.211px] font-semibold capitalize text-white',
+    'h-[33.6px] rounded-[7.6px] border-[1.9px] border-white bg-transparent px-[30.4px] font-sans text-[15.22px] font-semibold capitalize text-white md:h-[39.211px] md:rounded-[8.6px] md:border-[2.15px] md:px-[34.4px] md:text-[17.211px]',
   submit:
-    'rounded-btn bg-bl-700 px-[32px] py-[10px] font-sans text-[20px] font-semibold text-white',
+    'rounded-[5.43px] bg-bl-700 px-[21.7px] py-[6.8px] font-sans text-[13.57px] font-semibold text-white md:rounded-btn md:px-[32px] md:py-[10px] md:text-[20px]',
   'donate-nav':
     'rounded-btn bg-s-800 px-[32px] py-[8px] font-sans text-[20px] font-bold uppercase tracking-[1px] text-white',
+  // `md:w-fit` (not `w-auto`): several call sites (e.g. Get Involved's
+  // "DONATE NOW", passed as a SectionHeader `actions` node) sit inside a
+  // column flex with the default `align-items: stretch`, where `width:
+  // auto` still stretches the item edge-to-edge. Only an explicit
+  // non-stretching width (`fit-content`, matching the pre-mobile-pass
+  // absence of any width utility here) reproduces the original desktop
+  // shrink-to-content sizing.
   'fill-soft':
-    'rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[24px] font-semibold capitalize text-navy',
+    'w-full rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:w-fit md:text-[24px]',
   // Figma frames this at 47px, same as its filled sibling (363:225 /
   // 363:228) — the stroke is drawn inside, so the CSS border must not add
   // its 4px on top of the 8+8 padding.
   'outline-soft':
-    'h-[47px] rounded-btn border-2 border-[#8db2a1] bg-transparent px-[32px] font-sans text-[24px] font-semibold capitalize tracking-[1.2px] text-navy',
+    'h-[47px] w-full rounded-btn border border-[#8db2a1] bg-transparent px-[32px] font-sans text-[14px] font-semibold capitalize tracking-[0.7px] text-navy md:w-fit md:border-2 md:text-[24px] md:tracking-[1.2px]',
 };
 
 function Button({

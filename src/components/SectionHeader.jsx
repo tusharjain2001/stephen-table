@@ -17,6 +17,14 @@ import SectionChip from './SectionChip.jsx';
  * - `align`        — `'center'` (default, stacked+centered) | `'between'`
  *                    (Services/Get Involved detail sections: chip left,
  *                    lede + actions right, `justify-between px-72`)
+ * - `mobileAlign`  — `'left'` (default) | `'center'`. Only relevant with
+ *                    `align="center"`: below `md` the chip+lede always
+ *                    stack, but most pages (Home, About, Get Involved
+ *                    Volunteering) keep them left-aligned with a 24px gap,
+ *                    while Impact Stories/Blogs want them centered with a
+ *                    16px gap (plan §4.6) — pass `mobileAlign="center"` for
+ *                    those. `align="between"` sections (Services) always
+ *                    stack centered on mobile regardless of this prop.
  * - `actions`      — optional node rendered under the lede (only used with
  *                    `align="between"`), e.g. a row of CTA buttons
  * - `className`    — extra classes on the outer wrapper
@@ -37,13 +45,17 @@ function SectionHeader({
   ledeClassName = '',
   gap = 226,
   align = 'center',
+  mobileAlign = 'left',
   actions,
   className = '',
 }) {
   if (align === 'between') {
+    // Mobile (base): the Services subsections (plan §6.3) stack chip+lede
+    // centered with a 16px gap; `md:` restores the original left-aligned
+    // chip-left/lede-right row untouched.
     return (
       <div
-        className={`flex w-full flex-col items-start gap-6 px-6 md:px-10 lg:flex-row lg:justify-between lg:gap-8 xl:px-[72px] ${className}`}
+        className={`flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:items-start md:gap-6 md:px-10 md:text-left lg:flex-row lg:justify-between lg:gap-8 xl:px-[72px] ${className}`}
       >
         <SectionChip variant={chipVariant} className="shrink-0">
           {chipLabel}
@@ -53,7 +65,7 @@ function SectionHeader({
           style={{ '--sh-lede-w': `${ledeWidth}px` }}
         >
           {lede && (
-            <p className={`font-sans text-[18px] text-gray-59 md:text-[24px] ${ledeClassName}`}>{lede}</p>
+            <p className={`font-sans text-[16px] text-gray-59 md:text-[24px] ${ledeClassName}`}>{lede}</p>
           )}
           {actions}
         </div>
@@ -61,9 +73,13 @@ function SectionHeader({
     );
   }
 
+  const isMobileCentered = mobileAlign === 'center';
+
   return (
     <div
-      className={`flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 md:text-left lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[var(--sh-gap)] xl:px-[72px] ${className}`}
+      className={`flex w-full flex-col px-[16px] md:items-center md:gap-6 md:px-10 md:text-left lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[var(--sh-gap)] xl:px-[72px] ${
+        isMobileCentered ? 'items-center gap-[16px] text-center' : 'items-start gap-[24px] text-left'
+      } ${className}`}
       style={{ '--sh-gap': `${gap}px` }}
     >
       <SectionChip variant={chipVariant} className="shrink-0">
@@ -71,7 +87,7 @@ function SectionHeader({
       </SectionChip>
       {lede && (
         <p
-          className="min-w-0 max-w-full font-sans text-[18px] text-gray-59 md:text-[24px] lg:shrink lg:grow-0 lg:basis-auto lg:max-w-[var(--sh-lede-w)] 2xl:w-[var(--sh-lede-w)]"
+          className="min-w-0 max-w-full font-sans text-[16px] text-gray-59 md:text-[24px] lg:shrink lg:grow-0 lg:basis-auto lg:max-w-[var(--sh-lede-w)] 2xl:w-[var(--sh-lede-w)]"
           style={{ '--sh-lede-w': `${ledeWidth}px` }}
         >
           {lede}
