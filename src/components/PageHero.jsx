@@ -19,6 +19,12 @@
  * - `textBottom`   — px padding from the bottom edge of the hero to the
  *                    start of the text block at xl (default 96)
  * - `title`        — H1 copy
+ * - `titleSize`    — px H1 size at xl. Defaults to 56, which is what the
+ *                    inner-page heroes are drawn at; Home's Figma frame
+ *                    (342:22) specifies 48/2.4px tracking, so Home passes
+ *                    its own pair. Below xl the H1 keeps its own smaller
+ *                    steps (mobile is out of scope for now).
+ * - `titleTracking`— px letter-spacing at xl, paired with `titleSize`
  * - `titleClassName`
  * - `subtitle`     — optional sub copy under the title
  * - `subtitleClassName`
@@ -34,6 +40,8 @@ function PageHero({
   textWidth = 618,
   textBottom = 96,
   title,
+  titleSize = 56,
+  titleTracking = 2.8,
   titleClassName = '',
   subtitle,
   subtitleClassName = '',
@@ -70,27 +78,35 @@ function PageHero({
       />
       {flatOverlay && <div className="absolute inset-0 bg-black/20" />}
 
-      <div
-        className="absolute bottom-0 left-6 right-6 flex w-auto flex-col gap-[10px] pb-8 md:left-10 md:right-10 md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]"
-        style={{
-          '--hero-text-left': `${textLeft}px`,
-          '--hero-text-w': `${textWidth}px`,
-          '--hero-text-pb': `${textBottom}px`,
-        }}
-      >
-        {title && (
-          <h1
-            className={`font-display text-[32px] capitalize tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[56px] xl:tracking-[2.8px] ${titleClassName}`}
-          >
-            {title}
-          </h1>
-        )}
-        {subtitle && (
-          <p className={`font-sans text-[16px] text-white md:text-[18px] xl:text-[20px] ${subtitleClassName}`}>
-            {subtitle}
-          </p>
-        )}
-        {children}
+      {/* The photo and its overlay stay full-bleed at any width, but the copy
+          is anchored to the same centered 1440 design container every other
+          section uses — so above 1440 the headline keeps lining up with the
+          navbar and the sections below instead of hugging the viewport edge. */}
+      <div className="absolute inset-0 mx-auto w-full max-w-[1440px]">
+        <div
+          className="absolute bottom-0 left-6 right-6 flex w-auto flex-col gap-[10px] pb-8 md:left-10 md:right-10 md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]"
+          style={{
+            '--hero-text-left': `${textLeft}px`,
+            '--hero-text-w': `${textWidth}px`,
+            '--hero-text-pb': `${textBottom}px`,
+            '--hero-title-size': `${titleSize}px`,
+            '--hero-title-track': `${titleTracking}px`,
+          }}
+        >
+          {title && (
+            <h1
+              className={`font-display text-[32px] capitalize tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${titleClassName}`}
+            >
+              {title}
+            </h1>
+          )}
+          {subtitle && (
+            <p className={`font-sans text-[16px] text-white md:text-[18px] xl:text-[20px] ${subtitleClassName}`}>
+              {subtitle}
+            </p>
+          )}
+          {children}
+        </div>
       </div>
     </section>
   );

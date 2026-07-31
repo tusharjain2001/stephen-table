@@ -63,44 +63,59 @@ function FaqSection({
 
   return (
     <section
-      className={`flex w-full flex-col items-center gap-[36px] px-6 py-16 md:px-10 xl:px-6 xl:py-[80px] ${className}`}
+      className={`flex w-full flex-col items-center gap-[36px] px-6 py-16 md:px-10 xl:px-6 xl:py-[91px] ${className}`}
     >
       <h2 className={`w-full max-w-[1300px] text-left font-sans text-[20px] font-bold uppercase ${eyebrowClassName}`}>
         Frequently Asked Questions
       </h2>
 
       <div className="flex w-full max-w-[1300px] flex-col gap-[16px]">
+        {/* Figma 378:3173 — a collapsed row is exactly the 71px toggle height
+            with the question centered in it and no vertical padding; an open
+            row is 24 + (question 23 + 12 + answer 52) + 24 = 135, with the
+            toggle pinned to the top so it overlaps the answer instead of
+            stretching the row. Hence the absolutely positioned toggle: in
+            flow it would force every open row to at least 24 + 71. */}
         {items.map((item, index) => {
           const isOpen = openIndex === index;
+          // Figma strokes sit inside the frame, so the rule must not add to
+          // the 71/135 row height — inset shadow, not border-b.
           return (
-            <div key={item.question} className="border-b border-gray-9c">
+            <div
+              key={item.question}
+              className="relative shadow-[inset_0_-1px_0_var(--color-gray-9c)]"
+            >
               <button
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? -1 : index)}
                 aria-expanded={isOpen}
-                className={`flex w-full items-center justify-between gap-[16px] text-left ${
-                  isOpen ? 'py-[24px]' : 'px-[10px] py-[24px]'
+                className={`flex w-full items-center pr-[83px] text-left ${
+                  isOpen
+                    ? 'py-[16px] md:pt-[24px] md:pb-0'
+                    : 'px-[10px] py-[16px] md:min-h-[71px] md:py-0'
                 }`}
               >
                 <span className="font-sans text-[18px] leading-[26px] tracking-[-0.24px] text-ink md:text-[24px] md:leading-[22.895px]">
                   {item.question}
                 </span>
-                <img
-                  src={iconFaqToggle}
-                  alt=""
-                  aria-hidden="true"
-                  className={`size-[40px] shrink-0 transition-transform duration-300 ease-in-out md:size-[71px] ${
-                    isOpen ? '' : 'rotate-45'
-                  }`}
-                />
               </button>
+              <img
+                src={iconFaqToggle}
+                alt=""
+                aria-hidden="true"
+                className={`pointer-events-none absolute right-0 size-[40px] transition-transform duration-300 ease-in-out md:size-[71px] ${
+                  isOpen
+                    ? 'top-[16px] md:top-[24px]'
+                    : 'top-1/2 -translate-y-1/2 rotate-45 md:top-0 md:translate-y-0'
+                }`}
+              />
               <div
                 className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
                   isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
                 }`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <p className="max-w-[892px] pb-[24px] font-sans text-[18px] text-gray-67 md:text-[20px]">
+                  <p className="max-w-[892px] pb-[24px] pt-[12px] font-sans text-[18px] text-gray-67 md:text-[20px]">
                     {item.answer}
                   </p>
                 </div>

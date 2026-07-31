@@ -74,8 +74,14 @@ function CtaBanner({
         </>
       )}
 
-      <div className="relative z-10 mx-auto flex max-w-[1440px] flex-col gap-10 px-6 py-14 md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
-        <div className="flex flex-col gap-9 lg:ml-[72px] lg:w-[529px] lg:shrink lg:gap-[36px]">
+      {/* Full-bleed row (not a capped 1440 container): the text column is
+          offset by the design container's gutter so it stays aligned with the
+          sections above/below, while the photo takes the remainder and keeps
+          bleeding to the right edge at any width. At 1440 the gutter is 0, so
+          this is Figma-exact: 72 + 529 + 107 = 708 with a 732px photo
+          (342:1000 / 342:997). */}
+      <div className="relative z-10 flex w-full flex-col gap-10 px-6 py-14 md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
+        <div className="flex flex-col gap-9 lg:ml-[calc(var(--gutter)+72px)] lg:mr-[107px] lg:w-[529px] lg:shrink lg:gap-[36px]">
           <div className="flex flex-col gap-[8px]">
             {title && (
               <h2 className="font-display text-[32px] capitalize text-white md:text-[36px] lg:text-[40px]">
@@ -110,19 +116,14 @@ function CtaBanner({
         {/* ≥lg: photo pinned to the right, blended into the banner color */}
         {image && (
           <div className="relative hidden h-full min-w-0 flex-1 overflow-hidden lg:block">
-            <img
-              src={image}
-              alt=""
-              className="absolute right-0 top-0 h-full object-cover"
-              style={{ width: 732, maxWidth: '100%' }}
-            />
+            <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" />
             {/* Blend strips (Figma 342:998 / 342:999): the photo fades into
                 the banner colour across its full width on the left, and a
                 243px strip pins it back to solid at the right edge. Both are
-                anchored to the photo box, so the math holds through the lg
-                flex-shrink range. */}
+                anchored to the photo box, so the math holds both as the box
+                shrinks in the lg range and as it grows past 1440. */}
             <div
-              className="pointer-events-none absolute inset-y-0 right-0 w-[732px] max-w-full"
+              className="pointer-events-none absolute inset-0"
               style={{
                 background: `linear-gradient(90deg, ${bgColor} 0%, ${bgColor}d9 16.79%, ${bgColor}00 100%)`,
               }}

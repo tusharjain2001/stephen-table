@@ -53,8 +53,9 @@ function StoryCard({
         )}
       </div>
 
-      {/* Figma: 24px between the copy block and the CTA, 16px inside it. */}
-      <div className="flex flex-col gap-[24px] p-[17.2px]">
+      {/* Figma 377:3065 stacks title (y17.2) → body (y64.2) → CTA (y143.2)
+          with a 16px gap at both joins, inside 17.2px padding. */}
+      <div className="flex flex-col gap-[16px] p-[17.2px]">
         <div className="flex flex-col gap-[16px]">
           {title && (
             <h3 className={`font-sans text-[24px] font-medium ${titleClassName}`}>{title}</h3>

@@ -18,8 +18,14 @@ function StatsBand({ stats = [], image, className = '' }) {
   if (image) {
     return (
       <section className={`w-full overflow-hidden bg-b-500 ${className}`}>
-        <div className="mx-auto flex max-w-[1440px] flex-col lg:h-[440px] lg:flex-row lg:items-center">
-          <div className="flex flex-col gap-8 px-6 py-12 md:px-10 md:py-14 lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 lg:ml-12 xl:ml-[176px]">
+        {/* Full-bleed row (not a capped 1440 container): the stat column is
+            offset by the design container's gutter so it stays aligned with
+            the sections above/below, while the photo takes whatever is left
+            and keeps bleeding to the right edge at any width. At 1440 the
+            gutter is 0, so this is Figma-exact: 176 + 308 + 133 = 617 with an
+            823px photo (342:173 / 342:240). */}
+        <div className="flex w-full flex-col lg:h-[440px] lg:flex-row lg:items-center">
+          <div className="flex flex-col gap-8 px-6 py-12 md:px-10 md:py-14 lg:ml-[calc(var(--gutter)+48px)] lg:mr-[80px] lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 xl:ml-[calc(var(--gutter)+176px)] xl:mr-[133px]">
             {stats.map((stat) => (
               <div key={stat.caption} className="flex flex-col items-center gap-[8px] text-center">
                 <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>
@@ -28,12 +34,7 @@ function StatsBand({ stats = [], image, className = '' }) {
             ))}
           </div>
           <div className="relative h-[220px] w-full md:h-[300px] lg:h-full lg:min-w-0 lg:flex-1">
-            <img
-              src={image}
-              alt=""
-              className="absolute right-0 top-0 h-full max-w-full object-cover"
-              style={{ width: 823 }}
-            />
+            <img src={image} alt="" className="h-full w-full object-cover" />
           </div>
         </div>
       </section>

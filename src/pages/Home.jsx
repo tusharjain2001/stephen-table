@@ -107,10 +107,16 @@ function Home() {
     <div>
       <PageHero
         image={heroMain}
-        height={746}
+        height={548}
         textLeft={78}
         textWidth={485}
         textBottom={68}
+        titleSize={48}
+        titleTracking={2.4}
+        // Figma 342:22 holds the H1 to 426px inside the 485px text column,
+        // which is what produces the "Helping Seniors / Age Safely, Live /
+        // With Dignity" line break.
+        titleClassName="xl:max-w-[426px]"
         title="Helping Seniors Age Safely, Live with Dignity"
         subtitle="Providing practical home support, meaningful fellowship, and community connections for older adults across Colorado."
       >
@@ -122,9 +128,12 @@ function Home() {
 
       {/* Feature strip */}
       <section className="w-full py-8 xl:py-[43px]">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-x-6 gap-y-8 px-6 sm:grid-cols-4 sm:gap-x-8 md:px-10 xl:flex xl:items-center xl:justify-center xl:gap-[40px] xl:px-0">
+        {/* Figma 342:153 spaces each label 80px from the divider on either
+            side (160px label-to-label), so both the row gap and the
+            divider gap are 80. */}
+        <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-x-6 gap-y-8 px-6 sm:grid-cols-4 sm:gap-x-8 md:px-10 xl:flex xl:items-center xl:justify-center xl:gap-[80px] xl:px-0">
           {FEATURES.map((feature, index) => (
-            <div key={feature.label} className="flex items-center gap-[40px]">
+            <div key={feature.label} className="flex items-center gap-[40px] xl:gap-[80px]">
               {index > 0 && <span className="hidden h-[48px] w-px bg-b-300 xl:block" />}
               <div className="flex w-full flex-col items-center gap-[8px]">
                 <img src={feature.icon} alt="" className="size-[40px] xl:size-[50px]" />

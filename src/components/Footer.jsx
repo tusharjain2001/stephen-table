@@ -72,7 +72,12 @@ function Footer() {
           </div>
 
           {/* Links block */}
-          <div className="grid w-full grid-cols-1 gap-8 pb-10 sm:grid-cols-3 sm:gap-6 lg:ml-[124px] lg:flex lg:flex-1 lg:gap-[72px] lg:pb-[80px]">
+          {/* Figma's two footer frames overlap: the top block (342:112) is
+              349 tall but the bottom bar (342:68) starts at 344.198, so the
+              80px bottom padding it draws only contributes 74.2 to the
+              443.349 total. Flow layout can't overlap, so the padding carries
+              the difference. */}
+          <div className="grid w-full grid-cols-1 gap-8 pb-10 sm:grid-cols-3 sm:gap-6 lg:ml-[124px] lg:flex lg:flex-1 lg:gap-[72px] lg:pb-[80px] xl:pb-[74.2px]">
             {LINK_COLUMNS.map((column) => (
               <div key={column.heading} className="flex flex-col gap-[16px]">
                 <h3 className="font-sans text-[20px] font-bold text-white">
@@ -81,9 +86,12 @@ function Footer() {
                 <ul className="flex flex-col gap-[8px]">
                   {column.items.map((item) => (
                     <li key={item.label}>
+                      {/* Figma 342:131: list items are 23px tall on a 31px
+                          pitch (leading normal + the 8px gap), unlike the
+                          contact rows above which are explicitly 32px. */}
                       <Link
                         to={item.to}
-                        className="font-sans text-[18px] leading-[32px] text-white"
+                        className="font-sans text-[18px] leading-[23px] text-white"
                       >
                         {item.label}
                       </Link>
@@ -98,7 +106,7 @@ function Footer() {
 
       <div className="mx-auto h-px w-[calc(100%-48px)] max-w-[1365px] bg-white md:w-[calc(100%-80px)] 2xl:w-[1365px]" />
 
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 p-6 md:flex-row md:p-8 xl:h-[99px] xl:p-[32px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 p-6 md:flex-row md:p-8 xl:h-[99.15px] xl:p-[32px]">
         <div className="flex items-center gap-[12px]">
           <a href="https://facebook.com" target="_blank" rel="noreferrer">
             <img src={iconFacebook} alt="Facebook" className="size-[44px]" />

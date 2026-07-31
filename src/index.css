@@ -69,9 +69,25 @@
   --radius-btn: 8px;
 }
 
+:root {
+  /* Horizontal space between the viewport edge and the 1440px design
+     container. Zero at/below 1440, so every rule written as
+     `calc(var(--gutter) + <figma-x>px)` is pixel-identical to the Figma
+     frame at 1440 and keeps the same content alignment above it.
+     The `100%` resolves against the element's containing block, so only
+     use this inside a full-bleed (100%-wide) section. */
+  --gutter: max(0px, calc((100% - 1440px) / 2));
+}
+
 body {
   background: var(--color-cream);
   font-family: var(--font-sans);
+  /* Every text layer in the Figma frame is `leading-[normal]`, i.e. the
+     font's own metrics (~1.2–1.3). Tailwind's preflight inherits a unitless
+     1.5, which made every multi-line block ~15% taller and pushed each
+     section past its designed height. Components that need a specific
+     leading (FAQ questions 22.895px, footer 32px/20px) still set their own. */
+  line-height: normal;
 }
 
 .font-sans {
