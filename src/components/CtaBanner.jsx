@@ -108,10 +108,15 @@ function CtaBanner({
                 background: `linear-gradient(to bottom, ${bgColor} 0%, ${bgColor}d9 34.1%, ${bgColor}a8 60.6%, ${bgColor}00 100%)`,
               }}
             />
+            {/* The bottom fade is taller than the top one and holds solid for
+                its first ~50px so the pills — which sit 28px above the photo's
+                bottom edge — land on flat banner colour, as they do in the
+                mobile frame. A symmetric 111px fade left the photo ~20% visible
+                behind the pill row. */}
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-[111px]"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px]"
               style={{
-                background: `linear-gradient(to top, ${bgColor} 0%, ${bgColor}d9 34.1%, ${bgColor}a8 60.6%, ${bgColor}00 100%)`,
+                background: `linear-gradient(to top, ${bgColor} 0%, ${bgColor} 28%, ${bgColor}d9 52%, ${bgColor}a8 72%, ${bgColor}00 100%)`,
               }}
             />
             {/* Figma anchors the pills inside the photo's bottom fade
