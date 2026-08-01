@@ -8,6 +8,9 @@ import StepCard from '../components/StepCard.jsx';
 import FaqSection from '../components/FaqSection.jsx';
 
 import heroServices from '../assets/images/hero-services.png';
+// Named for About, used here: it is the only 402×746 portrait mobile-hero
+// export we have, and Services is the page asking for it.
+import heroServicesMobile from '../assets/images/mobile-about-hero.png';
 import svcSupport1 from '../assets/images/svc-support-1.png';
 import svcSupport2 from '../assets/images/svc-support-2.png';
 import svcSupport3 from '../assets/images/svc-support-3.png';
@@ -260,6 +263,14 @@ function Services() {
     <div>
       <PageHero
         image={heroServices}
+        // The mobile frame wants a portrait crop rather than a slice of the
+        // 1672×941 landscape, so base (<768) gets its own 402×746 export.
+        // Unlike Home's mobile hero this one is a raw photo — its luma runs
+        // 131/92/140 top/mid/bottom, i.e. no scrim baked into the pixels — so
+        // `mobileOverlay` stays on its gradient default. `flipImage` and
+        // `imagePosition` below only ever apply to `image`, which is now
+        // md-and-up only, so the desktop hero is untouched.
+        mobileImage={heroServicesMobile}
         // 363:154 (inside the layout frame) is 548 — the 746 rect at page
         // level is a leftover; only 548 makes the section stack sum to 6074.
         height={548}

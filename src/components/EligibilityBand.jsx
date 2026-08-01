@@ -39,7 +39,12 @@ function EligibilityBand({
         <div className="flex flex-col gap-[24px] md:contents">
           <SectionChip
             variant="onBrown"
-            className="justify-self-start md:col-start-1 md:row-start-1"
+            // `self-start` is the base-tier fix: below md the wrapper is a
+            // flex column, whose default `stretch` blew the chip out to the
+            // full band width — `justify-self-start` does nothing in flex.
+            // `md:self-auto` hands alignment back to the grid's `items-center`
+            // from md up, so the desktop chip is unchanged.
+            className="self-start justify-self-start md:self-auto md:col-start-1 md:row-start-1"
           >
             Eligibility Criteria
           </SectionChip>
