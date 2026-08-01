@@ -4,6 +4,7 @@ import FormField from '../components/FormField.jsx';
 import Button from '../components/Button.jsx';
 
 import heroContact from '../assets/images/hero-contact.png';
+import heroContactMobile from '../assets/mobile/mobile-contact-hero.png';
 import iconChevronDown from '../assets/icons/icon-chevron-down.svg';
 
 const INITIAL_FORM = {
@@ -40,6 +41,12 @@ function Contact() {
     <div className="bg-bl-200">
       <PageHero
         image={heroContact}
+        // Base (<768) gets its own 402×745 portrait export, matching the
+        // default `mobileHeight` exactly. Raw photo, not a flattened one (luma
+        // runs 63/118/89 top/mid/bottom — no baked scrim), so `mobileOverlay`
+        // stays on its gradient default. `image` becomes md-and-up only once
+        // this is set, so the desktop hero is untouched.
+        mobileImage={heroContactMobile}
         height={548}
         // 377:3033 is a bare image fill — this frame has no scrim over the
         // photo at all, so the default gradient was darkening a band Figma

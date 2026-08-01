@@ -8,6 +8,7 @@ import Button from '../components/Button.jsx';
 import FaqSection from '../components/FaqSection.jsx';
 
 import heroNominate from '../assets/images/hero-nominate.png';
+import heroNominateMobile from '../assets/mobile/mobile-nominate-hero.png';
 import iconStepReview from '../assets/icons/icon-step-review.svg';
 import iconStepChat from '../assets/icons/icon-step-chat.svg';
 import iconStepSpeak from '../assets/icons/icon-step-speak.svg';
@@ -80,6 +81,12 @@ function Nominate() {
     <div>
       <PageHero
         image={heroNominate}
+        // Base (<768) gets its own 402×744 portrait export — 1px under the
+        // default `mobileHeight`, which `object-cover` absorbs. Raw photo, not
+        // a flattened one (luma runs 68/73/110 top/mid/bottom, brightest at the
+        // bottom), so `mobileOverlay` stays on its gradient default. `image`
+        // becomes md-and-up only once this is set, so desktop is untouched.
+        mobileImage={heroNominateMobile}
         height={548}
         textLeft={82}
         textWidth={798}

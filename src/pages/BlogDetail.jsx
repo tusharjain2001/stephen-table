@@ -1,6 +1,7 @@
 import CtaBanner from '../components/CtaBanner.jsx';
 
 import heroBlog from '../assets/images/hero-blog.png';
+import heroBlogMobile from '../assets/mobile/mobile-blogs-hero.png';
 import ctaBannerImg from '../assets/images/cta-banner.png';
 import blogImg1 from '../assets/images/blog-img-1.png';
 import blogImg2 from '../assets/images/blog-img-2.png';
@@ -29,16 +30,23 @@ function BlogDetail() {
           sm/xl-only breakpoint scheme (nothing changes ≥640, which already
           covers the whole ≥768 tablet/desktop range untouched). */}
       <section className="relative h-[745px] w-full overflow-hidden sm:h-[340px] xl:h-[470px]">
-        <img src={heroBlog} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        {/* Base (mobile) scrim + extra flat wash — Blog's Figma mobile frame
-            carries both, same as Impact Stories. */}
-        <div
-          className="absolute inset-0 sm:hidden"
-          style={{
-            background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
-          }}
+        <img
+          src={heroBlog}
+          alt=""
+          className="absolute inset-0 hidden h-full w-full object-cover sm:block"
         />
-        <div className="absolute inset-0 bg-black/20 sm:hidden" />
+        {/* Base (<640) uses its own 402×746 portrait export. It is flattened:
+            luma runs 193/104/47/30 down the frame, and that bottom sits below
+            espresso's own ~43, so the mobile frame's vertical scrim *and* its
+            extra black/20 wash are already in the pixels. Both CSS layers that
+            used to render here are therefore gone — re-adding either would
+            double-darken the band to near-solid brown. The ≥640 scrim below is
+            untouched. */}
+        <img
+          src={heroBlogMobile}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover sm:hidden"
+        />
         <div
           className="absolute inset-0 hidden sm:block"
           style={{

@@ -5,6 +5,9 @@ import CtaBanner from '../components/CtaBanner.jsx';
 import FaqSection from '../components/FaqSection.jsx';
 
 import heroGetInvolved from '../assets/images/hero-get-involved.png';
+// Filename typo ("invovled") is the export's, kept as-is rather than renaming
+// the asset.
+import heroGetInvolvedMobile from '../assets/mobile/mobile-get-invovled-hero.png';
 import signupBanner from '../assets/images/signup-banner.png';
 import ctaBannerImg from '../assets/images/cta-banner.png';
 
@@ -131,6 +134,13 @@ function GetInvolved() {
     <div>
       <PageHero
         image={heroGetInvolved}
+        // Base (<768) gets its own 402×745 portrait export, which matches the
+        // default `mobileHeight` exactly. It is a raw photo, not a flattened
+        // one — its bottom luma is 13, far below the ~43 a baked 0.9 espresso
+        // scrim would floor it at — so `mobileOverlay` stays on its gradient
+        // default. `image` is md-and-up only once this is set, leaving the
+        // desktop hero untouched.
+        mobileImage={heroGetInvolvedMobile}
         height={548}
         mobileTextTop={516}
         textLeft={81}
