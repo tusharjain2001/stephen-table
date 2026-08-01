@@ -99,7 +99,7 @@ function About() {
         // component's own base text-[16px] mobile default. Omitting it
         // keeps ≥768 byte-identical while landing exactly on the Figma
         // mobile subtitle size.
-        subtitle="we provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
+        subtitle="We provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
       />
 
       {/* Mission / Vision */}
