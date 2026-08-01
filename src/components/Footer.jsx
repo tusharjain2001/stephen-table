@@ -54,8 +54,18 @@ const LEGAL_LINKS = [
  * moves — byte-for-byte — behind `hidden md:block` (§ mobile-pass mechanics).
  */
 function Footer() {
+  // The espresso box-shadow is a bleed, not decoration. The footer is the last
+  // thing in the document and its bottom edge lands on a fractional CSS pixel
+  // (the mobile block alone is 554.6 tall), so the last *device* row straddles
+  // that edge: half `bg-espresso`, half the cream page canvas underneath. At an
+  // integer DPR the blend rounds away, but at a fractional one — Windows
+  // 125/175/225% display scaling, or a phone at DPR 2.625 — it renders as a
+  // white hairline across the bottom of the footer. Padding can't fix it (the
+  // seam just follows the new bottom edge); the shadow paints espresso *past*
+  // the document bottom, and since shadows don't count toward scrollable
+  // overflow, page height and every section total stay untouched.
   return (
-    <footer className="w-full bg-espresso">
+    <footer className="w-full bg-espresso shadow-[0_4px_0_0_var(--color-espresso)]">
       {/* Mobile footer (<768, true mobile) — Figma mobile frame */}
       <div className="md:hidden">
         <div className="w-full px-[16px] pt-[60px] pb-[28px]">
@@ -117,7 +127,10 @@ function Footer() {
             This is a11y-poor at 7px, but it is exactly what the Figma
             mobile frame specifies (scaled-down group) — implemented as
             designed rather than substituted. */}
-        <div className="h-[0.5px] w-full bg-white" />
+        {/* Inset by 16px so the rule lines up with the legal row's `p-[16px]`
+            rather than bleeding to the viewport edge. Mobile block only —
+            the desktop rule below is untouched. */}
+        <div className="mx-[16px] h-[0.5px] bg-white" />
         <div className="flex h-[80px] w-full flex-col items-start justify-center gap-[16px] p-[16px]">
           <div className="flex flex-wrap items-center gap-x-[6px] gap-y-[2px]">
             {LEGAL_LINKS.map((link) => (
