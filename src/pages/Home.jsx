@@ -25,7 +25,7 @@ import iconBooks from '../assets/icons/icon-books-blue.svg';
 import iconCommunity from '../assets/icons/icon-community.svg';
 import iconVolunteer from '../assets/icons/icon-volunteer.svg';
 import iconPartnership from '../assets/icons/icon-partnership.svg';
-import iconDonate from '../assets/icons/icon-donate.svg';
+import iconDonate from '../assets/icons/icon-donate-white.svg';
 import iconEmail from '../assets/icons/icon-email.svg';
 import iconPhone from '../assets/icons/icon-phone.svg';
 
