@@ -16,6 +16,9 @@ import cardFellowship from '../assets/images/card-fellowship.png';
 import cardCommunity from '../assets/images/card-community.png';
 import ctaBannerImg from '../assets/images/cta-banner.png';
 
+import heroMainMobile from '../assets/mobile/mobile-hone-hero.png';
+import statsStreetMobile from '../assets/mobile/mobile-home-third.png';
+
 import iconOldWoman from '../assets/icons/icon-old-woman.svg';
 import iconHome from '../assets/icons/icon-home.svg';
 import iconBooks from '../assets/icons/icon-books-blue.svg';
@@ -39,11 +42,16 @@ const CONTACT_PILLS = [
   { icon: iconPhone, label: '970-375-9179', to: '/contact#contact-form' },
 ];
 
+// `mobileLines` is the two-line break the mobile frame draws each label on
+// ("Meaningful / Fellowship", not one long line). The 159px grid column is
+// just wide enough to fit "Meaningful Fellowship" on one line, so the break
+// is pinned with a <br> that's display:none from md up rather than left to
+// the measured text width — which also keeps it stable while webfonts load.
 const FEATURES = [
-  { icon: iconOldWoman, label: 'Safe & Dignified Aging', width: 188 },
-  { icon: iconHome, label: 'Independent Home Support', width: 188 },
-  { icon: iconBooks, label: 'Meaningful Fellowship', width: 150 },
-  { icon: iconCommunity, label: 'Community Connections', width: 150 },
+  { icon: iconOldWoman, label: 'Safe & Dignified Aging', mobileLines: ['Safe &', 'Dignified Aging'], width: 188 },
+  { icon: iconHome, label: 'Independent Home Support', mobileLines: ['Independent', 'Home Support'], width: 188 },
+  { icon: iconBooks, label: 'Meaningful Fellowship', mobileLines: ['Meaningful', 'Fellowship'], width: 150 },
+  { icon: iconCommunity, label: 'Community Connections', mobileLines: ['Community', 'Connections'], width: 150 },
 ];
 
 // Get-involved card CTAs keep their desktop (md:) geometry at every width per
@@ -136,6 +144,11 @@ function Home() {
     <div>
       <PageHero
         image={heroMain}
+        // The mobile frame uses its own 402×746 portrait crop, exported
+        // flattened — the scrim is already in the pixels, so the base CSS
+        // wash is switched off to avoid double-darkening it.
+        mobileImage={heroMainMobile}
+        mobileOverlay="none"
         imagePosition="50% 34%"
         overlay="none"
         height={548}
@@ -176,7 +189,9 @@ function Home() {
                   className="w-full text-center font-sans text-[15.662px] capitalize text-bl-600 md:text-[16px] xl:w-[var(--feature-w)] xl:text-[24px]"
                   style={{ '--feature-w': `${feature.width}px` }}
                 >
-                  {feature.label}
+                  {feature.mobileLines[0]}
+                  <br className="md:hidden" />{' '}
+                  {feature.mobileLines[1]}
                 </p>
               </div>
             </div>
@@ -184,7 +199,7 @@ function Home() {
         </div>
       </section>
 
-      <StatsBand image={statsStreet} stats={STATS} />
+      <StatsBand image={statsStreet} mobileImage={statsStreetMobile} stats={STATS} />
 
       {/* Who we serve */}
       <section className="w-full py-[60px] md:py-14 xl:py-[108px]">

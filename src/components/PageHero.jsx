@@ -4,6 +4,16 @@
  *
  * Props:
  * - `image`        — imported hero photo
+ * - `mobileImage`  — optional separate photo for base (<768). The Figma mobile
+ *                    frames crop their heroes portrait rather than reusing the
+ *                    desktop landscape slice, so Home ships a 402×746 export
+ *                    (`mobile/mobile-hone-hero.png`) that fills the mobile band
+ *                    exactly. When present, `image` only renders from md up.
+ * - `mobileOverlay`— `'gradient'` (default) or `'none'` for the base (<768)
+ *                    vertical scrim. Like About's desktop export, Home's mobile
+ *                    export is *flattened* — the scrim is already baked into the
+ *                    pixels (top ~165 luma, bottom ~56), so layering the CSS
+ *                    wash on top would double-darken it to near-solid brown.
  * - `imagePosition`— CSS `object-position` for the photo. The default centres
  *                    the crop; Home needs `50% 34%` because its 548px band
  *                    shows a higher slice of hero-main.png than centring
@@ -80,9 +90,11 @@
  */
 function PageHero({
   image,
+  mobileImage,
   imagePosition = '50% 50%',
   flipImage = false,
   overlay = 'gradient',
+  mobileOverlay = 'gradient',
   height = 548,
   mobileHeight = 745,
   flatOverlay = false,
@@ -119,22 +131,32 @@ function PageHero({
           src={image}
           alt=""
           className={`absolute inset-0 h-full w-full object-cover ${
-            flipImage ? 'scale-x-[-1]' : ''
-          }`}
+            mobileImage ? 'hidden md:block' : ''
+          } ${flipImage ? 'scale-x-[-1]' : ''}`}
           style={{ objectPosition: imagePosition }}
+        />
+      )}
+      {mobileImage && (
+        <img
+          src={mobileImage}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover md:hidden"
         />
       )}
 
       {/* Base (mobile) scrim: every Figma mobile frame carries this
           top-light/bottom-dark vertical wash regardless of what the ≥768
           `overlay` prop says — Home's desktop frame has no scrim at all, but
-          its mobile frame still wants one. */}
-      <div
-        className="absolute inset-0 md:hidden"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
-        }}
-      />
+          its mobile frame still wants one. Pages shipping a flattened mobile
+          export (scrim already in the pixels) pass `mobileOverlay="none"`. */}
+      {mobileOverlay === 'gradient' && (
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+          }}
+        />
+      )}
       {mobileFlatOverlay && <div className="absolute inset-0 bg-black/20 md:hidden" />}
 
       {/* ≥768 gradient: dark side on the left, behind the text block */}
