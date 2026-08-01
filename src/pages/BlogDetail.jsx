@@ -35,17 +35,23 @@ function BlogDetail() {
           alt=""
           className="absolute inset-0 hidden h-full w-full object-cover sm:block"
         />
-        {/* Base (<640) uses its own 402×746 portrait export. It is flattened:
-            luma runs 193/104/47/30 down the frame, and that bottom sits below
-            espresso's own ~43, so the mobile frame's vertical scrim *and* its
-            extra black/20 wash are already in the pixels. Both CSS layers that
-            used to render here are therefore gone — re-adding either would
-            double-darken the band to near-solid brown. The ≥640 scrim below is
-            untouched. */}
+        {/* Base (<640) uses its own 402×746 portrait export. */}
         <img
           src={heroBlogMobile}
           alt=""
           className="absolute inset-0 h-full w-full object-cover sm:hidden"
+        />
+        {/* Base (mobile) scrim, same wash every other page's mobile hero
+            carries. Note this export already ramps 193/104/47/30 top-to-bottom
+            on its own, so the gradient stacks on top of a fade that is partly
+            in the pixels — kept anyway for consistency with Services / Get
+            Involved / Nominate / Contact. The extra black/20 wash this hero
+            used to carry stays off; those pages don't have it either. */}
+        <div
+          className="absolute inset-0 sm:hidden"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+          }}
         />
         <div
           className="absolute inset-0 hidden sm:block"
