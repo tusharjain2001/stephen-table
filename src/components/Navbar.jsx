@@ -21,8 +21,9 @@ const NAV_LINKS = [
  *   verbatim (logo + hamburger, bg wb-200, links DM Sans Medium 20
  *   #38291f, Donate button included) — untouched by the mobile pass.
  * - base (<768, true mobile): the Figma dropdown card — small absolute
- *   panel anchored under the hamburger, DM Sans Medium 24 links with an
- *   active-route highlight, Donate button below.
+ *   panel hanging flush off the bar's bottom edge, right-aligned with the
+ *   hamburger, DM Sans Medium 24 links with an active-route highlight,
+ *   Donate button below.
  */
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -140,6 +141,11 @@ function Navbar() {
       </div>
 
       {/* Mobile dropdown (<768, true mobile) — Figma "Dropdown" card.
+          `top-full` (not a hardcoded 76px) hangs it off the bar's own bottom
+          edge so no strip of hero photo shows between the two and the panel
+          reads as part of the navbar; its right edge lines up with the
+          hamburger's because both use the bar's 16px gutter. Only the bottom
+          corners are rounded — the top ones meet the bar.
           Click-outside overlay is fully transparent and only mounted for
           this breakpoint; the tablet slide-down above has no equivalent
           (pre-existing behavior, left untouched). */}
@@ -150,7 +156,7 @@ function Navbar() {
       />
       <div
         id="mobile-dropdown"
-        className={`absolute right-[16px] top-[76px] z-50 w-[261px] origin-top-right rounded-[8px] bg-cream px-[16px] py-[24px] transition-all duration-200 ease-out md:hidden ${
+        className={`absolute right-[16px] top-full z-50 w-[261px] origin-top-right rounded-b-[8px] bg-cream px-[16px] py-[24px] transition-all duration-200 ease-out md:hidden ${
           open ? 'visible scale-100 opacity-100' : 'invisible scale-95 opacity-0'
         }`}
       >
