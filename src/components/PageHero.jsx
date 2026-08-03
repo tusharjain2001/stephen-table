@@ -215,7 +215,7 @@ function PageHero({
               className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
                 titleCapitalizeBase ? 'capitalize' : ''
               } ${titleCapitalize ? 'md:capitalize' : 'md:normal-case'} ${
-                titleLeading ? 'md:leading-[var(--hero-title-leading)]' : ''
+                titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''
               } ${titleClassName}`}
             >
               {title}

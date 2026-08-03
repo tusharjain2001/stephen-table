@@ -11,6 +11,18 @@ import iconArrowBadge from '../assets/icons/icon-arrow-badge.svg';
  * - `title`          — card title
  * - `titleClassName` — title color override (defaults to `text-black`;
  *                      use `text-bl-600` on Impact Stories/Blog cards)
+ * - `titleSize`      — px title size from `md` up (default 24). Impact
+ *                      Stories' redrawn 370:2330 runs it at 20 (2 lines x 26
+ *                      = its 52px box); Home's "How we help" tiles have not
+ *                      been re-fetched, so they keep 24.
+ * - `titleWidth`     — px measure for the title at `2xl` only. At 24px every
+ *                      Impact Stories title wrapped to two lines on its own;
+ *                      at 20px titles 1 and 3 fit the card's 375.4px inner
+ *                      width on one line, which is 26px short of the frame.
+ *                      370:2330/2344 pin them to 286/285 to keep the break.
+ *                      Held to `2xl` because that is the only width where the
+ *                      card is the designed 418.4 wide — below it the grid
+ *                      equalises row height anyway.
  * - `body`           — card body copy
  * - `bodyClassName`  — body color override (defaults to `text-gray-59`;
  *                      Home's "How we help" tiles draw it black per 377:3067)
@@ -38,6 +50,8 @@ function StoryCard({
   image,
   title,
   titleClassName = 'text-black',
+  titleSize = 24,
+  titleWidth,
   body,
   bodyClassName = 'text-gray-59',
   ctaLabel = 'learn more',
@@ -80,7 +94,17 @@ function StoryCard({
       >
         <div className="flex flex-col gap-[14.1px] md:gap-[16px]">
           {title && (
-            <h3 className={`font-sans text-[21.2px] font-medium md:text-[24px] ${titleClassName}`}>{title}</h3>
+            <h3
+              className={`font-sans text-[21.2px] font-medium md:text-[length:var(--card-title-size)] ${
+                titleWidth ? '2xl:w-[var(--card-title-w)] 2xl:max-w-full' : ''
+              } ${titleClassName}`}
+              style={{
+                '--card-title-size': `${titleSize}px`,
+                ...(titleWidth ? { '--card-title-w': `${titleWidth}px` } : {}),
+              }}
+            >
+              {title}
+            </h3>
           )}
           {body && (
             <p className={`font-sans text-[14.15px] md:text-[16px] ${bodyClassName}`}>{body}</p>

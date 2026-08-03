@@ -14,18 +14,25 @@ import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
 import iconArrowPrev from '../assets/icons/icon-arrow-prev.svg';
 import iconArrowNext from '../assets/icons/icon-arrow-next.svg';
 
+// `titleWidth` is the frame's own per-card measure (370:2330 / 2337 / 2344).
+// All three titles are two lines / 52px tall in the design; at the redrawn
+// 20px only the middle one wraps there unaided, so the other two carry the
+// measure that reproduces the break.
 const STORIES = [
   {
     title: 'Helping Seniors Age Safely at Home',
+    titleWidth: 286,
     body: 'Simple tips and practical advice to create a safer, more comfortable living environment for older adults.',
     ctaHref: '/stories/helping-seniors-age-safely',
   },
   {
     title: 'The Power of Community and Companionship',
+    titleWidth: 332,
     body: 'Discover how meaningful relationships and social connections improve the well-being of seniors.',
   },
   {
     title: 'Supporting a Loved One Through Aging',
+    titleWidth: 285,
     body: 'Helpful guidance for families and caregivers navigating the challenges of aging with confidence and compassion.',
   },
 ];
@@ -53,11 +60,22 @@ function ImpactStories() {
         image={heroImpact}
         height={548}
         mobileFlatOverlay
+        // 371:2942 is one of this file's mirrored rects (x = width), so its
+        // 0.2→0.84 gradient reads 0.84→0.2 in the frame — the same end-stop
+        // Services uses, not PageHero's 0.9 default.
+        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)"
         textLeft={76}
-        textWidth={789}
-        // 371:2948 sits at y=313 h=150 inside the 548 hero.
-        textBottom={85}
+        textWidth={628}
+        // 371:2948 sits at y=313 h=140 inside the 548 hero, i.e. 95 up from
+        // its bottom edge. The block is the 46px title box + 16 + a 3-line
+        // 20px subtitle (78) on the redrawn 628 measure.
+        textBottom={95}
         title="Impact Stories"
+        titleSize={36}
+        titleTracking={1.8}
+        titleSizeMd={36}
+        titleTrackingMd={1.8}
+        titleLeading={46}
         // subtitleClassName intentionally omitted — see About.jsx: the old
         // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
         // so dropping it keeps ≥768 byte-identical and lands the mobile
@@ -73,6 +91,7 @@ function ImpactStories() {
             chipLabel="Real World stories"
             lede="hear it from the anecdotal record."
             ledeWidth={877}
+            ledeSize={20}
             gap={159}
           />
           <div className="flex w-full flex-col items-center gap-[24px] px-6 md:px-10 xl:px-[72px]">
@@ -83,6 +102,8 @@ function ImpactStories() {
                   image={REAL_WORLD_IMAGES[index]}
                   title={story.title}
                   titleClassName="text-bl-600"
+                  titleSize={20}
+                  titleWidth={story.titleWidth}
                   body={story.body}
                   ctaLabel="read More →"
                   ctaHref={story.ctaHref}
@@ -103,6 +124,7 @@ function ImpactStories() {
             chipLabel="Blogs"
             lede="be updated with all our latest activities here!"
             ledeWidth={877}
+            ledeSize={20}
             gap={310}
           />
           <div className="flex w-full flex-col items-center gap-[24px] px-6 md:px-10 xl:px-[72px]">
@@ -113,6 +135,8 @@ function ImpactStories() {
                   image={BLOG_IMAGES[index]}
                   title={story.title}
                   titleClassName="text-bl-600"
+                  titleSize={20}
+                  titleWidth={story.titleWidth}
                   body={story.body}
                   ctaLabel="read More →"
                   ctaHref={story.ctaHref}
@@ -130,6 +154,17 @@ function ImpactStories() {
         bg="blue"
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
+        // 734:183/184 drop to 32/16 with the title on an explicit 41px box,
+        // and 734:186 has the bare 28px glyph rather than the s-300 badge —
+        // which is what keeps the pills 44 tall and the block 224, centred in
+        // the 421 band (the frame's 99/98 split).
+        titleClassName="lg:text-[32px] lg:leading-[41px]"
+        // 734:181 is a 439 column, not the component's 529 — at 16px that is
+        // what breaks the sub copy after "support our" rather than after
+        // "we'd". Both are two lines, so only the wrap moves.
+        subtitleClassName="lg:w-[439px] lg:max-w-full lg:text-[16px]"
+        barePillIcons
+        textLeft={78}
       />
     </div>
   );
