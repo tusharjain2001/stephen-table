@@ -32,6 +32,11 @@
  *                    otherwise the white H1 loses contrast. This only
  *                    governs the ≥768 horizontal scrim — the base (mobile)
  *                    vertical scrim below always renders regardless.
+ * - `overlayGradient` — CSS `background` string replacing the default ≥768
+ *                    scrim. Home's redesigned frame (342:19) draws a scrim
+ *                    that holds solid 0.9 for its first 17.882% before it
+ *                    starts fading, rather than fading from x=0 like every
+ *                    other page's. Only applies when `overlay === 'gradient'`.
  * - `height`       — px height of the hero band at ≥1280 (xl). Figma uses
  *                    746 (Home, Services), 548 (About, Nominate, Get
  *                    Involved, Impact, Contact) or 470 (Blog detail). Below
@@ -94,6 +99,7 @@ function PageHero({
   imagePosition = '50% 50%',
   flipImage = false,
   overlay = 'gradient',
+  overlayGradient = 'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
   mobileOverlay = 'gradient',
   height = 548,
   mobileHeight = 745,
@@ -163,10 +169,7 @@ function PageHero({
       {overlay === 'gradient' && (
         <div
           className="absolute inset-0 hidden md:block"
-          style={{
-            background:
-              'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
-          }}
+          style={{ background: overlayGradient }}
         />
       )}
       {flatOverlay && <div className="absolute inset-0 bg-black/20" />}

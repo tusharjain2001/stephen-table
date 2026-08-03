@@ -35,7 +35,9 @@ function StatsBand({ stats = [], image, mobileImage, className = '' }) {
         <div className="flex w-full flex-col lg:h-[440px] lg:flex-row lg:items-center">
           <div className="order-2 flex flex-col gap-[64px] px-[48px] py-[60px] md:order-none md:gap-8 md:px-10 md:py-14 lg:ml-[calc(var(--gutter)+48px)] lg:mr-[80px] lg:w-[308px] lg:shrink-0 lg:gap-[64px] lg:px-0 lg:py-0 xl:ml-[calc(var(--gutter)+176px)] xl:mr-[133px]">
             {stats.map((stat) => (
-              <div key={stat.caption} className="flex flex-col items-center gap-[10px] text-center md:gap-[8px]">
+              // 342:174 puts 10px between the figure and its caption at 1440
+              // (93 = 41 + 10 + 42); only the md tablet step uses 8.
+              <div key={stat.caption} className="flex flex-col items-center gap-[10px] text-center md:gap-[8px] lg:gap-[10px]">
                 <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>
                 <span className="font-sans text-[16px] text-white">{stat.caption}</span>
               </div>

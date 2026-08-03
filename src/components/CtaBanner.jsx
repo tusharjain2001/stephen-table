@@ -38,6 +38,17 @@ const DEFAULT_PILLS = [
  * - `actions`    — optional custom node rendered instead of `pills` (covers
  *                  the Home hero banner's "Get in touch" Button and Get
  *                  Involved's single white "Sign up for Volunteering" pill)
+ * - `titleClassName` / `subtitleClassName` — ≥lg type overrides. Home's
+ *                  redesigned frame (342:1002/342:1003) drops the title to
+ *                  32 and the sub copy to 16 on a 451px measure; the other
+ *                  four callers keep the 40/20 pair.
+ * - `barePillIcons` — render the pill icon as a plain 28px glyph instead of
+ *                  the rounded s-300 badge. Home's 342:1004 has no badge,
+ *                  which is what keeps its pills 44 tall rather than 64.
+ * - `textTop`    — px from the top of the ≥lg band to the text column,
+ *                  replacing the default vertical centering. Home's 342:1000
+ *                  sits at 86 in a 421 band (111 below it), not the 98.5 that
+ *                  centering its 224px block would give.
  * - `className`  — extra classes on the outer <section>
  */
 function CtaBanner({
@@ -48,6 +59,10 @@ function CtaBanner({
   pillTheme = 'sage',
   pills = DEFAULT_PILLS,
   actions,
+  titleClassName = 'lg:text-[40px]',
+  subtitleClassName = 'lg:text-[20px]',
+  barePillIcons = false,
+  textTop,
   className = '',
 }) {
   const bgClass = bg === 'blue' ? 'bg-bl-600' : 'bg-b-600';
@@ -158,32 +173,53 @@ function CtaBanner({
           this is Figma-exact: 72 + 529 + 107 = 708 with a 732px photo
           (342:1000 / 342:997). */}
       <div className="relative z-10 hidden w-full flex-col gap-10 px-6 py-14 md:flex md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
-        <div className="flex flex-col gap-9 lg:ml-[calc(var(--gutter)+72px)] lg:mr-[107px] lg:w-[529px] lg:shrink lg:gap-[36px]">
+        <div
+          className={`flex flex-col gap-9 lg:ml-[calc(var(--gutter)+72px)] lg:mr-[107px] lg:w-[529px] lg:shrink lg:gap-[36px] ${
+            textTop == null ? '' : 'lg:self-start lg:mt-[var(--cta-text-top)]'
+          }`}
+          style={textTop == null ? undefined : { '--cta-text-top': `${textTop}px` }}
+        >
           <div className="flex flex-col gap-[8px]">
             {title && (
-              <h2 className="font-display text-[32px] capitalize text-white md:text-[36px] lg:text-[40px]">
+              <h2 className={`font-display text-[32px] capitalize text-white md:text-[36px] ${titleClassName}`}>
                 {title}
               </h2>
             )}
-            {subtitle && <p className="font-sans text-[18px] text-white lg:text-[20px]">{subtitle}</p>}
+            {subtitle && (
+              <p className={`font-sans text-[18px] text-white ${subtitleClassName}`}>{subtitle}</p>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-3 lg:flex-col lg:items-start lg:gap-[9px]">
             {actions ??
-              pills.map((pill) => {
+              pills.map((pill, index) => {
                 const PillTag = pill.to ? Link : 'a';
                 const target = pill.to ? { to: pill.to } : { href: pill.href };
+                // Same convention as the mobile block above: callers order
+                // pills as [email, phone] and only the email is underlined.
+                const isEmail = index === 0;
 
                 return (
                   <PillTag
                     key={pill.label}
                     {...target}
-                    className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] lg:text-[24px] ${pillClasses}`}
+                    className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] ${
+                      barePillIcons ? 'lg:text-[20px]' : 'lg:text-[24px]'
+                    } ${pillClasses}`}
                   >
-                    <span className="flex shrink-0 items-center justify-center rounded-[10px] bg-s-300 p-[8px] lg:rounded-[12px] lg:p-[10px]">
-                      <img src={pill.icon} alt="" className="size-[24px] lg:size-[28px]" aria-hidden="true" />
-                    </span>
-                    {pill.label}
+                    {barePillIcons ? (
+                      <img
+                        src={pill.icon}
+                        alt=""
+                        className="size-[24px] shrink-0 lg:size-[28px]"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <span className="flex shrink-0 items-center justify-center rounded-[10px] bg-s-300 p-[8px] lg:rounded-[12px] lg:p-[10px]">
+                        <img src={pill.icon} alt="" className="size-[24px] lg:size-[28px]" aria-hidden="true" />
+                      </span>
+                    )}
+                    <span className={barePillIcons && isEmail ? 'underline' : ''}>{pill.label}</span>
                   </PillTag>
                 );
               })}

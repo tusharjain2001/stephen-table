@@ -15,7 +15,9 @@ const NAV_LINKS = [
  * Site navbar. Figma defines the ≥1280 desktop layout (Implementation Plan
  * §3.1 "Navbar") and, as of the mobile pass, the 402px mobile dropdown menu
  * (Batch 1 Task 2). The breakpoint pass (§5, Task 14) adds:
- * - `lg` (1024–1279): full link row kept, gap 41→24, font 24→20.
+ * - `lg` (1024–1279): full link row kept, gap 41→24. The redesigned frame
+ *   (342:773) sets logo and links to 20px at 1440 too, so the type no longer
+ *   steps up at `xl` — only the gap does.
  * - `md` (768–1023, tablet): no Figma frame exists for this width, so it
  *   keeps the pre-mobile-pass hamburger + full-width slide-down menu
  *   verbatim (logo + hamburger, bg wb-200, links DM Sans Medium 20
@@ -31,22 +33,29 @@ function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-wb-200">
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-[16px] py-[10px] md:px-10 md:py-[15px] lg:px-12 xl:pl-[81px] xl:pr-[80px]">
+        {/* 342:242 is a 77px "[logo]" placeholder sitting 208px clear of the
+            link row, i.e. the row starts 285px into the content box. Reserving
+            that 285 (rather than a 208 margin) keeps the links at their designed
+            x=366 now that the real wordmark is 150px wide, not 77. */}
         <Link
           to="/"
-          className="shrink-0 font-sans text-[20px] font-medium capitalize text-espresso xl:text-[24px]"
+          className="shrink-0 font-sans text-[20px] font-medium capitalize text-espresso xl:w-[285px]"
           onClick={() => setOpen(false)}
         >
           Stephen&apos;s Table
         </Link>
 
-        {/* Desktop nav (≥1024) */}
-        <div className="hidden items-center gap-6 lg:flex xl:gap-[41px]">
+        {/* Desktop nav (≥1024). 342:243 leaves all the remaining slack between
+            "Contact" and Donate, so the links sit near the centre of the bar
+            and the button alone is pinned to the right gutter — they are not
+            one right-hugging group. */}
+        <div className="hidden items-center gap-6 lg:ml-auto lg:flex xl:ml-0 xl:gap-[41px]">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `font-sans text-[20px] font-medium capitalize text-espresso transition-colors xl:text-[24px] ${
+                `font-sans text-[20px] font-medium capitalize text-espresso transition-colors ${
                   isActive ? 'underline underline-offset-8' : ''
                 }`
               }
@@ -54,7 +63,9 @@ function Navbar() {
               {link.label}
             </NavLink>
           ))}
+        </div>
 
+        <div className="ml-auto hidden lg:block">
           <Button as={Link} to="/get-involved" variant="donate-nav">
             Donate Now
           </Button>

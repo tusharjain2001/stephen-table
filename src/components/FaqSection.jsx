@@ -66,12 +66,19 @@ const EYEBROW_MD_OVERRIDES = {
  *                        (plan §4.8 — Get Involved shows navy on desktop but
  *                        blue on its mobile frame). Must be a key of
  *                        `EYEBROW_MD_OVERRIDES` above (see note there).
+ * - `compactType`      — use Home's redesigned type scale (378:3176/3177):
+ *                        20px questions on -0.2px tracking and 16px answers,
+ *                        against the 24/-0.24/20 the other three callers
+ *                        still draw. Row heights are unchanged either way —
+ *                        the question's line box is pinned at 22.895 and the
+ *                        answer still wraps to two lines on its 892 measure.
  * - `className`        — extra classes on the outer <section>
  */
 function FaqSection({
   faqs = DEFAULT_FAQS,
   excludeQuestions = [],
   eyebrowClassName = '',
+  compactType = false,
   className = '',
 }) {
   const items = faqs.filter((item) => !excludeQuestions.includes(item.question));
@@ -81,7 +88,9 @@ function FaqSection({
 
   return (
     <section
-      className={`flex w-full flex-col items-center gap-[24px] px-[16px] py-[60px] md:gap-[36px] md:px-10 md:py-16 xl:px-6 xl:py-[91px] ${className}`}
+      className={`flex w-full flex-col items-center gap-[24px] px-[16px] py-[60px] md:gap-[36px] md:px-10 md:py-16 xl:px-6 ${
+        compactType ? 'xl:py-[96px]' : 'xl:py-[91px]'
+      } ${className}`}
     >
       <h2
         className={`w-full max-w-[1300px] text-left font-sans text-[16px] font-bold uppercase text-bl-500 md:text-[20px] ${mdEyebrowClassName}`}
@@ -119,9 +128,9 @@ function FaqSection({
                 }`}
               >
                 <span
-                  className={`font-sans text-[20px] leading-[22.895px] tracking-[-0.2px] text-ink md:text-[24px] md:leading-[22.895px] md:tracking-[-0.24px] ${
-                    isOpen ? 'font-medium md:font-normal' : ''
-                  }`}
+                  className={`font-sans text-[20px] leading-[22.895px] tracking-[-0.2px] text-ink md:leading-[22.895px] ${
+                    compactType ? 'md:text-[20px] md:tracking-[-0.2px]' : 'md:text-[24px] md:tracking-[-0.24px]'
+                  } ${isOpen ? 'font-medium md:font-normal' : ''}`}
                 >
                   {item.question}
                 </span>
@@ -142,7 +151,11 @@ function FaqSection({
                 }`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <p className="max-w-[273px] pb-[24px] pt-[12px] font-sans text-[16px] text-gray-67 md:max-w-[892px] md:text-[20px]">
+                  <p
+                    className={`max-w-[273px] pb-[24px] pt-[12px] font-sans text-[16px] text-gray-67 md:max-w-[892px] ${
+                      compactType ? 'md:text-[16px]' : 'md:text-[20px]'
+                    }`}
+                  >
                     {item.answer}
                   </p>
                 </div>

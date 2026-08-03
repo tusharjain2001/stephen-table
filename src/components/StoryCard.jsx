@@ -12,6 +12,8 @@ import iconArrowBadge from '../assets/icons/icon-arrow-badge.svg';
  * - `titleClassName` — title color override (defaults to `text-black`;
  *                      use `text-bl-600` on Impact Stories/Blog cards)
  * - `body`           — card body copy
+ * - `bodyClassName`  — body color override (defaults to `text-gray-59`;
+ *                      Home's "How we help" tiles draw it black per 377:3067)
  * - `ctaLabel`       — CTA button text, defaults to `'learn more'` (Impact
  *                      Stories/Blog cards use `'read More →'`)
  * - `ctaHref`        — internal route for the CTA (rendered as a Link)
@@ -37,6 +39,7 @@ function StoryCard({
   title,
   titleClassName = 'text-black',
   body,
+  bodyClassName = 'text-gray-59',
   ctaLabel = 'learn more',
   ctaHref,
   onCtaClick,
@@ -79,7 +82,9 @@ function StoryCard({
           {title && (
             <h3 className={`font-sans text-[21.2px] font-medium md:text-[24px] ${titleClassName}`}>{title}</h3>
           )}
-          {body && <p className="font-sans text-[14.15px] text-gray-59 md:text-[16px]">{body}</p>}
+          {body && (
+            <p className={`font-sans text-[14.15px] md:text-[16px] ${bodyClassName}`}>{body}</p>
+          )}
         </div>
 
         {ctaHref ? (
