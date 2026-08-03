@@ -87,7 +87,11 @@
  * - `titleCapitalizeBase` — whether the H1 gets `capitalize` at base
  *                    (mobile). Defaults to true; Nominate passes false since
  *                    its mobile frame keeps "Nominate a Senior" lowercase-a.
- *                    ≥768 always keeps `capitalize`, unaffected by this prop.
+ * - `titleCapitalize` — same, for ≥768. Defaults to true. Nominate's desktop
+ *                    frame (367:771) also has no capitalize on the layer,
+ *                    unlike About's 342:817 and Services' 484:3771, so it
+ *                    wants "Nominate a Senior" rather than "Nominate A
+ *                    Senior" at every tier.
  * - `titleClassName`
  * - `subtitle`     — optional sub copy under the title
  * - `subtitleClassName`
@@ -117,6 +121,7 @@ function PageHero({
   titleTracking = 2.8,
   titleLeading,
   titleCapitalizeBase = true,
+  titleCapitalize = true,
   titleClassName = '',
   subtitle,
   subtitleClassName = '',
@@ -196,9 +201,11 @@ function PageHero({
         >
           {title && (
             <h1
-              className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] md:capitalize xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
+              className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
                 titleCapitalizeBase ? 'capitalize' : ''
-              } ${titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''} ${titleClassName}`}
+              } ${titleCapitalize ? 'md:capitalize' : 'md:normal-case'} ${
+                titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''
+              } ${titleClassName}`}
             >
               {title}
             </h1>

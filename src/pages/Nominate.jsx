@@ -52,6 +52,10 @@ const INITIAL_FORM = {
   zip: '',
 };
 
+// 381:5711 — the redraw takes every field label to 16 on a 19px box, which
+// is what makes each field frame 19 + 2 + 60 = 81 rather than 86.
+const LABEL = { labelSize: 16, labelLeading: 19 };
+
 function FieldRow({ children }) {
   return <div className="flex flex-col gap-4 md:flex-row md:gap-[29px]">{children}</div>;
 }
@@ -88,12 +92,21 @@ function Nominate() {
         // becomes md-and-up only once this is set, so desktop is untouched.
         mobileImage={heroNominateMobile}
         height={548}
+        // 367:770 is now 313..427 in the 548 hero, i.e. 121 clear of the
+        // bottom, not 85: the redraw took the H1 to 36/1.8 on a 46 line box
+        // and the subtitle to 20, which wraps to 2 lines on the 798 measure
+        // where 24px took 3. 46 + 16 + 52 = its 114 height.
         textLeft={82}
         textWidth={798}
-        // 367:770 sits at y=313 h=150 inside the 548 hero.
-        textBottom={85}
+        textBottom={121}
+        titleSize={36}
+        titleTracking={1.8}
+        titleLeading={46}
         title="Nominate a Senior"
+        // Unlike About's 342:817 and Services' 484:3771, this layer carries no
+        // capitalize at any tier — the frame reads "Nominate a Senior".
         titleCapitalizeBase={false}
+        titleCapitalize={false}
         // subtitleClassName intentionally omitted — see About.jsx: the old
         // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
         // so dropping it keeps ≥768 byte-identical and lands the mobile
@@ -101,19 +114,23 @@ function Nominate() {
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
       />
 
-      <EligibilityBand />
+      {/* 378:3220 runs the intro at 20 like Services, but 378:3222 also
+          drops the bullets to 20 — Services keeps those at 24. */}
+      <EligibilityBand introSize={20} bulletSize={20} />
 
       {/* How it works */}
       <section className="w-full py-14 xl:py-[102px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 xl:gap-[53px]">
-          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+          {/* 367:774 is an explicit h-62 box; the chip is 47 and the 20px lede
+                52, so letting it hug would cost the section 10px. */}
+          <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:h-[62px] xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
             <SectionChip className="shrink-0">how it works</SectionChip>
-            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] xl:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[17px]">
+          <div className="grid w-full grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[24px]">
             {STEPS.map((s) => (
               <StepCard key={s.title} {...s} />
             ))}
@@ -126,16 +143,19 @@ function Nominate() {
         <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:gap-[43px] xl:px-[55px] xl:pb-[47px] xl:pt-[48px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:gap-[68px] xl:px-[55px] xl:pb-[47px] xl:pt-[48px]"
           >
             {/* Figma 381:5701 nests the gaps rather than spacing everything
                 evenly: 11 inside the header, 51 below it, 36 under "Your
                 Information", 24 between rows, 11 before the mandatory note,
-                then 43 down to the step button. */}
+                then 68 down to the step button. The frame leaves a bare 100px
+                void there and drops the note entirely — see the note below,
+                which is kept inside that void so the card still lands on
+                849 (48 + 640 + 68 + 46 + 47). */}
             <div className="flex flex-col gap-[36px] xl:gap-[51px]">
             <div className="flex flex-col gap-[11px]">
-              {/* Figma 381:5703 h=36 */}
-              <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px] xl:leading-[36px]">
+              {/* Figma 381:5703 h=31 — DM Sans Medium 24 */}
+              <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600">
                 fill the form to nominate a senior
               </h2>
               <p className="font-sans text-[18px] text-gray-9c xl:w-[1009px] xl:text-[20px]">
@@ -153,6 +173,7 @@ function Nominate() {
               <div className="flex flex-col gap-[24px]">
                 <FieldRow>
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="First Name"
                     required
@@ -161,6 +182,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Last Name"
                     required
@@ -170,6 +192,7 @@ function Nominate() {
                   />
                 </FieldRow>
                 <FormField
+                    {...LABEL}
                   label="Email ID"
                   required
                   type="email"
@@ -178,6 +201,7 @@ function Nominate() {
                   onChange={updateField}
                 />
                 <FormField
+                    {...LABEL}
                   label="Tell us about the need"
                   required
                   name="need"
@@ -185,6 +209,7 @@ function Nominate() {
                   onChange={updateField}
                 />
                 <FormField
+                    {...LABEL}
                   as="select"
                   label="Relationship to the Senior"
                   required
@@ -206,6 +231,7 @@ function Nominate() {
               <div className="flex flex-col gap-[24px]">
                 <FieldRow>
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Senior's Full Name"
                     required
@@ -214,6 +240,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Enter Age"
                     required
@@ -225,6 +252,7 @@ function Nominate() {
                 </FieldRow>
                 <FieldRow>
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Phone Number"
                     required
@@ -234,6 +262,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Email Address"
                     required
@@ -244,6 +273,7 @@ function Nominate() {
                   />
                 </FieldRow>
                 <FormField
+                    {...LABEL}
                   label="Home Address"
                   required
                   name="address"
@@ -252,6 +282,7 @@ function Nominate() {
                 />
                 <FieldRow>
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="City"
                     required
@@ -260,6 +291,7 @@ function Nominate() {
                     onChange={updateField}
                   />
                   <FormField
+                    {...LABEL}
                     className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
                     label="Zip Code"
                     required
@@ -305,7 +337,7 @@ function Nominate() {
         </div>
       </section>
 
-      <FaqSection />
+      <FaqSection compactType />
     </div>
   );
 }

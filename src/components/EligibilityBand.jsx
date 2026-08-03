@@ -22,12 +22,20 @@ const DEFAULT_ITEMS = [
  *                 with its content centred and the intro is one line either
  *                 way, so this changes nothing but the type.
  * - `items`     — array of bullet strings
+ * - `bulletSize`— px bullet type size from `xl` up (default 24, which is what
+ *                 Services' 363:118 draws). **Nominate's 378:3222 runs the
+ *                 same copy at 20**, and that changes the wrap: at 24 item 3
+ *                 needs two lines on the 797 measure (7 lines / 259px), at 20
+ *                 only item 4 does (6 lines / 222px). The band is
+ *                 `min-h-511` with its content centred, so both fit and a
+ *                 section-height check can never see the difference.
  * - `className` — extra classes on the outer <section>
  */
 function EligibilityBand({
   intro = 'To be eligible for support, individuals should:',
   introSize = 24,
   items = DEFAULT_ITEMS,
+  bulletSize = 24,
   className = '',
 }) {
   return (
@@ -72,7 +80,10 @@ function EligibilityBand({
           {items.map((item) => (
             <li key={item} className="flex items-start gap-[12.5px] md:gap-[16px] xl:gap-[15px]">
               <span className="mt-[3px] size-[10px] shrink-0 rotate-45 bg-white md:mt-[11px] xl:mt-[13px]" />
-              <span className="font-sans text-[16px] leading-[17px] text-white md:text-[20px] md:leading-[28px] xl:text-[24px] xl:leading-[37px] 2xl:w-[797px]">
+              <span
+                className="font-sans text-[16px] leading-[17px] text-white md:text-[20px] md:leading-[28px] xl:text-[length:var(--eb-bullet-size)] xl:leading-[37px] 2xl:w-[797px]"
+                style={{ '--eb-bullet-size': `${bulletSize}px` }}
+              >
                 {item}
               </span>
             </li>

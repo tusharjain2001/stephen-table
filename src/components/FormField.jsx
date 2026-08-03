@@ -8,6 +8,11 @@ import iconChevronDown from '../assets/icons/icon-chevron-down.svg';
  * - `as`          — `'input'` (default) | `'textarea'` | `'select'`
  * - `label`       — field label text
  * - `required`    — shows a red `*` next to the label (default false)
+ * - `labelSize` / `labelLeading` — px label type and line box from `md` up
+ *                   (default 20/24). Nominate's redrawn 381:5711 is 16 on a
+ *                   19 box, which is what makes its field frames 19 + 2 + 60
+ *                   = 81 rather than 86. Contact's 381:5541 has not been
+ *                   re-fetched, so the default keeps it where it was.
  * - `className`   — extra classes on the outer <label> wrapper
  * - `fieldClassName` — extra classes on the input/textarea/select itself
  * - `children`    — `<option>` elements when `as="select"`
@@ -18,6 +23,8 @@ function FormField({
   as = 'input',
   label,
   required = false,
+  labelSize = 20,
+  labelLeading = 24,
   className = '',
   fieldClassName = '',
   children,
@@ -35,7 +42,13 @@ function FormField({
         // Inter, whose `normal` leading is 24.2 at 20px, so each field crept
         // 0.2px past its frame — pinned rather than left to the fallback.
         // Mobile frame (662:9459) shrinks the label to 14px.
-        <span className="font-form text-[14px] text-gray-94 md:text-[20px] md:leading-[24px]">
+        <span
+          className="font-form text-[14px] text-gray-94 md:text-[length:var(--ff-label-size)] md:leading-[var(--ff-label-leading)]"
+          style={{
+            '--ff-label-size': `${labelSize}px`,
+            '--ff-label-leading': `${labelLeading}px`,
+          }}
+        >
           {label}
           {required && <span className="text-error"> *</span>}
         </span>
