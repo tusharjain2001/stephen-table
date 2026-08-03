@@ -169,13 +169,15 @@ function Home() {
         mobileImage={heroMainMobile}
         mobileOverlay="none"
         imagePosition="50% 34%"
-        // The redesigned frame (342:19) DOES carry a scrim — the rect is
-        // mirrored, so its `0.2 → 0.9 @82.118%` reads left-to-right as 0.9
-        // held to 17.882% and then fading to 0.2. (The mirror is on the fill
-        // too, so the photo itself lands in `hero-main.png`'s own orientation
-        // — no `flipImage`.)
-        overlay="gradient"
-        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.9) 17.882%, rgba(56,41,31,0.2) 100%)"
+        // 342:19 reports a scrim (0.9 held to 17.882%, fading to 0.2), but it
+        // is ALREADY BAKED INTO hero-main.png — that 2880×1492 file is a
+        // flattened export, not the 4096×2723 raw fill Figma references.
+        // Measured against the Figma render of the frame: asset alone is MAD
+        // 7.1, asset + this gradient in CSS is 19.1, and the raw fill + the
+        // gradient is 36.0. Where the two differ (x≈160) the render is
+        // *lighter* than the asset, so no added wash can help. Same trap as
+        // About's hero — layering the CSS scrim double-darkens it.
+        overlay="none"
         height={548}
         mobileHeight={746}
         mobileTextTop={410}
