@@ -36,10 +36,13 @@ function Navbar() {
         {/* 342:242 is a 77px "[logo]" placeholder sitting 208px clear of the
             link row, i.e. the row starts 285px into the content box. Reserving
             that 285 (rather than a 208 margin) keeps the links at their designed
-            x=366 now that the real wordmark is 150px wide, not 77. */}
+            x=366 now that the real wordmark is 150px wide, not 77.
+            `2xl:` only — the reservation is worth 135px more than the wordmark
+            needs, and the bar does not have it to spare until the full 1440
+            design width: at 1280 it overflows by 13px and the links wrap. */}
         <Link
           to="/"
-          className="shrink-0 font-sans text-[20px] font-medium capitalize text-espresso xl:w-[285px]"
+          className="shrink-0 font-sans text-[20px] font-medium capitalize text-espresso 2xl:w-[285px]"
           onClick={() => setOpen(false)}
         >
           Stephen&apos;s Table
@@ -48,14 +51,17 @@ function Navbar() {
         {/* Desktop nav (≥1024). 342:243 leaves all the remaining slack between
             "Contact" and Donate, so the links sit near the centre of the bar
             and the button alone is pinned to the right gutter — they are not
-            one right-hugging group. */}
-        <div className="hidden items-center gap-6 lg:ml-auto lg:flex xl:ml-0 xl:gap-[41px]">
+            one right-hugging group. Between 1024 and 1439 the `ml-auto` pair
+            splits the slack instead, which keeps the row centred as it narrows.
+            `whitespace-nowrap` stops a squeezed row from breaking a label in
+            half ("About / Us") before the hamburger tier takes over. */}
+        <div className="hidden items-center gap-5 lg:ml-auto lg:flex xl:gap-[41px] 2xl:ml-0">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `font-sans text-[20px] font-medium capitalize text-espresso transition-colors ${
+                `whitespace-nowrap font-sans text-[20px] font-medium capitalize text-espresso transition-colors ${
                   isActive ? 'underline underline-offset-8' : ''
                 }`
               }
