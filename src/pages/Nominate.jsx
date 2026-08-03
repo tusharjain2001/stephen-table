@@ -94,10 +94,13 @@ function Nominate() {
         height={548}
         // 367:770 is now 313..427 in the 548 hero, i.e. 121 clear of the
         // bottom, not 85: the redraw took the H1 to 36/1.8 on a 46 line box
-        // and the subtitle to 20, which wraps to 2 lines on the 798 measure
-        // where 24px took 3. 46 + 16 + 52 = its 114 height.
+        // and the subtitle to 20, which wraps to 2 lines where 24px took 3.
+        // 46 + 16 + 52 = its 114 height. The same pass that narrowed the
+        // form card also took this measure 798 -> 620, which moves the
+        // subtitle's break from after "provide" to after "community" — still
+        // two lines, so the block height and the 121 are unchanged.
         textLeft={82}
-        textWidth={798}
+        textWidth={620}
         textBottom={121}
         titleSize={36}
         titleTracking={1.8}
