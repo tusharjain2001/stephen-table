@@ -320,7 +320,13 @@ function Services() {
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
       />
 
-      <EligibilityBand introSize={20} />
+      {/* 363:118 draws these bullets at 24 where Nominate's 378:3222 draws
+          the identical copy at 20 — a real per-page difference in the file,
+          overridden here so the list matches the intro line above it. The
+          drop stops item 3 wrapping (6 lines / 222px, not 7 / 259), which
+          the `min-h-511` centred band absorbs exactly as it does on
+          Nominate. */}
+      <EligibilityBand introSize={20} bulletSize={20} />
 
       {/* How it works */}
       <section className="w-full py-[60px] md:py-14 xl:py-[102px]">
