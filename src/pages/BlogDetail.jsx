@@ -20,6 +20,15 @@ const PARAGRAPHS = [
   "Need support or want to get involved? Contact us today to learn how Stephen's Table Colorado can help.",
 ];
 
+// 370:2787 separates every paragraph with a real empty line except one: the
+// join between "At Stephen's Table…" (index 6) and "Every act of kindness…"
+// (index 7) has none. It reads as an authoring slip rather than intent, but it
+// is what the frame draws, and it is load-bearing — with a blank line there the
+// article is 797.6 rather than 777 and every landmark below it (gallery, CTA,
+// footer) sits 20px low, which takes the gallery from 3.54 to 30.14 MAD against
+// the frame render. Collapsed at 2xl only, the one width the 1440 frame governs.
+const TIGHT_JOIN_INDEX = 7;
+
 function BlogDetail() {
   return (
     <div>
@@ -67,7 +76,7 @@ function BlogDetail() {
             the bottom (was 42). The redraw took the H1 40 → 32 / 2 → 1.6 on a
             41px box and the byline 28 → 20, so the block is 41 + 16 + 26 = 83. */}
         <div className="absolute inset-x-[29px] top-[551px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
-          <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:leading-[41px]">
+          <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:tracking-[1.6px] xl:leading-[41px]">
             Helping seniors age safely at home
           </h1>
           <p className="font-sans text-[16px] text-wb-400 sm:text-[20px]">
@@ -83,9 +92,19 @@ function BlogDetail() {
           empty line rather than a CSS gap: at `leading-normal` that line box
           is 20.83px, which is what the gap reproduces. */}
       <section className="w-full py-12 xl:pb-[90px] xl:pt-[76px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[20px] px-6 text-justify font-sans text-[18px] text-gray-59 md:gap-[20.83px] md:px-10 md:text-[16px] xl:px-[72px] 2xl:max-w-[1076px] 2xl:px-0">
-          {PARAGRAPHS.map((paragraph) => (
-            <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+        {/* `min-h` (not `h`): DM Sans' 20.83px line box accumulates 1.2px
+            short of the frame's 777 over ~30 lines, which is enough to pull
+            the gallery, CTA and footer a pixel off their frame positions.
+            Pinning the box the way the button and caption heights are pinned
+            lands them exactly, and can never clip. */}
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[20px] px-6 text-justify font-sans text-[18px] text-gray-59 md:gap-[20.83px] md:px-10 md:text-[16px] xl:px-[72px] 2xl:min-h-[777px] 2xl:max-w-[1076px] 2xl:px-0">
+          {PARAGRAPHS.map((paragraph, index) => (
+            <p
+              key={paragraph.slice(0, 24)}
+              className={index === TIGHT_JOIN_INDEX ? '2xl:-mt-[20.83px]' : ''}
+            >
+              {paragraph}
+            </p>
           ))}
         </div>
       </section>
