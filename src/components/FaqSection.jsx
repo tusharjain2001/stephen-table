@@ -139,10 +139,10 @@ function FaqSection({
                 src={iconFaqToggle}
                 alt=""
                 aria-hidden="true"
-                className={`pointer-events-none absolute right-0 size-[35px] transition-transform duration-300 ease-in-out md:size-[71px] ${
+                className={`pointer-events-none absolute right-[12.5px] size-[10px] transition-transform duration-300 ease-in-out md:right-[30.5px] ${
                   isOpen
-                    ? 'top-[16px] md:top-[24px]'
-                    : 'top-1/2 -translate-y-1/2 rotate-45 md:top-0 md:translate-y-0'
+                    ? 'top-[28.5px] md:top-[54.5px]'
+                    : 'top-1/2 -translate-y-1/2 rotate-45'
                 }`}
               />
               <div
