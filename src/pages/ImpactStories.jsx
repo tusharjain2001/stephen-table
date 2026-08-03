@@ -89,7 +89,7 @@ function ImpactStories() {
           <SectionHeader
             chipVariant="blue"
             chipLabel="Real World stories"
-            lede="hear it from the anecdotal record."
+            lede="Hear it from the anecdotal record."
             ledeWidth={877}
             ledeSize={20}
             gap={159}
@@ -122,7 +122,7 @@ function ImpactStories() {
           <SectionHeader
             chipVariant="blue"
             chipLabel="Blogs"
-            lede="be updated with all our latest activities here!"
+            lede="Be updated with all our latest activities here!"
             ledeWidth={877}
             ledeSize={20}
             gap={310}
