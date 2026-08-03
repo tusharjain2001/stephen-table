@@ -142,10 +142,15 @@ function Nominate() {
 
       {/* Nomination form */}
       <section className="w-full bg-bl-300 py-12 xl:py-[69px]">
-        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0">
+        {/* 381:5698 puts the narrowed card at x=181 in the 1440 frame, which
+            is 2px left of centre (1440 − 1074 = 366 → 183). Small, but it is
+            an explicit frame coordinate and matching it halves the card's
+            pixel diff against the render (2.46 → 1.17 MAD), so the column is
+            anchored rather than centred at 2xl. */}
+        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0 2xl:justify-start 2xl:pl-[181px]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:gap-[68px] xl:px-[55px] xl:pb-[47px] xl:pt-[48px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:gap-[68px] xl:px-[55px] xl:pb-[47px] xl:pt-[48px] 2xl:max-w-[1074px] 2xl:px-[46.402px]"
           >
             {/* Figma 381:5701 nests the gaps rather than spacing everything
                 evenly: 11 inside the header, 51 below it, 36 under "Your
@@ -160,7 +165,12 @@ function Nominate() {
               <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600">
                 fill the form to nominate a senior
               </h2>
-              <p className="font-sans text-[18px] text-gray-9c xl:w-[1009px] xl:text-[20px]">
+              {/* 381:5704 still carries the old 1009 measure inside a frame
+                  the redraw narrowed to 981.196 — a stale hug, and 1009 now
+                  overflows the card. It wraps to the frame's two lines at
+                  either width, so the narrowed card just takes the full
+                  content measure. */}
+              <p className="font-sans text-[18px] text-gray-9c xl:w-[1009px] xl:text-[20px] 2xl:w-full">
                 if you are aware of any senior around you, who might benefit from our service, you can
                 fill the form below to nominate them and our team will get in touch with them
               </p>
@@ -176,7 +186,7 @@ function Nominate() {
                 <FieldRow>
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="First Name"
                     required
                     name="firstName"
@@ -185,7 +195,7 @@ function Nominate() {
                   />
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="Last Name"
                     required
                     name="lastName"
@@ -234,7 +244,7 @@ function Nominate() {
                 <FieldRow>
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="Senior's Full Name"
                     required
                     name="seniorName"
@@ -243,7 +253,7 @@ function Nominate() {
                   />
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="Enter Age"
                     required
                     type="number"
@@ -255,7 +265,7 @@ function Nominate() {
                 <FieldRow>
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="Phone Number"
                     required
                     type="tel"
@@ -265,7 +275,7 @@ function Nominate() {
                   />
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="Email Address"
                     required
                     type="email"
@@ -285,7 +295,7 @@ function Nominate() {
                 <FieldRow>
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="City"
                     required
                     name="city"
@@ -294,7 +304,7 @@ function Nominate() {
                   />
                   <FormField
                     {...LABEL}
-                    className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                    className="w-full md:flex-1 2xl:w-[476.098px] 2xl:flex-none"
                     label="Zip Code"
                     required
                     name="zip"
@@ -317,9 +327,11 @@ function Nominate() {
               {step === 1 ? (
                 <button
                   type="submit"
-                  // Figma 381:5724 frames this at 46; the stroke is inside, so
-                  // the border-2 must not add its 4px on top of py-10.
-                  className="flex h-[46px] items-center rounded-btn border-2 border-[#709585] px-[32px] font-sans text-[20px] font-semibold text-black"
+                  // Figma 381:5724 frames this at 134.145 x 46; the stroke is
+                  // inside on both axes, so neither the height nor the width
+                  // may be built out of padding + border — `px-[32px]` drew it
+                  // 144.58. Pinned like `learn-more` and `outline-soft` are.
+                  className="flex h-[46px] items-center justify-center rounded-btn border-2 border-[#709585] px-[32px] font-sans text-[20px] font-semibold text-black 2xl:w-[134.145px] 2xl:px-0"
                 >
                   Step 1/2
                 </button>
