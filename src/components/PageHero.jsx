@@ -25,6 +25,13 @@
  *                    puts the mower on the left and the porch on the right;
  *                    flipping lands the dark end of the scrim on the lawn
  *                    rather than on the white house behind the headline.
+ * - `overlayGradient` — CSS gradient for the ≥768 scrim, when `overlay` is
+ *                    `'gradient'`. Defaults to the plain 0.9→0.2 left-to-right
+ *                    wash. About's redrawn 342:785 holds 0.9 to 4.097% and
+ *                    passes through 0.83 at 21.618% before reaching 0.2, which
+ *                    is worth spelling out: against a `get_screenshot` of the
+ *                    frame the exact stops land at 2.84 MAD where the plain
+ *                    two-stop default gives 5.25.
  * - `overlay`      — `'gradient'` (default) dark left-to-right scrim, or
  *                    `'none'`. Home's Figma frame has no scrim at all — the
  *                    dark left side there is the photograph, not a wash — so
@@ -94,6 +101,7 @@ function PageHero({
   imagePosition = '50% 50%',
   flipImage = false,
   overlay = 'gradient',
+  overlayGradient = 'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
   mobileOverlay = 'gradient',
   height = 548,
   mobileHeight = 745,
@@ -161,15 +169,12 @@ function PageHero({
 
       {/* ≥768 gradient: dark side on the left, behind the text block */}
       {overlay === 'gradient' && (
-        <div
-          className="absolute inset-0 hidden md:block"
-          style={{
-            background:
-              'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
-          }}
-        />
+        <div className="absolute inset-0 hidden md:block" style={{ background: overlayGradient }} />
       )}
-      {flatOverlay && <div className="absolute inset-0 bg-black/20" />}
+      {/* ≥768 only, as documented: `mobileFlatOverlay` is the base-tier
+          equivalent, and leaving this one unscoped would darken mobile too.
+          It had no callers, so nothing moves by scoping it now. */}
+      {flatOverlay && <div className="absolute inset-0 hidden bg-black/20 md:block" />}
 
       {/* The photo and its overlay stay full-bleed at any width, but the copy
           is anchored to the same centered 1440 design container every other

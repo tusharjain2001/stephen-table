@@ -4,6 +4,7 @@ import StatsBand from '../components/StatsBand.jsx';
 import CtaBanner from '../components/CtaBanner.jsx';
 
 import heroAbout from '../assets/images/hero-about.png';
+import heroAboutWide from '../assets/images/hero-about-wide.jpg';
 import aboutStory from '../assets/images/about-story.png';
 import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
 import leaderJim from '../assets/images/leader-jim.png';
@@ -84,12 +85,23 @@ function About() {
   return (
     <div>
       <PageHero
-        image={heroAbout}
-        // hero-about.png is a flattened 1440x548 export of the Figma hero —
-        // it already contains the scrim (it matches the Figma render at a
-        // mean abs difference of 1.21/255), so adding the CSS gradient on
-        // top darkened it twice.
-        overlay="none"
+        // hero-about.png is a flattened 1440x548 export with the scrim baked
+        // into its pixels, which is only correct at exactly 1440: object-cover
+        // upscales it 1.78x at 2560 (soft, and the framing tightens past the
+        // designed crop) and shaves 80px off each side at 1280. It stays
+        // on `mobileImage` because the <768 frame is a different crop anyway.
+        //
+        // Above that we ship the photo Figma actually references, so the band
+        // resolves at any width: 342:785 is a *mirrored* rect (hence the
+        // baked-in flip, same x=w quirk as the Our Story photo) whose fill is
+        // the 4096x2730 source at `h-175.14% top--41.88%` — i.e. cover at
+        // 55.74% — with the scrim as a real gradient rather than pixels.
+        // Rebuilt that way it matches the frame render at 2.85 MAD, where the
+        // flattened export itself scores 2.77.
+        image={heroAboutWide}
+        mobileImage={heroAbout}
+        imagePosition="50% 55.74%"
+        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.9) 4.097%, rgba(56,41,31,0.83) 21.618%, rgba(56,41,31,0.2) 100%)"
         height={548}
         mobileTextTop={571}
         // 342:816 is 482 wide and sits 385..525 in a hero that ends at 620,

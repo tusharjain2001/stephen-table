@@ -169,10 +169,19 @@ function ServiceActions() {
     // Mobile frame (662:10555) stacks these full-width with an 8px gap;
     // md: restores the original wrapping row untouched.
     <div className="flex w-full flex-col gap-[8px] md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-[16px] xl:gap-[22px]">
-      <Button variant="fill-soft" className="shrink-0 whitespace-nowrap">
+      {/* 363:225 / 363:228 dropped to 20px in the redraw, which takes both
+          pills from 47 tall to 42 (8 + 26 + 8, stroke drawn inside). The
+          overrides are `2xl:` so Get Involved's `fill-soft` — whose frame has
+          not been re-fetched — keeps the 24px pair. */}
+      <Button variant="fill-soft" className="shrink-0 whitespace-nowrap 2xl:text-[20px]">
         REQUEST ASSISTANCE
       </Button>
-      <Button as={Link} to="/nominate" variant="outline-soft" className="shrink-0 whitespace-nowrap">
+      <Button
+        as={Link}
+        to="/nominate"
+        variant="outline-soft"
+        className="shrink-0 whitespace-nowrap 2xl:h-[42px] 2xl:text-[20px] 2xl:tracking-[1px]"
+      >
         NOMINATE A SENIOR
       </Button>
     </div>
@@ -190,7 +199,9 @@ function ServiceCard({ image, title, ticks }) {
         className="h-[176px] w-full shrink-0 rounded-card object-cover md:h-[220px] 2xl:h-[176px] 2xl:w-[296px]"
       />
       <div className="flex w-full flex-col gap-[13px] 2xl:w-[285px]">
-        <h3 className="capitalize font-neulis text-[20px] text-bl-900">{title}</h3>
+        {/* 363:271 is Neulis Medium; scoped to 2xl with the rest of this
+            card's Figma-exact values so the mobile frame stays as drawn. */}
+        <h3 className="capitalize font-neulis text-[20px] text-bl-900 2xl:font-medium">{title}</h3>
         <div className="flex flex-col gap-[7px]">
           {ticks.map((tick) => (
             <div key={tick} className="flex items-start gap-[6px]">
@@ -216,7 +227,7 @@ function FellowshipTile({ icon, title, body, mobileIconSize = 34.315 }) {
         style={{ '--tile-icon-mobile': `${mobileIconSize}px` }}
       />
       <div className="flex flex-col gap-[9px]">
-        <h3 className="capitalize font-sans text-[24px] font-medium text-b-800">{title}</h3>
+        <h3 className="capitalize font-sans text-[24px] font-medium text-b-800 xl:text-[20px]">{title}</h3>
         <p className="font-sans text-[16px] text-gray-59">{body}</p>
       </div>
     </div>
@@ -230,9 +241,12 @@ function ConnectionTile({ image, left, top, width, height, title, body }) {
       style={{ left, top, width, height }}
     >
       <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" />
-      <div className="absolute bottom-0 left-0 flex w-full flex-col gap-[8px] rounded-b-card border border-bl-300 bg-bl-100 px-[22px] py-[10px]">
-        <p className="capitalize font-sans text-[24px] font-medium text-black">{title}</p>
-        <p className="font-neulis text-[20px] text-gray-59">{body}</p>
+      {/* 375:3025 strokes only the left/right/bottom edges — the caption butts
+          against the photo, so a top border would draw a rule across it — and
+          its type is 20 medium over 16, not 24 over 20. */}
+      <div className="absolute bottom-0 left-0 flex w-full flex-col gap-[8px] rounded-b-card border-x border-b border-bl-300 bg-bl-100 px-[22px] py-[10px]">
+        <p className="capitalize font-sans text-[20px] font-medium text-black">{title}</p>
+        <p className="font-neulis text-[16px] text-gray-59">{body}</p>
       </div>
     </div>
   );
@@ -274,15 +288,32 @@ function Services() {
         // 363:154 (inside the layout frame) is 548 — the 746 rect at page
         // level is a leftover; only 548 makes the section stack sum to 6074.
         height={548}
-        // Our asset is the mirror of Figma 363:152 and a taller crop
-        // (1672x941 vs the frame's 1440x746); flipped, the best vertical
-        // alignment is 12% (MAD 18.2 against 36.1/30.5 either side).
+        // hero-services.png IS 363:152's fill, byte-identical — but the rect
+        // is one of this file's mirrored nodes (the x=width tell), so the
+        // frame renders it flipped and `flipImage` is what matches it.
+        //
+        // The photo fills a 1440x746 rect of which only the top 548 is the
+        // hero band. Covering 1672x941 into 1440x746 scales by width to
+        // 1440x810.3 and centres the 64.3px overflow, so the band starts
+        // 32.16px down: 32.16 / (810.3 - 548) = 12.26%.
         flipImage
-        imagePosition="50% 12%"
+        imagePosition="50% 12.26%"
+        // 363:152 carries a flat black/20 wash and 363:154 the scrim, which
+        // runs 0.84 (mirrored, so dark on the left) rather than PageHero's
+        // default 0.9. Both together land the band at 2.68 MAD against the
+        // frame render, where the scrim alone gave 10.17.
+        flatOverlay
+        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)"
         mobileTextTop={571}
+        // 484:3770 keeps its 618 measure but the redraw dropped the H1 to
+        // 36/1.8 on a 46 line box (Playfair's `normal` at 36 is 48) and moved
+        // the block to 95 clear of the hero's bottom edge, not 54.
         textLeft={72}
         textWidth={618}
-        textBottom={54}
+        textBottom={95}
+        titleSize={36}
+        titleTracking={1.8}
+        titleLeading={46}
         title="Our Services"
         // subtitleClassName intentionally omitted — see About.jsx: the old
         // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
@@ -291,19 +322,24 @@ function Services() {
         subtitle="Explore the practical support, companionship, and community resources we provide to help seniors live safely and independently."
       />
 
-      <EligibilityBand />
+      <EligibilityBand introSize={20} />
 
       {/* How it works */}
       <section className="w-full py-[60px] md:py-14 xl:py-[102px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[39px] md:gap-8 xl:gap-[53px]">
-          <div className="flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:gap-6 md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
+          {/* 363:162 is an explicit h-62 box, not a row that hugs its content:
+              the chip is 47 and the 20px lede is 52, so hugging would give 52
+              and cost the section 10px. */}
+          <div className="flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:gap-6 md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:h-[62px] xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
             <SectionChip className="shrink-0">how it works</SectionChip>
-            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] xl:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-[24px] px-[16px] md:gap-4 md:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[17px]">
+          {/* 363:219 spaces the four cards 24 apart (306+305+305+306 + 3x24 =
+              its 1294 width), not 17. */}
+          <div className="grid w-full grid-cols-1 gap-[24px] px-[16px] md:gap-4 md:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[24px]">
             {STEPS.map((step) => (
               <StepCard key={step.title} borderClassName="border-[#ddcdc2]" {...step} />
             ))}
@@ -316,6 +352,7 @@ function Services() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[48px] md:gap-10 xl:gap-[76px]">
           <SectionHeader
             align="between"
+            ledeSize={20}
             chipLabel="Practical home support"
             lede="Supporting seniors and their families with practical care, community connections, and compassionate assistance."
             actions={<ServiceActions />}
@@ -329,10 +366,11 @@ function Services() {
       </section>
 
       {/* Fellowship */}
-      <section className="w-full py-[60px] md:py-14 xl:py-[103px]">
+      <section className="w-full py-[60px] md:py-14 xl:py-[110.286px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
+            ledeSize={20}
             chipLabel="Fellowship"
             lede="Creating meaningful relationships and fostering a sense of belonging through companionship and engaging social activities."
             actions={<ServiceActions />}
@@ -346,17 +384,20 @@ function Services() {
       </section>
 
       {/* Community Connections */}
-      <section className="w-full bg-bl-50 py-[60px] md:py-14 xl:py-[95px]">
+      <section className="w-full bg-bl-50 py-[60px] md:py-14 xl:py-[102.5625px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
+            ledeSize={20}
             chipLabel="community connections"
             lede="Connecting seniors with trusted community resources, essential services, and programs that support their health, well-being, and independence."
             actions={<ServiceActions />}
           />
 
           {/* xl (≥1280): pixel-exact fixed masonry from Figma */}
-          <div className="relative mx-auto hidden h-[741px] w-[1296px] 2xl:block">
+          {/* 375:3007 is 741.875 tall, not 741 — the 439px right-hand tile
+              runs to 741 and the group carries the .875 on top of it. */}
+          <div className="relative mx-auto hidden h-[741.875px] w-[1296px] 2xl:block">
             {CONNECTION_TILES.map((tile) => (
               <ConnectionTile key={tile.title} {...tile} />
             ))}
@@ -375,7 +416,7 @@ function Services() {
         </div>
       </section>
 
-      <FaqSection />
+      <FaqSection compactType />
     </div>
   );
 }

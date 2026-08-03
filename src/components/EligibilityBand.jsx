@@ -16,11 +16,17 @@ const DEFAULT_ITEMS = [
  *
  * Props:
  * - `intro`     — intro line under the chip
+ * - `introSize` — px intro type size from `xl` up (default 24). Services'
+ *                 redrawn 363:106 runs it at 20; Nominate's frame has not
+ *                 been re-fetched, so it keeps 24. The band is `min-h-511`
+ *                 with its content centred and the intro is one line either
+ *                 way, so this changes nothing but the type.
  * - `items`     — array of bullet strings
  * - `className` — extra classes on the outer <section>
  */
 function EligibilityBand({
   intro = 'To be eligible for support, individuals should:',
+  introSize = 24,
   items = DEFAULT_ITEMS,
   className = '',
 }) {
@@ -48,7 +54,10 @@ function EligibilityBand({
           >
             Eligibility Criteria
           </SectionChip>
-          <p className="min-w-0 font-sans text-[16px] text-white md:col-start-2 md:row-start-1 md:text-[22px] xl:text-[24px] 2xl:w-[819px]">
+          <p
+            className="min-w-0 font-sans text-[16px] text-white md:col-start-2 md:row-start-1 md:text-[22px] xl:text-[length:var(--eb-intro-size)] 2xl:w-[819px]"
+            style={{ '--eb-intro-size': `${introSize}px` }}
+          >
             {intro}
           </p>
         </div>
