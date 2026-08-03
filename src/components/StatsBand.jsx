@@ -71,7 +71,10 @@ function StatsBand({ stats = [], image, mobileImage, className = '' }) {
           const block = (
             <div
               key={stat.caption}
-              className="flex w-full max-w-[308px] flex-col items-center gap-[8px] text-center"
+              // 377:3046 puts 10px between the figure and its caption at 1440
+              // (93 = 41 + 10 + 42), same as the image variant above — only
+              // the mobile/tablet steps use 8.
+              className="flex w-full max-w-[308px] flex-col items-center gap-[8px] text-center xl:gap-[10px]"
             >
               <span className="font-display text-[28px] text-white xl:text-[32px]">{stat.value}</span>
               <span className="font-sans text-[16px] text-white">{stat.caption}</span>

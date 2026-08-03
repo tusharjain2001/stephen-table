@@ -44,31 +44,36 @@ function MissionBlock({ title, body }) {
       <div className="flex w-full max-w-[372px] flex-col gap-[8px]">
         {/* Neulis Sans isn't licensed here so font-neulis falls back to
             Poppins, whose normal leading is ~1.5 vs Neulis' ~1.32. Pin the
-            line boxes to Figma's (342:629 h=37, 342:630 h=62 over 2 lines) —
-            the mobile frame doesn't call out a custom leading, so base stays
-            "normal". */}
-        <h3 className="font-neulis text-[20px] font-semibold text-bl-600 md:text-[22px] xl:text-[28px] xl:leading-[37px]">{title}</h3>
-        <p className="font-neulis text-[16px] text-bl-600 md:text-[18px] xl:text-[24px] xl:leading-[31px]">{body}</p>
+            line boxes to Figma's (342:629 h=31 at 24px, 342:630 h=52 over 2
+            lines at 20px) — the mobile frame doesn't call out a custom
+            leading, so base stays "normal". */}
+        <h3 className="font-neulis text-[20px] font-semibold text-bl-600 md:text-[22px] xl:text-[24px] xl:leading-[31px]">{title}</h3>
+        <p className="font-neulis text-[16px] text-bl-600 md:text-[18px] xl:text-[20px] xl:leading-[26px]">{body}</p>
       </div>
     </div>
   );
 }
 
+// The 2026-08 redraw shrank the card from a 419.34px column to 343.948
+// (342:949) — every inner measure is that same 0.8202 ratio, so the whole
+// card is re-pinned at xl rather than nudged: padding 4→3.281, radius
+// 16→13.123, photo 448.65→367.984, label pad 16.9→13.859, name 28→22.966,
+// role 20→16.404. The md tier keeps the pre-redraw numbers.
 function LeaderCard({ image, name, role }) {
   return (
-    <div className="w-full max-w-[419.34px] rounded-[14.117px] bg-white p-[3.529px] md:rounded-card md:p-[4px]">
-      <div className="w-full rounded-[14.117px] bg-cream md:rounded-card">
+    <div className="w-full max-w-[419.34px] rounded-[14.117px] bg-white p-[3.529px] md:rounded-card md:p-[4px] xl:rounded-[13.123px] xl:p-[3.281px]">
+      <div className="w-full rounded-[14.117px] bg-cream md:rounded-card xl:rounded-[13.123px]">
         <img
           src={image}
           alt={name}
-          className="h-[395.858px] w-full rounded-t-[14.117px] object-cover md:h-[400px] md:rounded-t-card xl:h-[448.65px]"
+          className="h-[395.858px] w-full rounded-t-[14.117px] object-cover md:h-[400px] md:rounded-t-card xl:h-[367.984px] xl:rounded-t-[13.123px]"
         />
-        <div className="flex flex-col gap-[6.93px] p-[14.908px] md:gap-[7.9px] md:p-[16.9px]">
-          {/* Figma 342:938 h=37, 342:939 h=26 — see the Poppins note above;
+        <div className="flex flex-col gap-[6.93px] p-[14.908px] md:gap-[7.9px] md:p-[16.9px] xl:gap-[6.442px] xl:p-[13.859px]">
+          {/* Figma 342:938 h=30, 342:939 h=21 — see the Poppins note above;
               the mobile frame's 24.705/17.647px sizes don't call out a
               custom leading, so base uses "normal". */}
-          <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[28px] md:leading-[37px]">{name}</h3>
-          <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[20px] md:leading-[26px]">{role}</p>
+          <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[28px] md:leading-[37px] xl:text-[22.966px] xl:leading-[30px]">{name}</h3>
+          <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[20px] md:leading-[26px] xl:text-[16.404px] xl:leading-[21px]">{role}</p>
         </div>
       </div>
     </div>
@@ -87,9 +92,17 @@ function About() {
         overlay="none"
         height={548}
         mobileTextTop={571}
+        // 342:816 is 482 wide and sits 385..525 in a hero that ends at 620,
+        // i.e. 95 clear of the bottom. The redraw dropped the H1 to 36/1.8
+        // (342:817 h=46 — Playfair's `normal` at 36 is 48, hence the pin) and
+        // the subtitle to 20 (342:818 h=78 = 3 lines x 26), which is already
+        // PageHero's xl default.
         textLeft={72}
-        textWidth={618}
-        textBottom={54}
+        textWidth={482}
+        textBottom={95}
+        titleSize={36}
+        titleTracking={1.8}
+        titleLeading={46}
         title="About us"
         // subtitleClassName is deliberately omitted: the pre-mobile-pass
         // "text-[24px]" override never actually won at md/xl (the
@@ -116,24 +129,34 @@ function About() {
       </section>
 
       {/* Our Story */}
-      {/* Figma 342:838: fixed h-826 box, content centred. Mobile frame
+      {/* Figma 342:838 was redrawn in the 2026-08 pass: 826 -> 594, and it is
+          now real padding (py-100) rather than a fixed box — 100 + (chip 47 +
+          32 + row 315) + 100. The photo shrank 419x520 -> 253x315 and the copy
+          dropped 20 -> 16px, which is what buys the 232px. Mobile frame
           (662:10346 node 662:10502) uses the same wb-100 (#fbf6ee) bg but a
           tighter 23px gap between chip/image/copy, an image cropped to its
-          bottom edge, and un-justified body copy. */}
-      <section className="w-full bg-wb-100 py-[60px] md:py-14 xl:h-[826px] xl:py-0">
+          bottom edge, and un-justified body copy — left untouched here. */}
+      <section className="w-full bg-wb-100 py-[60px] md:py-14 xl:h-[594px] xl:py-0">
         <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-center gap-[23px] px-6 md:gap-[32px] md:px-10 xl:px-[72px]">
           <SectionChip variant="beige" className="self-start">Our Story</SectionChip>
           <div className="flex flex-col gap-[23px] md:gap-8 lg:flex-row lg:items-center lg:gap-[53px]">
+            {/* 342:831 carries a rotate(180) + scaleY(-1), i.e. a net
+                horizontal mirror of the fill. Verified against the frame
+                render: our asset matches mirrored at 4.1 MAD and unmirrored
+                at 57.5. This is image orientation like PageHero's flipImage,
+                not layout scaling — the no-viewport-scaling rule in CLAUDE.md
+                still holds. */}
             <img
               src={aboutStory}
               alt=""
-              className="h-[460px] w-full shrink-0 rounded-card object-cover object-bottom md:h-[360px] md:object-center lg:h-[520px] lg:w-[419px]"
+              className="h-[460px] w-full shrink-0 rounded-card object-cover object-bottom md:h-[360px] md:object-center lg:h-[520px] lg:w-[419px] xl:h-[315px] xl:w-[253px] xl:scale-x-[-1]"
             />
-            {/* Figma 342:828 sets 20px on a normal (26px) leading and
+            {/* Figma 342:828 sets 16px on a normal (21px) leading and
                 separates paragraphs with a single blank line, i.e. one more
-                26px line — not an arbitrary gap. Mobile frame drops the
-                justify (md:text-justify) and bumps the body to 20px. */}
-            <div className="flex flex-col gap-[20px] font-neulis text-[20px] text-gray-59 md:text-justify md:text-[18px] lg:w-[824px] xl:gap-[26px] xl:text-[20px] xl:leading-[26px]">
+                21px line — not an arbitrary gap. 13 line boxes x 21 = its
+                273px height. Mobile frame drops the justify (md:text-justify)
+                and keeps the body at 20px. */}
+            <div className="flex flex-col gap-[20px] font-neulis text-[20px] text-gray-59 md:text-justify md:text-[18px] lg:w-[824px] xl:w-auto xl:min-w-0 xl:flex-1 xl:gap-[21px] xl:text-[16px] xl:leading-[21px]">
               {STORY_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
@@ -148,13 +171,30 @@ function About() {
       {/* Figma 342:964: fixed h-816 box, content centred. */}
       <section className="w-full bg-gradient-to-b from-cream to-bl-100 py-[60px] md:py-14 xl:h-[816px] xl:py-0">
         <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-[24px] md:gap-8 xl:gap-[38px]">
-          <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[247px] xl:px-[72px]">
-            <SectionChip className="shrink-0">Leadership</SectionChip>
-            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+          {/* 342:933 is 1075 wide (chip 171 + 247 + copy 657) centred in
+              1440, i.e. it starts at 182.5 — level with the card row's 184.
+              The copy measure had been 857, which widened the row to 1275 and
+              slid the chip 100px left of the cards. The 247 gap also has to
+              start at xl now: 1075 fits the 1296 content box where 1275 did
+              not, so it no longer needs to wait for 2xl.
+
+              Anchored left rather than centred, because Playfair renders the
+              chip 184.8 wide against Lettertype's 171: centring splits that
+              13.8px and lands the chip at 175.6, visibly ragged against the
+              cards below. Pinning the margin puts the chip on 182.5 exactly
+              and moves the slack to the copy's right edge, where nothing
+              lines up with it. The offset is a margin, not `pl-`, so it can't
+              be reset by this element's own `px-` shorthand. */}
+          <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:justify-start xl:gap-[247px] xl:px-[72px]">
+            <SectionChip className="shrink-0 xl:ml-[110.5px]">Leadership</SectionChip>
+            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[657px] lg:shrink lg:grow-0 2xl:w-[657px]">
               Meet the leaders of Stephen&apos;s Table
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-6 px-[16px] md:grid-cols-2 md:px-10 lg:grid-cols-3 xl:gap-[20px] xl:px-[72px]">
+          {/* 342:963 is three fixed 343.948 columns on a 20 gap, centred in
+              1440 (184.08..1255.92) — not the 1296 content box split three
+              ways, which is what an even grid gives. */}
+          <div className="grid w-full grid-cols-1 gap-6 px-[16px] md:grid-cols-2 md:px-10 lg:grid-cols-3 xl:grid-cols-[repeat(3,343.948px)] xl:justify-center xl:gap-[20px] xl:px-[72px]">
             {LEADERS.map((leader) => (
               <LeaderCard key={leader.name} {...leader} />
             ))}
@@ -162,11 +202,19 @@ function About() {
         </div>
       </section>
 
+      {/* 539:3199 carries the redesigned scale: title 40->32, sub 20->16,
+          pills 24->20 with the s-300 icon badge dropped (44 tall, not 64).
+          Its text column also starts at 78 rather than the 72 every other
+          caller uses; the photo still begins at 708. */}
       <CtaBanner
         bg="blue"
         image={ctaBannerBlueImg}
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
+        titleClassName="lg:text-[32px]"
+        subtitleClassName="lg:text-[16px]"
+        barePillIcons
+        textLeft={78}
       />
     </div>
   );

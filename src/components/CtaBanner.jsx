@@ -49,6 +49,11 @@ const DEFAULT_PILLS = [
  *                  replacing the default vertical centering. Home's 342:1000
  *                  sits at 86 in a 421 band (111 below it), not the 98.5 that
  *                  centering its 224px block would give.
+ * - `textLeft`   — px from the design container's left edge to the text
+ *                  column at ≥lg (default 72). About's redrawn 539:3199 sits
+ *                  at 78 instead. The photo's left edge stays at 708 on every
+ *                  frame, so the column's right margin is derived from this
+ *                  rather than fixed.
  * - `className`  — extra classes on the outer <section>
  */
 function CtaBanner({
@@ -63,8 +68,12 @@ function CtaBanner({
   subtitleClassName = 'lg:text-[20px]',
   barePillIcons = false,
   textTop,
+  textLeft = 72,
   className = '',
 }) {
+  // Photo edge (708) − column width (529) − column offset. At the default 72
+  // this is the 107 the layout has always used.
+  const textGap = 708 - 529 - textLeft;
   const bgClass = bg === 'blue' ? 'bg-bl-600' : 'bg-b-600';
   const bgColor = bg === 'blue' ? '#3e4f69' : '#886b56';
   const pillClasses =
@@ -170,14 +179,18 @@ function CtaBanner({
           offset by the design container's gutter so it stays aligned with the
           sections above/below, while the photo takes the remainder and keeps
           bleeding to the right edge at any width. At 1440 the gutter is 0, so
-          this is Figma-exact: 72 + 529 + 107 = 708 with a 732px photo
-          (342:1000 / 342:997). */}
+          this is Figma-exact: `textLeft` + 529 + the derived gap = 708 with a
+          732px photo (342:1000 / 342:997). */}
       <div className="relative z-10 hidden w-full flex-col gap-10 px-6 py-14 md:flex md:px-10 md:py-16 lg:h-[421px] lg:flex-row lg:items-center lg:gap-0 lg:px-0 lg:py-0">
         <div
-          className={`flex flex-col gap-9 lg:ml-[calc(var(--gutter)+72px)] lg:mr-[107px] lg:w-[529px] lg:shrink lg:gap-[36px] ${
+          className={`flex flex-col gap-9 lg:ml-[calc(var(--gutter)+var(--cta-text-left))] lg:mr-[var(--cta-text-gap)] lg:w-[529px] lg:shrink lg:gap-[36px] ${
             textTop == null ? '' : 'lg:self-start lg:mt-[var(--cta-text-top)]'
           }`}
-          style={textTop == null ? undefined : { '--cta-text-top': `${textTop}px` }}
+          style={{
+            '--cta-text-left': `${textLeft}px`,
+            '--cta-text-gap': `${textGap}px`,
+            ...(textTop == null ? {} : { '--cta-text-top': `${textTop}px` }),
+          }}
         >
           <div className="flex flex-col gap-[8px]">
             {title && (
