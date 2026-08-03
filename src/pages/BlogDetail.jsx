@@ -53,26 +53,37 @@ function BlogDetail() {
             background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
           }}
         />
+        {/* 370:2563 is mirrored (x = width), so its 0.2→0.84 gradient reads
+            0.84→0.2 across the band — the same end-stop Services, Impact
+            Stories and Contact use, not the 0.9 this hero shipped. */}
         <div
           className="absolute inset-0 hidden sm:block"
           style={{
             background:
-              'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
+              'linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)',
           }}
         />
-        <div className="absolute inset-x-[29px] top-[551px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:pb-[42px]">
-          <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:text-[40px] xl:tracking-[2px]">
+        {/* 370:2587 is 385..468 in a hero that ends at 542, i.e. 74 clear of
+            the bottom (was 42). The redraw took the H1 40 → 32 / 2 → 1.6 on a
+            41px box and the byline 28 → 20, so the block is 41 + 16 + 26 = 83. */}
+        <div className="absolute inset-x-[29px] top-[551px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
+          <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:leading-[41px]">
             Helping seniors age safely at home
           </h1>
-          <p className="font-sans text-[16px] text-wb-400 sm:text-[20px] xl:text-[28px]">
+          <p className="font-sans text-[16px] text-wb-400 sm:text-[20px]">
             Published On: July 2026 &bull; Category: Senior Care
           </p>
         </div>
       </section>
 
-      {/* Article body */}
-      <section className="w-full py-12 xl:py-[72px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-[20px] px-6 text-justify font-sans text-[18px] text-gray-59 md:px-10 xl:px-[72px] xl:text-[20px]">
+      {/* Article body. 370:2787 sits at x=182 y=618 — 76 below the hero — and
+          is 1076 wide, so at 2xl the column is capped there and `mx-auto`
+          lands it on 182 exactly ((1440 − 1076) / 2). It is a single text
+          layer at DM Sans 16 justified, with paragraphs separated by a real
+          empty line rather than a CSS gap: at `leading-normal` that line box
+          is 20.83px, which is what the gap reproduces. */}
+      <section className="w-full py-12 xl:pb-[90px] xl:pt-[76px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-[20px] px-6 text-justify font-sans text-[18px] text-gray-59 md:gap-[20.83px] md:px-10 md:text-[16px] xl:px-[72px] 2xl:max-w-[1076px] 2xl:px-0">
           {PARAGRAPHS.map((paragraph) => (
             <p key={paragraph.slice(0, 24)}>{paragraph}</p>
           ))}
@@ -80,29 +91,32 @@ function BlogDetail() {
       </section>
 
       {/* Image gallery */}
-      <section className="w-full pb-12 xl:pb-[72px]">
+      <section className="w-full pb-12 xl:pb-[90px]">
         <div className="mx-auto max-w-[1440px] px-6 md:px-10 xl:px-[72px]">
-          {/* xl (≥1280): pixel-exact fixed masonry from Figma */}
-          <div className="relative mx-auto hidden h-[822px] w-[1296px] 2xl:block">
+          {/* xl (≥1280): pixel-exact fixed masonry from Figma. The redraw
+              narrows it to the article's 1076 measure (370:2796..2799 run
+              182..1258): three 348 columns on 16px gutters over a 19px row
+              gap, with the right-hand tile spanning both rows. */}
+          <div className="relative mx-auto hidden h-[682px] w-[1076px] 2xl:block">
             <img
               src={blogImg1}
               alt=""
-              className="absolute left-0 top-0 h-[380px] w-[419px] rounded-card object-cover"
+              className="absolute left-0 top-0 h-[315px] w-[348px] rounded-card object-cover"
             />
             <img
               src={blogImg2}
               alt=""
-              className="absolute left-[438px] top-0 h-[380px] w-[419px] rounded-card object-cover"
+              className="absolute left-[364px] top-0 h-[315px] w-[348px] rounded-card object-cover"
             />
             <img
               src={blogImg3}
               alt=""
-              className="absolute left-[877px] top-0 h-[822px] w-[419px] rounded-card object-cover"
+              className="absolute left-[728px] top-0 h-[682px] w-[348px] rounded-card object-cover"
             />
             <img
               src={blogImg4}
               alt=""
-              className="absolute left-0 top-[402px] h-[420px] w-[857px] rounded-card object-cover"
+              className="absolute left-0 top-[334px] h-[348px] w-[712px] rounded-card object-cover"
             />
           </div>
 
@@ -121,6 +135,13 @@ function BlogDetail() {
         pillTheme="white"
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
+        // 539:3229/3230 drop to 32/16 with the title on an explicit 41px box,
+        // and 539:3232 has the bare 28px glyph rather than the s-300 badge.
+        // Unlike About and Impact Stories, this frame keeps the column on the
+        // default 72 rather than 78.
+        titleClassName="lg:text-[32px] lg:leading-[41px]"
+        subtitleClassName="lg:w-[439px] lg:max-w-full lg:text-[16px]"
+        barePillIcons
       />
     </div>
   );
