@@ -138,7 +138,7 @@ function About() {
           content centred, not as padding around content. The mobile frame
           (662:10346 node 662:10362) drops the gradient/divider entirely and
           just stacks the two blocks with a 20px gap. */}
-      <section className="w-full py-[60px] md:bg-gradient-to-b md:from-wb-200 md:to-cream md:py-10 xl:h-[203px] xl:py-0">
+      <section className="w-full py-[60px] md:bg-cream md:py-10 xl:h-[203px] xl:py-0">
         <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-[20px] px-6 md:flex-row md:gap-10 md:px-10 xl:gap-[108px]">
           <MissionBlock title="Mission" body="Helping older adults age safely and live with dignity." />
           <span className="hidden h-[45px] w-[2px] bg-[#3E4F69] md:block" />

@@ -119,7 +119,7 @@ function WhoWeServeCard({
           <p className="font-sans text-[16px] text-gray-67 md:text-[18px] xl:max-w-[661px] xl:text-[20px] 2xl:w-[661px]">{body}</p>
         </div>
         {showCta && (
-          <Button as={Link} to="/nominate" variant="primary" className="self-start capitalize">
+          <Button as={Link} to="/nominate" variant="primary" className="self-start capitalize uppercase">
             Nominate a Senior
           </Button>
         )}
