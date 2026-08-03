@@ -116,6 +116,11 @@ const FELLOWSHIP_TILES = [
   },
 ];
 
+// `captionHeight` is the frame's own band height (375:3025/3026/3027/3028).
+// Every band is `justify-center` over a *fixed* box rather than hugging its
+// copy, which is what keeps the two bottom bands level at 114 even though
+// "Community Activities" runs one body line against Partner Network's two.
+// Left to hug, they measured 78 and 102 and the row read as ragged.
 const CONNECTION_TILES = [
   {
     image: svcConn1,
@@ -123,6 +128,7 @@ const CONNECTION_TILES = [
     top: 0,
     width: 374,
     height: 378,
+    captionHeight: 112,
     title: 'Essential Resources',
     body: 'Access to food, clothing, and other everyday necessities.',
     // True-mobile (<md) stacked order per the Figma mobile frame (662:10555):
@@ -138,6 +144,7 @@ const CONNECTION_TILES = [
     top: 0,
     width: 443,
     height: 378,
+    captionHeight: 108,
     title: 'Educational Programs',
     body: 'Workshops on financial literacy, estate planning, fitness, and nutrition.',
     mobileOrder: 2,
@@ -148,6 +155,7 @@ const CONNECTION_TILES = [
     top: 0,
     width: 439,
     height: 741,
+    captionHeight: 114,
     title: 'Partner Network',
     body: 'Connecting seniors with trusted local organizations and specialized support services.',
     mobileOrder: 4,
@@ -158,6 +166,7 @@ const CONNECTION_TILES = [
     top: 400,
     width: 838,
     height: 341,
+    captionHeight: 114,
     title: 'Community Activities',
     body: 'Group outings, classes, and events that encourage engagement and social connection.',
     mobileOrder: 3,
@@ -230,7 +239,7 @@ function FellowshipTile({ icon, title, body, mobileIconSize = 34.315 }) {
   );
 }
 
-function ConnectionTile({ image, left, top, width, height, title, body }) {
+function ConnectionTile({ image, left, top, width, height, captionHeight, title, body }) {
   return (
     <div
       className="absolute overflow-hidden rounded-card"
@@ -239,8 +248,14 @@ function ConnectionTile({ image, left, top, width, height, title, body }) {
       <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" />
       {/* 375:3025 strokes only the left/right/bottom edges — the caption butts
           against the photo, so a top border would draw a rule across it — and
-          its type is 20 medium over 16, not 24 over 20. */}
-      <div className="absolute bottom-0 left-0 flex w-full flex-col gap-[8px] rounded-b-card border-x border-b border-bl-300 bg-bl-100 px-[22px] py-[10px]">
+          its type is 20 medium over 16, not 24 over 20. The band is a fixed
+          box with its copy centred (`justify-center`), not padding around it;
+          `py-[10px]` is the frame's own value and only bites if a caption ever
+          outgrows its box. */}
+      <div
+        className="absolute bottom-0 left-0 flex w-full flex-col justify-center gap-[8px] rounded-b-card border-x border-b border-bl-300 bg-bl-100 px-[22px] py-[10px]"
+        style={{ height: captionHeight }}
+      >
         <p className="capitalize font-sans text-[20px] font-medium text-black">{title}</p>
         <p className="font-neulis text-[16px] text-gray-59">{body}</p>
       </div>
