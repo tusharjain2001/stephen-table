@@ -48,27 +48,41 @@ function Contact() {
         // this is set, so the desktop hero is untouched.
         mobileImage={heroContactMobile}
         height={548}
-        // 377:3033 is a bare image fill — this frame has no scrim over the
-        // photo at all, so the default gradient was darkening a band Figma
-        // leaves untouched.
+        // The redraw adds a scrim this frame did not have: 377:3034 is one of
+        // this file's mirrored rects (x = width), so its 0.2→0.84 gradient
+        // reads 0.84→0.2 across the band — the same end-stop Services and
+        // Impact Stories use, not PageHero's 0.9 default.
+        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)"
         mobileTextTop={587}
-        // 377:3036 sits at x=76 y=483 w=789 h=72 inside the 72..620 band,
-        // so the title box ends 65px above the bottom edge.
+        // 377:3036 sits at x=76 y=500 w=789 h=54 inside the 72..620 band, so
+        // the title box ends 66px above the bottom edge (was 65 at h=72).
         textLeft={76}
         textWidth={789}
-        textBottom={65}
-        titleLeading={72}
+        textBottom={66}
+        // 377:3037 is the one H1 the redraw did *not* take to 36 — it is 42 /
+        // 2.1 tracking on a 54px box. Playfair's `normal` at 42 is 55.9, and
+        // the block is anchored from the bottom, so the box is pinned.
         title="Contact Us"
+        titleSize={42}
+        titleTracking={2.1}
+        titleSizeMd={42}
+        titleTrackingMd={2.1}
+        titleLeading={54}
       />
 
       <section id="contact-form" className="w-full scroll-mt-[96px] py-12 xl:py-[79px]">
         <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-[72px]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[1273px] flex-col gap-[42px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[51px] xl:pt-[52px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[42px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[51px] xl:pt-[52px] 2xl:max-w-[1076px] 2xl:px-[46.489px]"
           >
             {/* 381:5531 is 849 tall; its content frame (381:5532) is 746 and
-                sits at 52 from the top, so the bottom pad is 51, not 47. */}
+                sits at 52 from the top, so the bottom pad is 51, not 47.
+                The redraw narrows the card 1273 → 1076 (centred, so x=182)
+                and its side padding 55 → 46.489, leaving a 983.023 content
+                measure. Held to `2xl`: below 1440 the card just fills the
+                container, and nothing inside it re-wraps at either width, so
+                the card stays 849 and the section 1007. */}
             {/* 381:5533 h=36 */}
             <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px] xl:leading-[36px]">
               Get in Touch with us
@@ -79,7 +93,7 @@ function Contact() {
                 <div className="flex flex-col gap-[24px]">
                   <FieldRow>
                     <FormField
-                      className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                      className="w-full md:flex-1 2xl:w-[477.011px] 2xl:flex-none"
                       label="First Name"
                       required
                       name="firstName"
@@ -87,7 +101,7 @@ function Contact() {
                       onChange={updateField}
                     />
                     <FormField
-                      className="w-full md:flex-1 2xl:w-[566px] 2xl:flex-none"
+                      className="w-full md:flex-1 2xl:w-[477.011px] 2xl:flex-none"
                       label="Last Name"
                       required
                       name="lastName"
