@@ -95,11 +95,17 @@ function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
     >
       {/* The corporate card is Neulis Sans, which falls back to Poppins
           (~1.5 leading vs Neulis' ~1.32) and ran the card 40px tall. Pin the
-          line boxes to Figma's: title 37, body/items 26, label 21. DM Sans
-          already lands on these, so both cards can share them. */}
+          line boxes to Figma's: title 37 (31 from md — 367:1472 / 367:1496
+          dropped 28 -> 24 in the redraw, and the mobile frame was not
+          re-fetched), body/items 26, label 21. DM Sans already lands on
+          these, so both cards can share them. */}
       <div className="flex flex-col gap-[16px]">
         <img src={icon} alt="" className="size-[37px]" aria-hidden="true" />
-        <h3 className={`capitalize ${font} text-[28px] font-medium leading-[37px] text-bl-800`}>{title}</h3>
+        <h3
+          className={`capitalize ${font} text-[28px] font-medium leading-[37px] text-bl-800 md:text-[24px] md:leading-[31px]`}
+        >
+          {title}
+        </h3>
         <p className={`${font} text-[20px] leading-[26px] text-gray-59`}>{body}</p>
       </div>
       <div className="flex flex-col gap-[15px]">
@@ -143,10 +149,17 @@ function GetInvolved() {
         mobileImage={heroGetInvolvedMobile}
         height={548}
         mobileTextTop={516}
+        // 371:2954 is now 385..499 on a 607 measure in a hero ending at 620,
+        // i.e. 121 clear of the bottom: H1 56->36 / 2.8->1.8 on a 46 line box
+        // and the subtitle 24->20, which wraps to 2 lines where 24 took 3.
         textLeft={81}
-        textWidth={821}
-        // 371:2954 sits at y=385 h=150 in a hero ending at 620.
-        textBottom={85}
+        textWidth={607}
+        textBottom={121}
+        titleSize={36}
+        titleTracking={1.8}
+        titleSizeMd={36}
+        titleTrackingMd={1.8}
+        titleLeading={46}
         title="Get Involved"
         // subtitleClassName intentionally omitted — see About.jsx: the old
         // unprefixed "text-[24px]" never won at md/xl anyway (18px/20px),
@@ -161,14 +174,24 @@ function GetInvolved() {
           between the two card rows. */}
       <section className="w-full bg-gradient-to-b from-[#fffcf6] to-wb-100 py-14 xl:h-[2019px] xl:py-0">
         <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 xl:gap-[62px]">
+          {/* 367:1602 is an explicit h-62 box; chip 47 / 20px lede 52 would
+              otherwise hug to 52 and slide the whole stack 5px. */}
           <SectionHeader
+            className="xl:h-[62px]"
+            ledeSize={20}
             chipLabel="volunteering"
             lede="Join our mission by volunteering your time and skills to support seniors and strengthen our community."
           />
 
           <div className="flex w-full flex-col items-center gap-8 xl:gap-[44px]">
           <div className="flex w-full flex-col gap-5 px-6 md:px-10 xl:gap-[18px] xl:px-[72px]">
-            <div className="flex flex-col gap-5 md:flex-row xl:gap-[20px]">
+            {/* 367:1552 is 503 tall where the taller of the two cards only
+                needs 497 — the individual card carries the slack in Figma
+                (50 top / 89 bottom) rather than both hugging. Pinned, because
+                the 6px propagates: the section is a fixed 2019 box with its
+                content centred, so a short row slides the partner card and
+                the sign-up banner 3px off their frames. */}
+            <div className="flex flex-col gap-5 md:flex-row xl:gap-[20px] 2xl:h-[503px]">
               {VOLUNTEER_CARDS.map((card) => (
                 <VolunteerCard key={card.title} {...card} />
               ))}
@@ -177,7 +200,7 @@ function GetInvolved() {
             <div className="flex flex-col gap-[25px] rounded-card bg-bl-100 shadow-[inset_0_0_0_1px_#cbd7e4] p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
               <div className="flex flex-col gap-[16px]">
                 <img src={iconHandshake} alt="" className="size-[37px]" aria-hidden="true" />
-                <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 xl:text-[28px] xl:leading-[36px]">
+                <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 md:leading-[31px]">
                   corporate partnership
                 </h3>
                 {/* Figma 367:1525 holds this to 847px inside the 1143px
@@ -214,10 +237,12 @@ function GetInvolved() {
               }}
             />
             <div className="absolute inset-x-0 bottom-8 flex flex-col items-center gap-[18px] px-6 sm:bottom-10 xl:bottom-auto xl:left-1/2 xl:top-[406px] xl:w-[692px] xl:-translate-x-1/2 xl:px-0">
-              <p className="text-center font-neulis text-[18px] text-white sm:text-[20px] xl:text-[24px]">
-                you can make a difference. sign up now
+              {/* 367:1389 is Neulis 20 on an explicit 29px box, and the copy
+                  is sentence-cased with a trailing period in the frame. */}
+              <p className="text-center font-neulis text-[18px] text-white sm:text-[20px] md:leading-[29px]">
+                You can make a difference. Sign Up now.
               </p>
-              <span className="rounded-btn bg-s-200 px-[24px] py-[8px] text-center font-sans text-[18px] font-medium uppercase text-black xl:px-[32px] xl:text-[24px]">
+              <span className="rounded-btn bg-s-200 px-[24px] py-[8px] text-center font-sans text-[18px] font-medium uppercase text-black md:text-[20px] xl:px-[32px]">
                 Sign up for Volunteering
               </span>
             </div>
@@ -227,12 +252,15 @@ function GetInvolved() {
       </section>
 
       {/* Donate */}
-      {/* Figma 370:1644 is 714 tall: 99.29 + header 180 + 72 + tiles 263.43
-          + 99.29. Only the padding was off. */}
-      <section className="w-full py-14 xl:py-[99.29px]">
+      {/* Figma 370:1644 is 714 tall: 122.286 + header 134 + 72 + tiles
+          263.427 + 122.286. The header was 180 because its lede ran 24px over
+          three lines and its button 47 tall; at 20px both come back to the
+          frame (52 + 40 + 42) and the padding grows to match. */}
+      <section className="w-full py-14 xl:py-[122.286px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 xl:gap-[72px]">
           <SectionHeader
             align="between"
+            ledeSize={20}
             chipLabel="donate"
             lede="Your generosity helps us provide practical support, meaningful companionship, and essential community resources for seniors across Northern Colorado."
             actions={<Button variant="fill-soft" className="w-fit">DONATE NOW</Button>}
@@ -245,8 +273,14 @@ function GetInvolved() {
         </div>
       </section>
 
+      {/* 370:1695 carries the redesigned scale (title 40->32, sub 20->16) and
+          sits 114 from the top of the 421 band, not the 125 that centring its
+          171px block would give. */}
       <CtaBanner
         image={ctaBannerImg}
+        titleClassName="lg:text-[32px]"
+        subtitleClassName="lg:text-[16px]"
+        textTop={114}
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
         actions={
@@ -262,7 +296,7 @@ function GetInvolved() {
 
       {/* Figma 370:1705 carries all six questions — the exclusion here left
           the section one collapsed row (71 + 16) short of the frame. */}
-      <FaqSection eyebrowClassName="text-navy" />
+      <FaqSection compactType eyebrowClassName="text-navy" />
     </div>
   );
 }

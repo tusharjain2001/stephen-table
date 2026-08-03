@@ -49,13 +49,16 @@ const VARIANTS = {
   // non-stretching width (`fit-content`, matching the pre-mobile-pass
   // absence of any width utility here) reproduces the original desktop
   // shrink-to-content sizing.
+  // The redraw takes both soft pills to 20px, which is what makes them 42
+  // tall (8 + 26 + 8, stroke inside) rather than 47. Changed on the variant
+  // rather than per call site: Services (both) and Get Involved (`fill-soft`)
+  // are the only callers and all three frames now agree, and a `md:` override
+  // in a className would tie with the variant's own `md:` rule on
+  // specificity. Base (<768) keeps its own mobile-frame sizing.
   'fill-soft':
-    'w-full rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:w-fit md:text-[24px]',
-  // Figma frames this at 47px, same as its filled sibling (363:225 /
-  // 363:228) — the stroke is drawn inside, so the CSS border must not add
-  // its 4px on top of the 8+8 padding.
+    'w-full rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:w-fit md:text-[20px]',
   'outline-soft':
-    'h-[47px] w-full rounded-btn border border-[#8db2a1] bg-transparent px-[32px] font-sans text-[14px] font-semibold capitalize tracking-[0.7px] text-navy md:w-fit md:border-2 md:text-[24px] md:tracking-[1.2px]',
+    'h-[47px] w-full rounded-btn border border-[#8db2a1] bg-transparent px-[32px] font-sans text-[14px] font-semibold capitalize tracking-[0.7px] text-navy md:h-[42px] md:w-fit md:border-2 md:text-[20px] md:tracking-[1px]',
 };
 
 function Button({

@@ -77,6 +77,13 @@
  *                    its own pair. Below xl the H1 keeps its own smaller
  *                    steps.
  * - `titleTracking`— px letter-spacing at xl, paired with `titleSize`
+ * - `titleSizeMd` / `titleTrackingMd` — the same pair for the 768–1279 tier,
+ *                    defaulting to the 44/2.2 step that scales the old 56px
+ *                    H1 down. The four redesigned pages draw their H1 at 36
+ *                    at *every* tier above the mobile frames, so they pass
+ *                    36/1.8 here too — left on the default, the redesign was
+ *                    invisible below 1280 and the tablet step was actually
+ *                    *larger* than the desktop design it interpolates.
  * - `titleLeading` — px line box for the H1 at xl. Omit to keep
  *                    `leading-[normal]`, which is what most heroes want.
  *                    Contact passes 72 because its title frame (377:3036) is
@@ -119,6 +126,8 @@ function PageHero({
   title,
   titleSize = 56,
   titleTracking = 2.8,
+  titleSizeMd = 44,
+  titleTrackingMd = 2.2,
   titleLeading,
   titleCapitalizeBase = true,
   titleCapitalize = true,
@@ -196,15 +205,17 @@ function PageHero({
             '--hero-text-inset-base': `${mobileTextInset}px`,
             '--hero-title-size': `${titleSize}px`,
             '--hero-title-track': `${titleTracking}px`,
+            '--hero-title-size-md': `${titleSizeMd}px`,
+            '--hero-title-track-md': `${titleTrackingMd}px`,
             ...(titleLeading ? { '--hero-title-leading': `${titleLeading}px` } : {}),
           }}
         >
           {title && (
             <h1
-              className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[44px] md:tracking-[2.2px] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
+              className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
                 titleCapitalizeBase ? 'capitalize' : ''
               } ${titleCapitalize ? 'md:capitalize' : 'md:normal-case'} ${
-                titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''
+                titleLeading ? 'md:leading-[var(--hero-title-leading)]' : ''
               } ${titleClassName}`}
             >
               {title}

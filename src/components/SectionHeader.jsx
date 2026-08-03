@@ -10,13 +10,18 @@ import SectionChip from './SectionChip.jsx';
  * - `lede`         — paragraph copy under/after the chip
  * - `ledeWidth`    — px width of the lede column (default 857; use 877 on
  *                    blue-background sections per plan §2.4)
- * - `ledeSize`     — px lede type size from `xl` up (default 24). Services'
+ * - `ledeSize`     — px lede type size from `md` up (default 24). Services'
  *                    redrawn frame runs its ledes at 20 (363:165 / 363:224 —
  *                    2 lines x 26 = their 52px height); the other callers'
  *                    frames have not been re-fetched, so 24 keeps them
  *                    byte-identical. Driven off a variable rather than an
- *                    `xl:`-prefixed className override, which would tie on
+ *                    `md:`-prefixed className override, which would tie on
  *                    specificity with the rule it means to replace.
+ *                    Deliberately `md:` and not `xl:` — the redesign's type
+ *                    is the *design*, not a wide-screen refinement, so it has
+ *                    to hold at every tier above the mobile frames. Scoped to
+ *                    `xl` it was invisible below 1280, which on Windows at
+ *                    125% scaling is a maximised 1600px window.
  * - `ledeClassName`— extra classes for the lede paragraph (e.g. color
  *                    overrides on dark backgrounds)
  * - `gap`          — px gap between chip and lede when `align="center"`
@@ -74,7 +79,7 @@ function SectionHeader({
         >
           {lede && (
             <p
-              className={`font-sans text-[16px] text-gray-59 md:text-[24px] xl:text-[length:var(--sh-lede-size)] ${ledeClassName}`}
+              className={`font-sans text-[16px] text-gray-59 md:text-[length:var(--sh-lede-size)] ${ledeClassName}`}
             >
               {lede}
             </p>
@@ -99,7 +104,7 @@ function SectionHeader({
       </SectionChip>
       {lede && (
         <p
-          className="min-w-0 max-w-full font-sans text-[16px] text-gray-59 md:text-[24px] xl:text-[length:var(--sh-lede-size)] lg:shrink lg:grow-0 lg:basis-auto lg:max-w-[var(--sh-lede-w)] 2xl:w-[var(--sh-lede-w)]"
+          className="min-w-0 max-w-full font-sans text-[16px] text-gray-59 md:text-[length:var(--sh-lede-size)] lg:shrink lg:grow-0 lg:basis-auto lg:max-w-[var(--sh-lede-w)] 2xl:w-[var(--sh-lede-w)]"
           style={{ '--sh-lede-w': `${ledeWidth}px`, '--sh-lede-size': `${ledeSize}px` }}
         >
           {lede}

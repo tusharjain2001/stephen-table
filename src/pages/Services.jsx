@@ -169,18 +169,14 @@ function ServiceActions() {
     // Mobile frame (662:10555) stacks these full-width with an 8px gap;
     // md: restores the original wrapping row untouched.
     <div className="flex w-full flex-col gap-[8px] md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-[16px] xl:gap-[22px]">
-      {/* 363:225 / 363:228 dropped to 20px in the redraw, which takes both
-          pills from 47 tall to 42 (8 + 26 + 8, stroke drawn inside). The
-          overrides are `2xl:` so Get Involved's `fill-soft` — whose frame has
-          not been re-fetched — keeps the 24px pair. */}
-      <Button variant="fill-soft" className="shrink-0 whitespace-nowrap 2xl:text-[20px]">
+      <Button variant="fill-soft" className="shrink-0 whitespace-nowrap">
         REQUEST ASSISTANCE
       </Button>
       <Button
         as={Link}
         to="/nominate"
         variant="outline-soft"
-        className="shrink-0 whitespace-nowrap 2xl:h-[42px] 2xl:text-[20px] 2xl:tracking-[1px]"
+        className="shrink-0 whitespace-nowrap"
       >
         NOMINATE A SENIOR
       </Button>
@@ -227,7 +223,7 @@ function FellowshipTile({ icon, title, body, mobileIconSize = 34.315 }) {
         style={{ '--tile-icon-mobile': `${mobileIconSize}px` }}
       />
       <div className="flex flex-col gap-[9px]">
-        <h3 className="capitalize font-sans text-[24px] font-medium text-b-800 xl:text-[20px]">{title}</h3>
+        <h3 className="capitalize font-sans text-[24px] font-medium text-b-800 md:text-[20px]">{title}</h3>
         <p className="font-sans text-[16px] text-gray-59">{body}</p>
       </div>
     </div>
@@ -313,6 +309,8 @@ function Services() {
         textBottom={95}
         titleSize={36}
         titleTracking={1.8}
+        titleSizeMd={36}
+        titleTrackingMd={1.8}
         titleLeading={46}
         title="Our Services"
         // subtitleClassName intentionally omitted — see About.jsx: the old
@@ -332,7 +330,7 @@ function Services() {
               and cost the section 10px. */}
           <div className="flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:gap-6 md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:h-[62px] xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
             <SectionChip className="shrink-0">how it works</SectionChip>
-            <p className="font-sans text-[16px] text-gray-59 md:text-[24px] xl:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+            <p className="font-sans text-[16px] text-gray-59 md:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>

@@ -101,6 +101,8 @@ function Nominate() {
         textBottom={121}
         titleSize={36}
         titleTracking={1.8}
+        titleSizeMd={36}
+        titleTrackingMd={1.8}
         titleLeading={46}
         title="Nominate a Senior"
         // Unlike About's 342:817 and Services' 484:3771, this layer carries no
@@ -125,7 +127,7 @@ function Nominate() {
                 52, so letting it hug would cost the section 10px. */}
           <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:h-[62px] xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
             <SectionChip className="shrink-0">how it works</SectionChip>
-            <p className="font-sans text-[18px] text-gray-59 md:text-[24px] xl:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
+            <p className="font-sans text-[18px] text-gray-59 md:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
             </p>

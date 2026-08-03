@@ -73,8 +73,12 @@ function LeaderCard({ image, name, role }) {
           {/* Figma 342:938 h=30, 342:939 h=21 — see the Poppins note above;
               the mobile frame's 24.705/17.647px sizes don't call out a
               custom leading, so base uses "normal". */}
-          <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[28px] md:leading-[37px] xl:text-[22.966px] xl:leading-[30px]">{name}</h3>
-          <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[20px] md:leading-[26px] xl:text-[16.404px] xl:leading-[21px]">{role}</p>
+          {/* Type moves at md, not xl: the md grid puts these cards at ~340
+              and the lg grid at ~280-365, both at or under the design's
+              343.948 column, so the pre-redraw 28/20 read oversized on every
+              tier below 1280. */}
+          <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[22.966px] md:leading-[30px]">{name}</h3>
+          <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[16.404px] md:leading-[21px]">{role}</p>
         </div>
       </div>
     </div>
@@ -114,6 +118,8 @@ function About() {
         textBottom={95}
         titleSize={36}
         titleTracking={1.8}
+        titleSizeMd={36}
+        titleTrackingMd={1.8}
         titleLeading={46}
         title="About us"
         // subtitleClassName is deliberately omitted: the pre-mobile-pass
