@@ -12,6 +12,15 @@
   --color-cream: #fffcf7; /* page bg (Impact page uses #fffffe — treat as white) */
   --color-espresso: #38291f; /* nav link text, hero overlay base */
   --color-m-900: #260000; /* footer bg (799:4113) — the crest maroon, darkened */
+  --color-m-800: #330000;
+  --color-m-700: #4d0000;
+  --color-m-600: #660000;
+  --color-m-500: #800000;
+  --color-m-400: #990000;
+  --color-m-300: #cc4d4d;
+  --color-m-200: #f29a9a;
+  --color-m-100: #ffc9c9;
+  --color-m-50: #ffe3e3;
   --color-ink: #111111; /* Figma "Primary" — FAQ questions */
   --color-navy: #001d36; /* button labels on green */
 
