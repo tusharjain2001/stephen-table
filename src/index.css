@@ -10,7 +10,8 @@
 
   /* Neutral / page */
   --color-cream: #fffcf7; /* page bg (Impact page uses #fffffe — treat as white) */
-  --color-espresso: #38291f; /* nav link text, footer bg, hero overlay base */
+  --color-espresso: #38291f; /* nav link text, hero overlay base */
+  --color-m-900: #260000; /* footer bg (799:4113) — the crest maroon, darkened */
   --color-ink: #111111; /* Figma "Primary" — FAQ questions */
   --color-navy: #001d36; /* button labels on green */
 

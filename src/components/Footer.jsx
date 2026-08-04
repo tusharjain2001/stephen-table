@@ -1,19 +1,24 @@
 import { Link } from 'react-router-dom';
+import logoFooter from '../assets/images/newlogofooter.svg';
 import iconFacebook from '../assets/icons/icon-facebook.svg';
 import iconInstagram from '../assets/icons/icon-instagram.svg';
 import iconEmail from '../assets/icons/icon-email-footer.svg';
 import iconPhoneSmall from '../assets/icons/icon-phone-small.svg';
 import iconDot from '../assets/icons/dot.svg';
 
+// 799:4199 / 799:4206 / 799:4213. The redraw re-cut the first and third
+// columns without touching the second: "NGO" became "Our Organisation" and
+// lost Get Involved + Impact Stories to Take Action, which in turn gave up
+// FAQs to it. Take Action is now the tallest column at six items, and it is
+// what sets the top block's 220px height.
 const LINK_COLUMNS = [
   {
-    heading: 'NGO',
+    heading: 'Our Organisation',
     items: [
       { label: 'Home', to: '/' },
       { label: 'About Us', to: '/about' },
       { label: 'Volunteer Opportunities', to: '/get-involved' },
-      { label: 'Get Involved', to: '/get-involved' },
-      { label: 'Impact Stories', to: '/impact-stories' },
+      { label: 'FAQs', to: '/#faq' },
     ],
   },
   {
@@ -32,7 +37,8 @@ const LINK_COLUMNS = [
       { label: 'Donate', to: '/get-involved' },
       { label: 'Nominate a Senior', to: '/nominate' },
       { label: 'Contact Us', to: '/contact' },
-      { label: 'FAQs', to: '/#faq' },
+      { label: 'Get Involved', to: '/get-involved' },
+      { label: 'Impact Stories', to: '/impact-stories' },
     ],
   },
 ];
@@ -50,31 +56,38 @@ const LEGAL_LINKS = [
  * (3-column link grid vs. stacked desktop columns, a mobile-only Address
  * line, a completely different bottom legal/social bar), so rather than
  * threading base-tier overrides through one shared tree, mobile renders as
- * its own sibling block (`md:hidden`) and the pre-mobile-pass desktop markup
- * moves — byte-for-byte — behind `hidden md:block` (§ mobile-pass mechanics).
+ * its own sibling block (`md:hidden`) and the desktop markup sits behind
+ * `hidden md:block` (§ mobile-pass mechanics).
+ *
+ * `799:4113` re-drew the desktop frame. It is still 443 tall, but it is now
+ * a plain centred stack rather than the old overlapping-frames arrangement:
+ * 57 padding, a 220 top block, 32, the rule, 32, a 44 bottom bar, 57. The
+ * background moved espresso → `m-900` (#260000) and the wordmark became the
+ * crest mark. See the notes at each landmark below.
  */
 function Footer() {
-  // The espresso box-shadow is a bleed, not decoration. The footer is the last
+  // The dark box-shadow is a bleed, not decoration. The footer is the last
   // thing in the document and its bottom edge lands on a fractional CSS pixel
   // (the mobile block alone is 554.6 tall), so the last *device* row straddles
-  // that edge: half `bg-espresso`, half the cream page canvas underneath. At an
+  // that edge: half footer, half the cream page canvas underneath. At an
   // integer DPR the blend rounds away, but at a fractional one — Windows
   // 125/175/225% display scaling, or a phone at DPR 2.625 — it renders as a
   // white hairline across the bottom of the footer. Padding can't fix it (the
-  // seam just follows the new bottom edge); the shadow paints espresso *past*
-  // the document bottom, and since shadows don't count toward scrollable
+  // seam just follows the new bottom edge); the shadow paints the footer colour
+  // *past* the document bottom, and since shadows don't count toward scrollable
   // overflow, page height and every section total stay untouched.
   return (
-    <footer className="w-full bg-espresso shadow-[0_4px_0_0_var(--color-espresso)]">
-      {/* Mobile footer (<768, true mobile) — Figma mobile frame */}
+    <footer className="w-full bg-m-900 shadow-[0_4px_0_0_var(--color-m-900)]">
+      {/* Mobile footer (<768, true mobile) — Figma mobile frame. Not re-drawn
+          by 799:4113, so only the two things that are page-wide follow it up:
+          the crest mark replaces the wordmark, and the column contents come
+          from the shared LINK_COLUMNS. */}
       <div className="md:hidden">
         <div className="w-full px-[16px] pt-[60px] pb-[28px]">
           <div className="flex w-full max-w-[372px] flex-col items-start gap-[28px]">
             {/* 1. Logo + contact info + mini-divider + address */}
             <div className="flex w-full flex-col items-start gap-[22.16px]">
-              <span className="font-neulis text-[20.313px] font-normal text-white">
-                Stephen&apos;s Table
-              </span>
+              <img src={logoFooter} alt="Stephen's Table" className="h-[60px] w-auto" />
               <div className="flex flex-col items-start gap-[8.31px]">
                 <a
                   href="mailto:info@stephenstablecolorado.org"
@@ -105,7 +118,7 @@ function Footer() {
             <div className="grid w-full grid-cols-3 gap-[28px]">
               {LINK_COLUMNS.map((column) => (
                 <div key={column.heading} className="flex flex-col gap-[16px]">
-                  <h3 className="whitespace-nowrap font-sans text-[16px] font-bold text-white">
+                  <h3 className="font-sans text-[16px] font-bold text-white">
                     {column.heading}
                   </h3>
                   <ul className="flex flex-col gap-[4px]">
@@ -156,17 +169,33 @@ function Footer() {
         </div>
       </div>
 
-      {/* Desktop/tablet footer (≥768) — pre-mobile-pass markup, kept
-          byte-identical; only wrapped in `hidden md:block` so base can
-          render the mobile block above instead. */}
+      {/* Desktop/tablet footer (≥768).
+          799:4113 is a fixed 443 box whose three children are centred on it
+          with a 32 gap, which works out to 57 of clearance top and bottom
+          (57 + 220 + 32 + 1 + 32 + 44 + 57). Expressing it as padding + gap
+          rather than a pinned height means the stack still grows correctly
+          when the columns wrap below the design width.
+          The three children each own their width, so the wrapper carries no
+          horizontal padding: the top block gutters at 128, the rule is 1320
+          (60), and the bottom bar gutters at 56. */}
       <div className="hidden md:block">
-        <div className="mx-auto max-w-[1440px] px-6 pt-10 md:px-10 md:pt-14 lg:px-16 xl:px-[128px] xl:pt-[80px]">
-          <div className="flex flex-col items-start gap-10 md:gap-12 lg:flex-row lg:gap-0">
-            {/* Left column: logo + contact info */}
-            <div className="flex w-full flex-col gap-[24px] lg:w-[352px]">
-              <span className="font-neulis text-[22px] font-normal text-white">
-                Stephen&apos;s Table
-              </span>
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[32px] py-10 md:py-14 xl:py-[57px]">
+          {/* Top block — 799:4114, 220 tall, its 1184 of content centred in
+              1440. `xl:px-[128px]` leaves exactly that, and the left column's
+              352 + 124 + the columns' 708 fills it with nothing over. */}
+          <div className="flex w-full flex-col items-start gap-10 px-6 md:gap-12 md:px-10 lg:flex-row lg:gap-0 lg:px-16 xl:px-[128px]">
+            {/* Left column: crest + contact info */}
+            <div className="flex w-full flex-col gap-[24px] lg:w-[352px] lg:shrink-0">
+              {/* 799:4116 is 125 × 85.482; the export rounds its box up to
+                  125 × 86 and leaves the artwork where it was, so it renders
+                  at the SVG's own size rather than being squashed to 85.482.
+                  This mark is the *inverted* cut — white artwork knocked out
+                  in #260000 — so it only reads on this background. */}
+              <img
+                src={logoFooter}
+                alt="Stephen's Table"
+                className="h-[64px] w-auto lg:h-[72px] xl:h-[86px] xl:w-[125px]"
+              />
               <div className="flex flex-col gap-[9px]">
                 <a
                   href="mailto:info@stephenstablecolorado.org"
@@ -185,13 +214,11 @@ function Footer() {
               </div>
             </div>
 
-            {/* Links block */}
-            {/* Figma's two footer frames overlap: the top block (342:112) is
-                349 tall but the bottom bar (342:68) starts at 344.198, so the
-                80px bottom padding it draws only contributes 74.2 to the
-                443.349 total. Flow layout can't overlap, so the padding carries
-                the difference. */}
-            <div className="grid w-full grid-cols-1 gap-8 pb-10 sm:grid-cols-3 sm:gap-6 lg:ml-[124px] lg:flex lg:flex-1 lg:gap-[72px] lg:pb-[80px] xl:pb-[74.2px]">
+            {/* Links block — 799:4198, three hugging columns on a 72 gap that
+                measure 708 together. `lg:flex-1` resolves to exactly that at
+                1440, so any slack it picks up below the design width lands
+                after the last column rather than inside the gaps. */}
+            <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6 lg:ml-[124px] lg:flex lg:flex-1 lg:gap-[72px]">
               {LINK_COLUMNS.map((column) => (
                 <div key={column.heading} className="flex flex-col gap-[16px]">
                   <h3 className="font-sans text-[20px] font-bold text-white">
@@ -200,9 +227,9 @@ function Footer() {
                   <ul className="flex flex-col gap-[8px]">
                     {column.items.map((item) => (
                       <li key={item.label}>
-                        {/* Figma 342:131: list items are 23px tall on a 31px
-                            pitch (leading normal + the 8px gap), unlike the
-                            contact rows above which are explicitly 32px. */}
+                        {/* 799:4201: list items are 23px tall on a 31px pitch
+                            (leading normal + the 8px gap), unlike the contact
+                            rows above which are explicitly 32px. */}
                         <Link
                           to={item.to}
                           className="font-sans text-[18px] leading-[23px] text-white"
@@ -216,32 +243,39 @@ function Footer() {
               ))}
             </div>
           </div>
-        </div>
 
-        <div className="mx-auto h-px w-[calc(100%-48px)] max-w-[1365px] bg-white md:w-[calc(100%-80px)] 2xl:w-[1365px]" />
+          {/* 799:4222 — 1320 wide at x=60, i.e. a 60 gutter, narrower than the
+              1440 frame but wider than the 1184 content above it. */}
+          <div className="h-px w-[calc(100%-48px)] bg-white md:w-[calc(100%-80px)] 2xl:w-[1320px]" />
 
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 p-6 md:flex-row md:p-8 xl:h-[99.15px] xl:p-[32px]">
-          <div className="flex items-center gap-[12px]">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer">
-              <img src={iconFacebook} alt="Facebook" className="size-[44px]" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">
-              <img src={iconInstagram} alt="Instagram" className="size-[44px]" />
-            </a>
-          </div>
+          {/* 799:4223 — 44 tall, socials and the legal row 222 apart with the
+              pair centred, which puts the gutters at 56. */}
+          <div className="flex w-full flex-col items-center justify-between gap-4 px-6 md:flex-row md:px-10 lg:px-14 2xl:justify-center 2xl:gap-[222px] 2xl:px-0">
+            <div className="flex shrink-0 items-center gap-[12px]">
+              <a href="https://facebook.com" target="_blank" rel="noreferrer">
+                <img src={iconFacebook} alt="Facebook" className="size-[44px]" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer">
+                <img src={iconInstagram} alt="Instagram" className="size-[44px]" />
+              </a>
+            </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-[24px] gap-y-2">
-            {LEGAL_LINKS.map((link) => (
-              <span key={link.label} className="flex items-center gap-[24px]">
-                <a href={link.to} className="font-sans text-[20px] leading-[20px] text-white">
-                  {link.label}
-                </a>
-                <img src={iconDot} alt="" className="size-[4px]" aria-hidden="true" />
+            {/* 799:4251/4255/4259 put the bullet *before* its label on an 8px
+                gap, and the copyright carries none — the old markup trailed
+                each label with one instead. */}
+            <div className="flex flex-wrap items-center justify-center gap-x-[24px] gap-y-2">
+              {LEGAL_LINKS.map((link) => (
+                <span key={link.label} className="flex items-center gap-[8px]">
+                  <img src={iconDot} alt="" className="size-[4px]" aria-hidden="true" />
+                  <a href={link.to} className="font-sans text-[20px] leading-[20px] text-white">
+                    {link.label}
+                  </a>
+                </span>
+              ))}
+              <span className="text-center font-sans text-[20px] leading-[20px] text-white">
+                © 2026 Stephen&apos;s Table Colorado. All Rights Reserved.
               </span>
-            ))}
-            <span className="text-center font-sans text-[20px] leading-[20px] text-white">
-              © 2026 Stephen&apos;s Table Colorado. All Rights Reserved.
-            </span>
+            </div>
           </div>
         </div>
       </div>
