@@ -100,7 +100,7 @@ function WhoWeServeCard({
 }) {
   return (
     <div
-      className="flex w-full flex-col items-start gap-[24px] rounded-card border border-wb-400 bg-wb-200 pt-[10px] px-[10px] pb-[20px] md:flex-row md:items-center md:gap-8 md:p-5 xl:min-h-[var(--wws-card-h)] xl:gap-[79px] xl:px-[21px] xl:py-[21px] 2xl:h-[var(--wws-card-h)]"
+      className="flex w-full flex-col items-start gap-[24px] rounded-card border border-[#d0e4db] bg-bl-50 pt-[10px] px-[10px] pb-[20px] md:flex-row md:items-center md:gap-8 md:p-5 xl:min-h-[var(--wws-card-h)] xl:gap-[79px] xl:px-[21px] xl:py-[21px] 2xl:h-[var(--wws-card-h)]"
       style={{ '--wws-card-h': `${cardHeight}px` }}
     >
       <img
@@ -118,7 +118,13 @@ function WhoWeServeCard({
           <p className="font-sans text-[16px] text-gray-67 md:text-[18px] xl:max-w-[661px] xl:text-[20px] 2xl:w-[661px]">{body}</p>
         </div>
         {showCta && (
-          <Button as={Link} to="/nominate" variant="primary" className="self-start capitalize uppercase">
+          <Button
+            as={Link}
+            to="/nominate"
+            variant="primary"
+            className="self-start capitalize uppercase"
+            style={{ backgroundColor: 'var(--color-s-200)' }}
+          >
             Nominate a Senior
           </Button>
         )}
@@ -252,7 +258,7 @@ function Home() {
           {/* 342:181 is a fixed 62px row — taller than either of its children
               (47px chip, 52px two-line intro), which centre inside it. */}
           <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:h-[62px] 2xl:gap-[226px] xl:items-center xl:px-[72px]">
-            <SectionChip className="shrink-0">Who we serve</SectionChip>
+            <SectionChip variant="green-tint" className="shrink-0">Who we serve</SectionChip>
             <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 xl:text-[20px] 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
@@ -285,7 +291,7 @@ function Home() {
       <section className="w-full bg-bl-100 py-[60px] md:py-14 xl:py-[117.45px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[24px] md:gap-10 xl:gap-[64px]">
           <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
-            <SectionChip variant="blue" className="shrink-0">How we help</SectionChip>
+            <SectionChip variant="green-solid" className="shrink-0">How we help</SectionChip>
             <p className="font-sans text-[16px] text-gray-67 md:text-[24px] md:text-gray-59 min-w-0 max-w-full lg:max-w-[877px] lg:shrink lg:grow-0 xl:text-[20px] xl:text-gray-67 2xl:w-[877px]">
               Every senior&apos;s needs are unique. That&apos;s why our support is delivered through three
               key service categories, ensuring older adults receive the care, connection, and resources
@@ -341,7 +347,7 @@ function Home() {
       <section className="w-full py-[60px] md:py-14 xl:py-[130.5px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[24px] md:gap-10 xl:gap-[72px]">
           <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
-            <SectionChip className="shrink-0">Get involved</SectionChip>
+            <SectionChip variant="green-solid" className="shrink-0">Get involved</SectionChip>
             <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 xl:text-[20px] 2xl:w-[857px]">
               Join us in making a meaningful difference in the lives of seniors. Whether you volunteer,
               donate, or partner with us, your support helps build a stronger community.
