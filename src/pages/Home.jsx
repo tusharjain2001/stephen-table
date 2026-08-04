@@ -25,20 +25,23 @@ import iconCommunity from '../assets/icons/icon-community.svg';
 import iconVolunteer from '../assets/icons/icon-volunteer.svg';
 import iconPartnership from '../assets/icons/icon-partnership.svg';
 import iconDonate from '../assets/icons/icon-donate-white.svg';
-import iconEmail from '../assets/icons/icon-email.svg';
-import iconPhone from '../assets/icons/icon-phone.svg';
+import iconEmailBadged from '../assets/icons/icon-email-badged.svg';
+import iconPhoneBadged from '../assets/icons/icon-phone-badged.svg';
 
 /**
  * On Home the CTA banner's contact pills route into the Contact page's form
- * rather than opening a mail/phone client.
+ * rather than opening a mail/phone client. The redesign's pill icons (799:
+ * 3346 / 799:3350) already bake in their own s-300 rounded-square badge —
+ * unlike every other caller's plain glyph — so they're only ever used with
+ * `barePillIcons` (no second wrapper badge drawn around them).
  */
 const CONTACT_PILLS = [
   {
-    icon: iconEmail,
+    icon: iconEmailBadged,
     label: 'info@stephenstablecolorado.org',
     to: '/contact#contact-form',
   },
-  { icon: iconPhone, label: '970-375-9179', to: '/contact#contact-form' },
+  { icon: iconPhoneBadged, label: '970-375-9179', to: '/contact#contact-form' },
 ];
 
 // `mobileLines` is the two-line break the mobile frame draws each label on
@@ -288,7 +291,10 @@ function Home() {
       {/* How we help */}
       {/* 342:204 is a fixed 981 box centring 746.09 of content, i.e. 117.45
           of clearance top and bottom rather than the old 110. */}
-      <section className="w-full bg-bl-100 py-[60px] md:py-14 xl:py-[117.45px]">
+      <section
+        className="w-full py-[60px] md:py-14 xl:py-[117.45px]"
+        style={{ backgroundImage: 'linear-gradient(235.17deg, #fffcf7 1.4134%, #ffe3e3 100%)' }}
+      >
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-[24px] md:gap-10 xl:gap-[64px]">
           <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
             <SectionChip variant="green-solid" className="shrink-0">How we help</SectionChip>
@@ -305,6 +311,7 @@ function Home() {
               body="Helping seniors remain safe and independent with home assistance, transportation, and minor household support."
               ctaHref="/services"
               showArrowBadge
+              titleClassName="capitalize text-black"
               bodyClassName="text-gray-59 md:text-black"
             />
             <StoryCard
@@ -313,6 +320,7 @@ function Home() {
               body="Building meaningful relationships through companionship, shared activities, and a welcoming community."
               ctaHref="/services"
               showArrowBadge
+              titleClassName="capitalize text-black"
               bodyClassName="text-gray-59 md:text-black"
             />
             <StoryCard
@@ -321,6 +329,7 @@ function Home() {
               body="Connecting seniors with trusted local resources, essential services, and community programs that enhance their well-being."
               ctaHref="/services"
               showArrowBadge
+              titleClassName="capitalize text-black"
               bodyClassName="text-gray-59 md:text-black"
             />
           </div>
@@ -332,7 +341,9 @@ function Home() {
           glyph rather than the badge the other callers still draw. */}
       <CtaBanner
         image={ctaBannerImg}
-        title="Here When You Need Us..."
+        bg="blue"
+        title="here when you need us..."
+        titleTransform="lowercase"
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
         pills={CONTACT_PILLS}
         titleClassName="lg:text-[32px] lg:leading-[41px]"
