@@ -9,10 +9,10 @@ import FaqSection from '../components/FaqSection.jsx';
 
 import heroNominate from '../assets/images/hero-nominate.png';
 import heroNominateMobile from '../assets/mobile/mobile-nominate-hero.png';
-import iconStepReview from '../assets/icons/icon-step-review.svg';
-import iconStepChat from '../assets/icons/icon-step-chat.svg';
-import iconStepSpeak from '../assets/icons/icon-step-speak.svg';
-import iconStepSupport from '../assets/icons/icon-step-support.svg';
+import iconStepReview from '../assets/icons/icon-step-review-maroon.svg';
+import iconStepChat from '../assets/icons/icon-step-chat-maroon.svg';
+import iconStepSpeak from '../assets/icons/icon-step-speak-maroon.svg';
+import iconStepSupport from '../assets/icons/icon-step-support-maroon.svg';
 
 const STEPS = [
   {
@@ -91,6 +91,10 @@ function Nominate() {
         // bottom), so `mobileOverlay` stays on its gradient default. `image`
         // becomes md-and-up only once this is set, so desktop is untouched.
         mobileImage={heroNominateMobile}
+        // Maroon rollout (Figma 790:1625): espresso scrim -> navy, matching
+        // Services/Get Involved/Impact.
+        overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
+        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
         // 367:770 is now 313..427 in the 548 hero, i.e. 121 clear of the
         // bottom, not 85: the redraw took the H1 to 36/1.8 on a 46 line box
@@ -120,8 +124,33 @@ function Nominate() {
       />
 
       {/* 378:3220 runs the intro at 20 like Services, but 378:3222 also
-          drops the bullets to 20 — Services keeps those at 24. */}
-      <EligibilityBand introSize={20} bulletSize={20} />
+          drops the bullets to 20 — Services keeps those at 24. Maroon
+          rollout (790:1625) restructures the band down to 3 bullets and
+          adds a centered CTA linking to the form below; the fixed
+          min-height is dropped since the taller content now sizes the
+          band on its own. */}
+      <EligibilityBand
+        introSize={20}
+        bulletSize={20}
+        bgClassName="bg-m-700"
+        minHeightClassName=""
+        items={[
+          'Be 60 years or older and reside in Colorado.',
+          'Require assistance with everyday home or community-based needs.',
+          'Be seeking practical support, companionship, or access to community resources.',
+        ]}
+        cta={
+          <>
+            <p className="w-[774px] max-w-full text-center font-sans text-[20px] font-semibold text-white">
+              To complete a service request or be nominated by a family member, caregiver, or community member,
+              please click here
+            </p>
+            <Button as="a" href="#nominate-form" variant="primary">
+              NOMINATE A SENIOR
+            </Button>
+          </>
+        }
+      />
 
       {/* How it works */}
       <section className="w-full py-14 xl:py-[102px]">
@@ -129,7 +158,7 @@ function Nominate() {
           {/* 367:774 is an explicit h-62 box; the chip is 47 and the 20px lede
                 52, so letting it hug would cost the section 10px. */}
           <div className="flex w-full flex-col items-center gap-6 px-6 text-center md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:h-[62px] xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
-            <SectionChip className="shrink-0">how it works</SectionChip>
+            <SectionChip variant="beige-warm" className="shrink-0">how it works</SectionChip>
             <p className="font-sans text-[18px] text-gray-59 md:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
@@ -137,20 +166,22 @@ function Nominate() {
           </div>
           <div className="grid w-full grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[24px]">
             {STEPS.map((s) => (
-              <StepCard key={s.title} {...s} />
+              <StepCard
+                key={s.title}
+                bgClassName="bg-[#fff1ed]"
+                borderClassName="border-[#ffc9c9]"
+                {...s}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* Nomination form */}
-      <section className="w-full bg-bl-300 py-12 xl:py-[69px]">
-        {/* 381:5698 puts the narrowed card at x=181 in the 1440 frame, which
-            is 2px left of centre (1440 − 1074 = 366 → 183). Small, but it is
-            an explicit frame coordinate and matching it halves the card's
-            pixel diff against the render (2.46 → 1.17 MAD), so the column is
-            anchored rather than centred at 2xl. */}
-        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0 2xl:justify-start 2xl:pl-[181px]">
+      <section id="nominate-form" className="w-full bg-bl-400 py-12 xl:py-[69px]">
+        {/* Maroon rollout drops the 2xl anchor offset above — the card now
+            stays centred in the 1440 frame at every tier. */}
+        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-0">
           <form
             onSubmit={handleSubmit}
             className="flex w-full max-w-[1273px] flex-col gap-[36px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:gap-[68px] xl:px-[55px] xl:pb-[47px] xl:pt-[48px] 2xl:max-w-[1074px] 2xl:px-[46.402px]"
@@ -166,16 +197,12 @@ function Nominate() {
             <div className="flex flex-col gap-[11px]">
               {/* Figma 381:5703 h=31 — DM Sans Medium 24 */}
               <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600">
-                fill the form to nominate a senior
+                Complete the form to nominate a senior
               </h2>
-              {/* 381:5704 still carries the old 1009 measure inside a frame
-                  the redraw narrowed to 981.196 — a stale hug, and 1009 now
-                  overflows the card. It wraps to the frame's two lines at
-                  either width, so the narrowed card just takes the full
-                  content measure. */}
-              <p className="font-sans text-[18px] text-gray-9c xl:w-[1009px] xl:text-[20px] 2xl:w-full">
-                if you are aware of any senior around you, who might benefit from our service, you can
-                fill the form below to nominate them and our team will get in touch with them
+              <p className="font-sans text-[18px] text-gray-9c xl:text-[20px] 2xl:w-full">
+                If you are aware of a senior who needs help,
+                <br className="hidden md:inline" /> please provide their details below and our team
+                will contact them.
               </p>
             </div>
 
