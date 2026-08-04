@@ -22,8 +22,8 @@ import iconOldWoman from '../assets/icons/icon-old-woman.svg';
 import iconHome from '../assets/icons/icon-home.svg';
 import iconBooks from '../assets/icons/icon-books-blue.svg';
 import iconCommunity from '../assets/icons/icon-community.svg';
-import iconVolunteer from '../assets/icons/icon-volunteer.svg';
-import iconPartnership from '../assets/icons/icon-partnership.svg';
+import iconVolunteer from '../assets/icons/icon-volunteer-maroon.svg';
+import iconPartnership from '../assets/icons/icon-partnership-maroon.svg';
 import iconDonate from '../assets/icons/icon-donate-white.svg';
 import iconEmailBadged from '../assets/icons/icon-email-badged.svg';
 import iconPhoneBadged from '../assets/icons/icon-phone-badged.svg';
@@ -75,6 +75,17 @@ const LEARN_MORE_FIXED_STYLE = {
   paddingLeft: '34.4px',
   paddingRight: '34.4px',
   fontSize: '17.211px',
+};
+
+// Get involved's redesign recolors the Volunteer/Corporate Partnerships
+// "learn more" outline to the sage s-600 stroke with black type (799:3117 /
+// 799:3127); Donate's white-on-maroon "Donate Now" pill (learn-more-light)
+// is untouched, so only the first two cards swap LEARN_MORE_FIXED_STYLE for
+// this variant of it.
+const GI_LEARN_MORE_STYLE = {
+  ...LEARN_MORE_FIXED_STYLE,
+  borderColor: 'var(--color-s-600)',
+  color: '#000',
 };
 
 const STATS = [
@@ -141,7 +152,7 @@ function GetInvolvedCard({ icon, iconSize = 46, title, body, bg, textWidth, offs
   return (
     <div
       className={`flex h-full min-h-[320px] w-full flex-col items-start gap-[48px] rounded-card px-[28px] py-[32px] md:gap-8 md:px-8 md:py-10 xl:gap-[64px] xl:pr-0 xl:pb-0 xl:pl-[var(--card-offset-l)] xl:pt-[var(--card-offset-t)] 2xl:h-[478px] 2xl:max-w-[419px] ${
-        isDark ? 'bg-bl-600' : 'bg-bl-100'
+        isDark ? 'bg-m-700' : 'border border-[rgba(200,0,0,0.19)] bg-[#fff1ed]'
       }`}
       style={{ '--card-offset-l': `${offsetLeft}px`, '--card-offset-t': `${offsetTop}px` }}
     >
@@ -151,7 +162,7 @@ function GetInvolvedCard({ icon, iconSize = 46, title, body, bg, textWidth, offs
         style={{ '--card-text-w': `${textWidth}px` }}
       >
         <h3
-          className={`font-sans text-[28px] font-medium ${isDark ? 'text-white' : 'text-navy'} md:text-[26px] xl:text-[24px]`}
+          className={`font-sans text-[28px] font-medium ${isDark ? 'text-white' : 'text-m-600'} md:text-[26px] xl:text-[24px]`}
         >
           {title}
         </h3>
@@ -374,7 +385,7 @@ function Home() {
               offsetLeft={39}
               offsetTop={55}
               cta={
-                <Button as={Link} to="/get-involved" variant="learn-more" style={LEARN_MORE_FIXED_STYLE}>
+                <Button as={Link} to="/get-involved" variant="learn-more" style={GI_LEARN_MORE_STYLE}>
                   learn more
                 </Button>
               }
@@ -388,7 +399,7 @@ function Home() {
               offsetLeft={32}
               offsetTop={52}
               cta={
-                <Button as={Link} to="/get-involved" variant="learn-more" style={LEARN_MORE_FIXED_STYLE}>
+                <Button as={Link} to="/get-involved" variant="learn-more" style={GI_LEARN_MORE_STYLE}>
                   learn more
                 </Button>
               }
