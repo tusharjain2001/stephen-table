@@ -60,10 +60,16 @@ function ImpactStories() {
         image={heroImpact}
         height={548}
         mobileFlatOverlay
-        // 371:2942 is one of this file's mirrored rects (x = width), so its
-        // 0.2→0.84 gradient reads 0.84→0.2 in the frame — the same end-stop
-        // Services uses, not PageHero's 0.9 default.
-        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)"
+        // Maroon rollout (Figma 790:1291): navy scrim, near-solid on the
+        // left. NOTE: the plan called for also setting `flatOverlay` here,
+        // but that prop is deliberately unused on this page — PageHero's own
+        // doc comment records it was tried on Impact Stories and reverted
+        // because it put the render 10.4 MAD off the Figma frame (vs 1.4
+        // without it), so it's intentionally omitted to avoid reintroducing
+        // that regression. `mobileFlatOverlay` (the base-tier wash) is
+        // unaffected and stays as before.
+        overlayGradient="linear-gradient(to right, #18212d 0%, rgba(24,33,45,0.2) 100%)"
+        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         textLeft={76}
         textWidth={628}
         // 371:2948 sits at y=313 h=140 inside the 548 hero, i.e. 95 up from
@@ -84,12 +90,12 @@ function ImpactStories() {
       />
 
       {/* Real World stories */}
-      <section className="flex w-full flex-col justify-center bg-gradient-to-b from-cream to-bl-100 py-14 xl:min-h-[981px] xl:py-16">
+      <section className="flex w-full flex-col justify-center bg-gradient-to-b from-cream to-[#fff1ed] py-14 xl:min-h-[981px] xl:py-16">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
           <SectionHeader
             chipVariant="blue"
             chipLabel="Real World stories"
-            lede="Hear it from the anecdotal record."
+            lede="Impact stories shared by our clients, partners, sponsors and volunteers."
             ledeWidth={877}
             ledeSize={20}
             gap={159}
@@ -117,7 +123,7 @@ function ImpactStories() {
       </section>
 
       {/* Blogs */}
-      <section className="flex w-full flex-col justify-center bg-bl-100 py-14 xl:min-h-[981px] xl:py-16">
+      <section className="flex w-full flex-col justify-center bg-[#fff1ed] py-14 xl:min-h-[981px] xl:py-16">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
           <SectionHeader
             chipVariant="blue"
@@ -165,6 +171,7 @@ function ImpactStories() {
         subtitleClassName="lg:w-[439px] lg:max-w-full lg:text-[16px]"
         barePillIcons
         textLeft={78}
+        pillTextTransform="normal-case"
       />
     </div>
   );
