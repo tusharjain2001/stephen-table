@@ -68,7 +68,7 @@ const LEGAL_LINKS = [
 function Footer() {
   // The dark box-shadow is a bleed, not decoration. The footer is the last
   // thing in the document and its bottom edge lands on a fractional CSS pixel
-  // (the mobile block alone is 554.6 tall), so the last *device* row straddles
+  // (the mobile block alone is 631.41 tall), so the last *device* row straddles
   // that edge: half footer, half the cream page canvas underneath. At an
   // integer DPR the blend rounds away, but at a fractional one — Windows
   // 125/175/225% display scaling, or a phone at DPR 2.625 — it renders as a
@@ -78,50 +78,68 @@ function Footer() {
   // overflow, page height and every section total stay untouched.
   return (
     <footer className="w-full bg-m-900 shadow-[0_4px_0_0_var(--color-m-900)]">
-      {/* Mobile footer (<768, true mobile) — Figma mobile frame. Not re-drawn
-          by 799:4113, so only the two things that are page-wide follow it up:
-          the crest mark replaces the wordmark, and the column contents come
-          from the shared LINK_COLUMNS. */}
-      <div className="md:hidden">
-        <div className="w-full px-[16px] pt-[60px] pb-[28px]">
-          <div className="flex w-full max-w-[372px] flex-col items-start gap-[28px]">
+      {/* Mobile footer (<768, true mobile) — 803:8999, the 402 frame.
+          Like the desktop frame it is a plain padded stack, and it sums:
+          60 + 70 + 22.159 + 127.392 + 28 + 156 + 21 + 0.279 + 21 + 6 + 31 +
+          28.581 + 60 = 631.41.
+          Note the socials sit *outside* the 370 block as their own centred
+          child of the frame, 31 below the legal row — they are no longer
+          part of a bottom bar with it. */}
+      <div className="flex flex-col items-center px-[16px] py-[60px] md:hidden">
+        <div className="flex w-full max-w-[370px] flex-col gap-[21px]">
+          {/* 803:8997 is 348 wide inside the 370 — the hug width of the
+              column row below — so the content stops 22 short of the rule and
+              legal row, which run the full 370. */}
+          <div className="flex w-full max-w-[348px] flex-col gap-[28px]">
             {/* 1. Logo + contact info + mini-divider + address */}
-            <div className="flex w-full flex-col items-start gap-[22.16px]">
-              <img src={logoFooter} alt="Stephen's Table" className="h-[60px] w-auto" />
-              <div className="flex flex-col items-start gap-[8.31px]">
-                <a
-                  href="mailto:info@stephenstablecolorado.org"
-                  className="flex items-center gap-[11.08px] font-sans text-[14px] leading-[29.545px] text-white underline"
-                >
-                  <img src={iconEmail} alt="" className="size-[18.466px]" aria-hidden="true" />
-                  info@stephenstablecolorado.org
-                </a>
-                <a
-                  href="tel:970-375-9179"
-                  className="flex items-center gap-[11.08px] font-sans text-[14px] leading-[29.545px] text-white"
-                >
-                  <img src={iconPhoneSmall} alt="" className="size-[18.466px]" aria-hidden="true" />
-                  970-375-9179
-                </a>
-                {/* Figma's mobile contact card ships placeholder values here
-                    (volunteer@… / (970) 555-0123) — the real, live contact
-                    details above are kept instead, per Batch 1 instructions. */}
-                <div className="h-px w-[92.33px] bg-white" />
-                <p className="w-[215px] font-sans text-[14px] leading-normal text-white">
+            <div className="flex w-full flex-col items-start gap-[22.159px]">
+              {/* 803:8919 is 102.361 × 70 — the same crest scaled down. Width
+                  alone, since the file's box is rounded up to 86 and letting
+                  the height follow keeps the artwork unsquashed. */}
+              <img src={logoFooter} alt="Stephen's Table" className="w-[102.361px]" />
+              <div className="flex flex-col items-start gap-[11.08px]">
+                {/* 803:8761 keeps the two contact rows tighter (8.31) than the
+                    divider and address around them (11.08). */}
+                <div className="flex flex-col items-start gap-[8.31px]">
+                  <a
+                    href="mailto:info@stephenstablecolorado.org"
+                    className="flex items-center gap-[11.08px] font-sans text-[14px] leading-[29.545px] text-white underline"
+                  >
+                    <img src={iconEmail} alt="" className="size-[18.466px]" aria-hidden="true" />
+                    info@stephenstablecolorado.org
+                  </a>
+                  <a
+                    href="tel:970-375-9179"
+                    className="flex items-center gap-[11.08px] font-sans text-[14px] leading-[29.545px] text-white"
+                  >
+                    <img src={iconPhoneSmall} alt="" className="size-[18.466px]" aria-hidden="true" />
+                    970-375-9179
+                  </a>
+                </div>
+                {/* Figma's mobile contact card still ships placeholder values
+                    here (volunteer@… / (970) 555-0123) — the real, live
+                    contact details above are kept instead, per Batch 1. */}
+                <div className="h-[0.923px] w-[92.33px] bg-white" />
+                <p className="w-[215.128px] font-sans text-[14px] leading-normal text-white">
                   <span className="font-bold">Address:</span> 123 Community Way, Fort Collins, CO
                   80524
                 </p>
               </div>
             </div>
 
-            {/* 2. Links, 3 columns side by side */}
-            <div className="grid w-full grid-cols-3 gap-[28px]">
+            {/* 2. Links — 803:8773, three equal columns on a 35 gap. */}
+            <div className="flex w-full items-start gap-[35px]">
               {LINK_COLUMNS.map((column) => (
-                <div key={column.heading} className="flex flex-col gap-[16px]">
-                  <h3 className="font-sans text-[16px] font-bold text-white">
+                <div key={column.heading} className="flex min-w-0 flex-1 flex-col gap-[8px]">
+                  {/* "Our Organisation" draws ~100 against the 92.667 column,
+                      and 803:8774 clips it — the frame render reads "Our
+                      Organizatio". Kept whole and allowed to run into the 35px
+                      gutter instead: the geometry is identical either way and
+                      a truncated heading reads as a bug. */}
+                  <h3 className="whitespace-nowrap font-sans text-[12px] font-bold text-white">
                     {column.heading}
                   </h3>
-                  <ul className="flex flex-col gap-[4px]">
+                  <ul className="flex w-full flex-col gap-[4px]">
                     {column.items.map((item) => (
                       <li key={item.label}>
                         <Link to={item.to} className="font-sans text-[12px] leading-[16px] text-white">
@@ -134,38 +152,37 @@ function Footer() {
               ))}
             </div>
           </div>
-        </div>
 
-        {/* 3. Bottom bar: full-width hairline + tiny legal row + socials.
-            This is a11y-poor at 7px, but it is exactly what the Figma
-            mobile frame specifies (scaled-down group) — implemented as
-            designed rather than substituted. */}
-        {/* Inset by 16px so the rule lines up with the legal row's `p-[16px]`
-            rather than bleeding to the viewport edge. Mobile block only —
-            the desktop rule below is untouched. */}
-        <div className="mx-[16px] h-[0.5px] bg-white" />
-        <div className="flex h-[80px] w-full flex-col items-start justify-center gap-[16px] p-[16px]">
-          <div className="flex flex-wrap items-center gap-x-[6px] gap-y-[2px]">
+          {/* 3. 803:8841 — a 0.279 hairline across the full 370. */}
+          <div className="h-[0.2787px] w-full bg-white" />
+
+          {/* 4. 803:8799. This is a11y-poor at 7px, but it is exactly what the
+              frame specifies (the desktop group scaled down) — implemented as
+              designed rather than substituted. The bullet leads its label
+              here too, on a 2.249 gap. */}
+          <div className="flex w-full flex-wrap items-center gap-x-[7.325px] gap-y-[3px]">
             {LEGAL_LINKS.map((link) => (
-              <span key={link.label} className="flex items-center gap-[6px]">
-                <img src={iconDot} alt="" className="size-[1.1px]" aria-hidden="true" />
-                <a href={link.to} className="font-sans text-[7px] leading-[5.575px] text-white">
+              <span key={link.label} className="flex items-center gap-[2.249px]">
+                <img src={iconDot} alt="" className="size-[1.125px]" aria-hidden="true" />
+                <a href={link.to} className="font-sans text-[7.062px] leading-[5.624px] text-white">
                   {link.label}
                 </a>
               </span>
             ))}
-            <span className="font-sans text-[7px] leading-[5.575px] text-white">
+            <span className="font-sans text-[7.062px] leading-[5.624px] text-white">
               © 2026 Stephen&apos;s Table Colorado. All Rights Reserved.
             </span>
           </div>
-          <div className="flex items-center gap-[7.8px]">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer">
-              <img src={iconFacebook} alt="Facebook" className="size-[28.58px]" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">
-              <img src={iconInstagram} alt="Instagram" className="size-[28.58px]" />
-            </a>
-          </div>
+        </div>
+
+        {/* 5. 803:8814 — centred on the frame, not on the 370 block. */}
+        <div className="mt-[31px] flex items-center gap-[7.795px]">
+          <a href="https://facebook.com" target="_blank" rel="noreferrer">
+            <img src={iconFacebook} alt="Facebook" className="size-[28.581px]" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer">
+            <img src={iconInstagram} alt="Instagram" className="size-[28.581px]" />
+          </a>
         </div>
       </div>
 
