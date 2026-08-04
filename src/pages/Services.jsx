@@ -22,15 +22,15 @@ import svcConn2 from '../assets/images/svc-conn-2.png';
 import svcConn3 from '../assets/images/svc-conn-3.png';
 import svcConn4 from '../assets/images/svc-conn-4.png';
 
-import iconStepReview from '../assets/icons/icon-step-review.svg';
-import iconStepChat from '../assets/icons/icon-step-chat.svg';
-import iconStepSpeak from '../assets/icons/icon-step-speak.svg';
-import iconStepSupport from '../assets/icons/icon-step-support.svg';
+import iconStepReview from '../assets/icons/icon-step-review-maroon.svg';
+import iconStepChat from '../assets/icons/icon-step-chat-maroon.svg';
+import iconStepSpeak from '../assets/icons/icon-step-speak-maroon.svg';
+import iconStepSupport from '../assets/icons/icon-step-support-maroon.svg';
 import iconTick from '../assets/icons/icon-tick.svg';
-import iconHandshakePeople from '../assets/icons/icon-handshake-people.svg';
-import iconBooks from '../assets/icons/icon-books.svg';
-import iconCrossMed from '../assets/icons/icon-cross-med.svg';
-import iconSmiley from '../assets/icons/icon-smiley.svg';
+import iconHandshakePeople from '../assets/icons/icon-handshake-people-maroon.svg';
+import iconBooks from '../assets/icons/icon-books-maroon.svg';
+import iconCrossMed from '../assets/icons/icon-cross-med-maroon.svg';
+import iconSmiley from '../assets/icons/icon-smiley-maroon.svg';
 
 const STEPS = [
   {
@@ -222,8 +222,11 @@ function ServiceCard({ image, title, ticks }) {
 
 function FellowshipTile({ icon, title, body, mobileIconSize = 34.315 }) {
   return (
+    // Maroon rollout: the tile's stroke is drawn INSIDE in Figma, so an
+    // inset box-shadow substitutes for `bg-b-300` rather than a CSS border
+    // (which sits outside the padding box and would grow the tile).
     <div
-      className="flex h-[209px] w-full flex-col gap-[36px] rounded-[11.9px] bg-b-300 px-[31px] py-[24px] md:h-auto md:min-h-[220px] md:gap-8 md:px-6 md:py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px]"
+      className="flex h-[209px] w-full flex-col gap-[36px] rounded-[11.9px] bg-[rgba(255,201,201,0.27)] shadow-[inset_0_0_0_2px_#fff1ed] px-[31px] py-[24px] md:h-auto md:min-h-[220px] md:gap-8 md:px-6 md:py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px]"
     >
       <img
         src={icon}
@@ -232,7 +235,7 @@ function FellowshipTile({ icon, title, body, mobileIconSize = 34.315 }) {
         style={{ '--tile-icon-mobile': `${mobileIconSize}px` }}
       />
       <div className="flex flex-col gap-[9px]">
-        <h3 className="capitalize font-sans text-[24px] font-medium text-b-800 md:text-[20px]">{title}</h3>
+        <h3 className="capitalize font-sans text-[24px] font-medium text-m-600 md:text-[20px]">{title}</h3>
         <p className="font-sans text-[16px] text-gray-59">{body}</p>
       </div>
     </div>
@@ -309,12 +312,11 @@ function Services() {
         // 32.16px down: 32.16 / (810.3 - 548) = 12.26%.
         flipImage
         imagePosition="50% 12.26%"
-        // 363:152 carries a flat black/20 wash and 363:154 the scrim, which
-        // runs 0.84 (mirrored, so dark on the left) rather than PageHero's
-        // default 0.9. Both together land the band at 2.68 MAD against the
-        // frame render, where the scrim alone gave 10.17.
-        flatOverlay
-        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)"
+        // Maroon rollout (Figma 790:3): the scrim moves to a navy wash and
+        // the extra flat black/20 wash is dropped, matching the plain
+        // two-stop treatment shared with Nominate/Get Involved.
+        overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
+        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         mobileTextTop={571}
         // 484:3770 keeps its 618 measure but the redraw dropped the H1 to
         // 36/1.8 on a 46 line box (Playfair's `normal` at 36 is 48) and moved
@@ -341,7 +343,7 @@ function Services() {
           drop stops item 3 wrapping (6 lines / 222px, not 7 / 259), which
           the `min-h-511` centred band absorbs exactly as it does on
           Nominate. */}
-      <EligibilityBand introSize={20} bulletSize={20} />
+      <EligibilityBand introSize={20} bulletSize={20} bgClassName="bg-m-700" />
 
       {/* How it works */}
       <section className="w-full py-[60px] md:py-14 xl:py-[102px]">
@@ -350,7 +352,7 @@ function Services() {
               the chip is 47 and the 20px lede is 52, so hugging would give 52
               and cost the section 10px. */}
           <div className="flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:gap-6 md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:h-[62px] xl:gap-16 2xl:gap-[226px] xl:px-[72px]">
-            <SectionChip className="shrink-0">how it works</SectionChip>
+            <SectionChip variant="green-67" className="shrink-0">how it works</SectionChip>
             <p className="font-sans text-[16px] text-gray-59 md:text-[20px] min-w-0 max-w-full lg:max-w-[857px] lg:shrink lg:grow-0 2xl:w-[857px]">
               Supporting seniors and their families with practical care, community connections, and
               compassionate assistance.
@@ -360,18 +362,24 @@ function Services() {
               its 1294 width), not 17. */}
           <div className="grid w-full grid-cols-1 gap-[24px] px-[16px] md:gap-4 md:grid-cols-2 md:px-10 lg:grid-cols-4 xl:px-[72px] 2xl:flex 2xl:w-auto 2xl:gap-[24px]">
             {STEPS.map((step) => (
-              <StepCard key={step.title} borderClassName="border-[#ddcdc2]" {...step} />
+              <StepCard
+                key={step.title}
+                bgClassName="bg-[#fff1ed]"
+                borderClassName="border-[#ffc9c9]"
+                {...step}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* Practical Home Support */}
-      <section className="w-full bg-gradient-to-b from-cream to-wb-200 py-[60px] md:py-14 xl:py-[106px]">
+      <section className="w-full bg-gradient-to-b from-cream to-[#e6ecf2] py-[60px] md:py-14 xl:py-[106px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[48px] md:gap-10 xl:gap-[76px]">
           <SectionHeader
             align="between"
             ledeSize={20}
+            chipVariant="green-borderless"
             chipLabel="Practical home support"
             lede="Supporting seniors and their families with practical care, community connections, and compassionate assistance."
             actions={<ServiceActions />}
@@ -390,6 +398,7 @@ function Services() {
           <SectionHeader
             align="between"
             ledeSize={20}
+            chipVariant="green-34"
             chipLabel="Fellowship"
             lede="Creating meaningful relationships and fostering a sense of belonging through companionship and engaging social activities."
             actions={<ServiceActions />}
@@ -408,6 +417,7 @@ function Services() {
           <SectionHeader
             align="between"
             ledeSize={20}
+            chipVariant="green-34"
             chipLabel="community connections"
             lede="Connecting seniors with trusted community resources, essential services, and programs that support their health, well-being, and independence."
             actions={<ServiceActions />}
