@@ -12,6 +12,9 @@
  *                 reusing a slice of the wide desktop landscape, so Home ships
  *                 `mobile/mobile-home-third.png`. Only applies to the image
  *                 layout; `image` still renders from md up.
+ * - `bgClassName` — background color class for the band (default `bg-b-500`,
+ *                 the brown used by every current caller). Home's redesign
+ *                 (§3.3) passes `bg-m-600` for the maroon treatment.
  * - `className` — extra classes on the outer <section>
  *
  * Breakpoint behavior (plan §5, Task 14): both variants stack to a single
@@ -19,10 +22,10 @@
  * fixed-column + flexible-photo flex trick as CtaBanner so the photo never
  * overlaps the stat column between 1024–1439px, and is pixel-exact at 1440.
  */
-function StatsBand({ stats = [], image, mobileImage, className = '' }) {
+function StatsBand({ stats = [], image, mobileImage, bgClassName = 'bg-b-500', className = '' }) {
   if (image) {
     return (
-      <section className={`w-full overflow-hidden bg-b-500 ${className}`}>
+      <section className={`w-full overflow-hidden ${bgClassName} ${className}`}>
         {/* Full-bleed row (not a capped 1440 container): the stat column is
             offset by the design container's gutter so it stays aligned with
             the sections above/below, while the photo takes whatever is left
@@ -64,7 +67,7 @@ function StatsBand({ stats = [], image, mobileImage, className = '' }) {
 
   return (
     <section
-      className={`flex w-full items-center justify-center bg-b-500 px-[48px] py-[60px] md:px-6 md:py-14 xl:h-[203px] xl:py-0 ${className}`}
+      className={`flex w-full items-center justify-center px-[48px] py-[60px] md:px-6 md:py-14 xl:h-[203px] xl:py-0 ${bgClassName} ${className}`}
     >
       <div className="flex flex-col items-center gap-[64px] md:flex-row md:gap-14 xl:gap-[108px]">
         {stats.flatMap((stat, index) => {

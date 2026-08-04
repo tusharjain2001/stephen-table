@@ -14,6 +14,11 @@
  *                    export is *flattened* — the scrim is already baked into the
  *                    pixels (top ~165 luma, bottom ~56), so layering the CSS
  *                    wash on top would double-darken it to near-solid brown.
+ * - `mobileOverlayGradient` — CSS gradient for the base (<768) scrim, when
+ *                    `mobileOverlay` is `'gradient'`. Defaults to the espresso
+ *                    top-light/bottom-dark wash every current page uses. The
+ *                    home redesign's clean (unscrimmed) hero export needs a
+ *                    blue wash instead, so it passes its own value here.
  * - `imagePosition`— CSS `object-position` for the photo. The default centres
  *                    the crop; Home needs `50% 34%` because its 548px band
  *                    shows a higher slice of hero-main.png than centring
@@ -114,6 +119,7 @@ function PageHero({
   overlay = 'gradient',
   overlayGradient = 'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
   mobileOverlay = 'gradient',
+  mobileOverlayGradient = 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
   height = 548,
   mobileHeight = 745,
   flatOverlay = false,
@@ -175,7 +181,7 @@ function PageHero({
         <div
           className="absolute inset-0 md:hidden"
           style={{
-            background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+            background: mobileOverlayGradient,
           }}
         />
       )}

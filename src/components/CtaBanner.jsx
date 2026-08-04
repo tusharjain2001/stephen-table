@@ -54,6 +54,10 @@ const DEFAULT_PILLS = [
  *                  at 78 instead. The photo's left edge stays at 708 on every
  *                  frame, so the column's right margin is derived from this
  *                  rather than fixed.
+ * - `titleTransform` — CSS text-transform class for the H2, both mobile and
+ *                  ≥lg (default `'capitalize'`, what every current caller
+ *                  draws). Home's redesigned banner (mrunal's Figma comment)
+ *                  wants its title all lowercase, so it passes `'lowercase'`.
  * - `className`  — extra classes on the outer <section>
  */
 function CtaBanner({
@@ -69,6 +73,7 @@ function CtaBanner({
   barePillIcons = false,
   textTop,
   textLeft = 72,
+  titleTransform = 'capitalize',
   className = '',
 }) {
   // Photo edge (708) − column width (529) − column offset. At the default 72
@@ -117,7 +122,7 @@ function CtaBanner({
           tablet/desktop markup, untouched. */}
       <div className="flex w-full flex-col gap-[48px] py-[60px] md:hidden">
         <div className="flex flex-col items-center gap-[8px] px-[16px] text-center">
-          {title && <h2 className="font-display text-[28px] capitalize text-white">{title}</h2>}
+          {title && <h2 className={`font-display text-[28px] text-white ${titleTransform}`}>{title}</h2>}
           {subtitle && (
             <p className="w-[318px] max-w-full font-sans text-[16px] text-white">{subtitle}</p>
           )}
@@ -194,7 +199,7 @@ function CtaBanner({
         >
           <div className="flex flex-col gap-[8px]">
             {title && (
-              <h2 className={`font-display text-[32px] capitalize text-white md:text-[36px] ${titleClassName}`}>
+              <h2 className={`font-display text-[32px] text-white md:text-[36px] ${titleTransform} ${titleClassName}`}>
                 {title}
               </h2>
             )}
