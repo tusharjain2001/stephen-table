@@ -7,7 +7,7 @@ import StoryCard from '../components/StoryCard.jsx';
 import CtaBanner from '../components/CtaBanner.jsx';
 import FaqSection from '../components/FaqSection.jsx';
 
-import heroMain from '../assets/images/hero-main.png';
+import heroMainClean from '../assets/images/hero-main-clean.png';
 import statsStreet from '../assets/images/stats-street.png';
 import serveSeniors from '../assets/images/serve-seniors.png';
 import serveFamilies from '../assets/images/serve-families.png';
@@ -16,7 +16,6 @@ import cardFellowship from '../assets/images/card-fellowship.png';
 import cardCommunity from '../assets/images/card-community.png';
 import ctaBannerImg from '../assets/images/cta-banner.png';
 
-import heroMainMobile from '../assets/mobile/mobile-hone-hero.png';
 import statsStreetMobile from '../assets/mobile/mobile-home-third.png';
 
 import iconOldWoman from '../assets/icons/icon-old-woman.svg';
@@ -162,47 +161,52 @@ function Home() {
   return (
     <div>
       <PageHero
-        image={heroMain}
-        // The mobile frame uses its own 402×746 portrait crop, exported
-        // flattened — the scrim is already in the pixels, so the base CSS
-        // wash is switched off to avoid double-darkening it.
-        mobileImage={heroMainMobile}
-        mobileOverlay="none"
+        image={heroMainClean}
         imagePosition="50% 34%"
-        // 342:19 reports a scrim (0.9 held to 17.882%, fading to 0.2), but it
-        // is ALREADY BAKED INTO hero-main.png — that 2880×1492 file is a
-        // flattened export, not the 4096×2723 raw fill Figma references.
-        // Measured against the Figma render of the frame: asset alone is MAD
-        // 7.1, asset + this gradient in CSS is 19.1, and the raw fill + the
-        // gradient is 36.0. Where the two differ (x≈160) the render is
-        // *lighter* than the asset, so no added wash can help. Same trap as
-        // About's hero — layering the CSS scrim double-darkens it.
-        overlay="none"
+        // 799:2922's frame carries a real scrim, unlike the previous
+        // Home hero (which had it baked into a flattened export): dark on
+        // the LEFT (behind the copy), fading out toward the wall on the
+        // right — a 270deg gradient rather than the shared `to right`
+        // default.
+        overlay="gradient"
+        overlayGradient="linear-gradient(270deg, rgba(24,33,45,0.2) 12.26%, rgba(24,33,45,0.81) 67.58%, #18212d 104.69%)"
+        // The mobile frame keeps the same top-light/bottom-dark vertical
+        // wash every page uses, just recolored to match the redesign's
+        // navy-blue (bl-900) scrim instead of the site-wide espresso.
+        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
         mobileHeight={746}
         mobileTextTop={410}
         mobileTextInset={16}
         textLeft={78}
         textWidth={485}
-        textBottom={89}
+        textBottom={100}
         titleSize={36}
         titleTracking={1.8}
         // 342:22 is 92px over two lines. Playfair stands in for Lettertype and
         // its `normal` leading at 36px is 48, which would make the block 4px
         // taller and drag the buttons off their designed baseline — so the
         // line box is pinned.
-        //
-        // The frame holds the H1 to 426px, but that measure is Lettertype's:
-        // in Playfair "Safely, Live With Dignity" runs 450px at 36/1.8, so 426
-        // splits it a third time ("…/ Safely, Live With / Dignity"). Letting it
-        // fill the 485px column reproduces the designed two-line break exactly
-        // — 450 fits, while "Helping Seniors Age Safely," (500) still does not.
         titleLeading={46}
-        title="Helping Seniors Age Safely, Live with Dignity"
+        // The 485px text column reproduces the design's word wrap up to lg,
+        // but at xl Playfair (standing in for Lettertype) breaks the first
+        // line a word later than 799:2928's render ("…Age Safely" vs
+        // "…Age"). Canvas-measured against the rendered h1's own computed
+        // font: "Helping Seniors Age" is 360px and "…Age Safely" is 477px,
+        // while line 3 "True Sense Of Belonging." needs >=450px — so the H1
+        // alone is pinned to 460px (comfortably inside that 450–476 window)
+        // to reproduce the frame's 3-line break exactly.
+        titleClassName="xl:max-w-[460px]"
+        title="Helping seniors age safely and experience a true sense of belonging."
+        // Design node 799:2928's subhead text is an unflagged, unfinished
+        // Figma fragment ("We provide practical..."); the current copy is
+        // kept verbatim per the redesign brief.
         subtitle="Providing practical home support, meaningful fellowship, and community connections for older adults across Colorado."
       >
         <div className="mt-[20px] flex flex-wrap items-center gap-[21px]">
-          <Button variant="hero-primary">GET HELP</Button>
+          <Button variant="hero-primary" style={{ backgroundColor: 'var(--color-s-200)' }}>
+            GET HELP
+          </Button>
           <Button variant="outline-light">DONATE</Button>
         </div>
       </PageHero>
