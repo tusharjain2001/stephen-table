@@ -5,7 +5,9 @@
  * Props:
  * - `variant` — `'beige'` (default) | `'blue'` | `'onBrown'` | `'green-tint'` |
  *               `'green-solid'` (the latter two added for the home redesign,
- *               plan §3.4)
+ *               plan §3.4) | `'green-67'` | `'green-34'` | `'green-borderless'` |
+ *               `'beige-warm'` (added for the maroon rollout to About/
+ *               Services/Nominate/Get Involved/Impact/Blog)
  * - `className` — extra classes
  * - `children` — chip label text
  */
@@ -16,6 +18,10 @@ const VARIANTS = {
   onBrown: 'border-white text-white bg-[rgba(255,255,255,0.07)]',
   'green-tint': 'border-bl-300 text-bl-900 bg-[rgba(182,210,197,0.3)]',
   'green-solid': 'border-bl-300 text-black bg-[#e9efe8]',
+  'green-67': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.67)]',
+  'green-34': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.34)]',
+  'green-borderless': 'border-[#e9efe8] text-bl-900 bg-[#e9efe8]',
+  'beige-warm': 'border-wb-400 text-bl-900 bg-[rgba(232,220,198,0.2)]',
 };
 
 function SectionChip({ variant = 'beige', className = '', children }) {
