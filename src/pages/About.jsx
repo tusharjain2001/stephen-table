@@ -105,7 +105,13 @@ function About() {
         image={heroAboutWide}
         mobileImage={heroAbout}
         imagePosition="50% 55.74%"
-        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.9) 4.097%, rgba(56,41,31,0.83) 21.618%, rgba(56,41,31,0.2) 100%)"
+        // Maroon rollout (Figma 790:688): the espresso scrim moves to a navy
+        // wash, matching the already-shipped Services/Nominate/Get Involved/
+        // Impact treatment. Mobile gets the same navy pair since its frame's
+        // flattened export is what previously baked the espresso wash in —
+        // the base scrim here is a live CSS gradient, not baked pixels.
+        overlayGradient="linear-gradient(to right, rgba(24,33,45,0.9) 0%, rgba(24,33,45,0.83) 11.797%, rgba(24,33,45,0.2) 100%)"
+        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
         mobileTextTop={571}
         // 342:816 is 482 wide and sits 385..525 in a hero that ends at 620,
@@ -154,9 +160,12 @@ function About() {
           (662:10346 node 662:10502) uses the same wb-100 (#fbf6ee) bg but a
           tighter 23px gap between chip/image/copy, an image cropped to its
           bottom edge, and un-justified body copy — left untouched here. */}
-      <section className="w-full bg-wb-100 py-[60px] md:py-14 xl:h-[594px] xl:py-0">
+      <section
+        className="w-full py-[60px] md:py-14 xl:h-[594px] xl:py-0"
+        style={{ backgroundImage: 'linear-gradient(112.416deg, #fff1ed 0%, #fffcf7 100%)' }}
+      >
         <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-center gap-[23px] px-6 md:gap-[32px] md:px-10 xl:px-[72px]">
-          <SectionChip variant="beige" className="self-start">Our Story</SectionChip>
+          <SectionChip variant="green-solid" className="self-start">Our Story</SectionChip>
           <div className="flex flex-col gap-[23px] md:gap-8 lg:flex-row lg:items-center lg:gap-[53px]">
             {/* 342:831 carries a rotate(180) + scaleY(-1), i.e. a net
                 horizontal mirror of the fill. Verified against the frame
@@ -183,7 +192,7 @@ function About() {
         </div>
       </section>
 
-      <StatsBand stats={STATS} />
+      <StatsBand stats={STATS} bgClassName="bg-m-600" />
 
       {/* Leadership */}
       {/* Figma 342:964: fixed h-816 box, content centred. */}
@@ -204,7 +213,7 @@ function About() {
               lines up with it. The offset is a margin, not `pl-`, so it can't
               be reset by this element's own `px-` shorthand. */}
           <div className="flex w-full flex-col items-start gap-6 px-[16px] text-left md:items-center md:px-10 md:text-center lg:flex-row lg:justify-center lg:gap-10 lg:text-left xl:justify-start xl:gap-[247px] xl:px-[72px]">
-            <SectionChip className="shrink-0 xl:ml-[110.5px]">Leadership</SectionChip>
+            <SectionChip variant="green-solid" className="shrink-0 xl:ml-[110.5px]">Leadership</SectionChip>
             <p className="font-sans text-[16px] text-gray-59 md:text-[24px] min-w-0 max-w-full lg:max-w-[657px] lg:shrink lg:grow-0 2xl:w-[657px]">
               Meet the leaders of Stephen&apos;s Table
             </p>
@@ -233,6 +242,7 @@ function About() {
         subtitleClassName="lg:text-[16px]"
         barePillIcons
         textLeft={78}
+        pillTextTransform="normal-case"
       />
     </div>
   );
