@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Button from './Button.jsx';
 import iconMenu from '../assets/icons/icon-menu.svg';
+import logoCrest from '../assets/images/newlogonavbar.svg';
 
 const NAV_LINKS = [
   { label: 'About Us', to: '/about' },
@@ -14,13 +15,17 @@ const NAV_LINKS = [
 /**
  * Site navbar. Figma defines the ≥1280 desktop layout (Implementation Plan
  * §3.1 "Navbar") and, as of the mobile pass, the 402px mobile dropdown menu
- * (Batch 1 Task 2). The breakpoint pass (§5, Task 14) adds:
+ * (Batch 1 Task 2). `799:2935` re-drew the desktop bar: the background moved
+ * wb-200 → cream (#fffcf7) and the text wordmark became the crest mark
+ * (`logo-crest.png`, 85 × 58.128). The link row and the Donate pill are
+ * unchanged in type — only their x positions moved, see the notes inline.
+ * The breakpoint pass (§5, Task 14) adds:
  * - `lg` (1024–1279): full link row kept, gap 41→24. The redesigned frame
  *   (342:773) sets logo and links to 20px at 1440 too, so the type no longer
  *   steps up at `xl` — only the gap does.
  * - `md` (768–1023, tablet): no Figma frame exists for this width, so it
  *   keeps the pre-mobile-pass hamburger + full-width slide-down menu
- *   verbatim (logo + hamburger, bg wb-200, links DM Sans Medium 20
+ *   (logo + hamburger, links DM Sans Medium 20
  *   #38291f, Donate button included) — untouched by the mobile pass.
  * - base (<768, true mobile): the Figma dropdown card — small absolute
  *   panel hanging flush off the bar's bottom edge, right-aligned with the
@@ -31,31 +36,44 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-wb-200">
-      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-[16px] py-[10px] md:px-10 md:py-[15px] lg:px-12 xl:pl-[81px] xl:pr-[80px]">
-        {/* 342:242 is a 77px "[logo]" placeholder sitting 208px clear of the
-            link row, i.e. the row starts 285px into the content box. Reserving
-            that 285 (rather than a 208 margin) keeps the links at their designed
-            x=366 now that the real wordmark is 150px wide, not 77.
-            `2xl:` only — the reservation is worth 135px more than the wordmark
-            needs, and the bar does not have it to spare until the full 1440
-            design width: at 1280 it overflows by 13px and the links wrap. */}
+    <header className="sticky top-0 z-50 w-full bg-cream">
+      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-[16px] md:px-10 lg:px-12 xl:pl-[81px] xl:pr-[80px] 2xl:pr-[66px]">
+        {/* 799:2937 replaces the old text wordmark with the crest mark, an
+            85 × 58.128 box sitting on the 81px left gutter. It is taller than
+            the bar's own 15px padding allows (58.128 in a 42 content box), so
+            the bar centres it on the full 72 instead — which is exactly what
+            the frame does: y=6.936, i.e. 6.94 clear top and bottom.
+            The mark is 85 wide against the old wordmark's 150, so nothing
+            below 1440 is tighter than before.
+            Rendered at the SVG's own 85 × 59 rather than the frame's 58.128:
+            the export rounds the box up, but the artwork inside still sits at
+            y 4.0–55.1, so the extra 0.87 is empty padding at the bottom and
+            the ink lands where Figma puts it. Scaling to 58.128 would squash
+            it 1.5% instead. */}
         <Link
           to="/"
-          className="shrink-0 font-sans text-[20px] font-medium capitalize text-espresso 2xl:w-[285px]"
+          className="shrink-0"
           onClick={() => setOpen(false)}
         >
-          Stephen&apos;s Table
+          <img
+            src={logoCrest}
+            alt="Stephen's Table"
+            className="h-[44px] w-auto md:h-[52px] xl:h-[59px] xl:w-[85px]"
+          />
         </Link>
 
-        {/* Desktop nav (≥1024). 342:243 leaves all the remaining slack between
-            "Contact" and Donate, so the links sit near the centre of the bar
-            and the button alone is pinned to the right gutter — they are not
-            one right-hugging group. Between 1024 and 1439 the `ml-auto` pair
-            splits the slack instead, which keeps the row centred as it narrows.
+        {/* Desktop nav (≥1024). 799:2936 sets a literal 208px gap between the
+            mark and the link row, putting "About us" at x=374; the remaining
+            slack then falls between "Contact" and Donate, so the links sit
+            near the centre of the bar and the button alone is pinned to the
+            right gutter — they are not one right-hugging group.
+            The 208 is `2xl:` because it does not fit below the design width:
+            at 1280 the bar has 1119 to spend against 208 + 665 + 155 + 180 +
+            85 = 1293. Between 1024 and 1439 the `ml-auto` pair splits the
+            slack instead, which keeps the row centred as it narrows.
             `whitespace-nowrap` stops a squeezed row from breaking a label in
             half ("About / Us") before the hamburger tier takes over. */}
-        <div className="hidden items-center gap-5 lg:ml-auto lg:flex xl:gap-[41px] 2xl:ml-0">
+        <div className="hidden items-center gap-5 lg:ml-auto lg:flex xl:gap-[41px] 2xl:ml-[208px]">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -71,7 +89,13 @@ function Navbar() {
           ))}
         </div>
 
-        <div className="ml-auto hidden lg:block">
+        {/* 799:3008 is a 1000px frame holding a 779-wide link row (the labels
+            themselves only measure 665) + a 41 gap + the 180 button, so the
+            gap that actually renders between "Contact" and Donate is 155.
+            Fixed at 2xl so the whole bar lands on its frame coordinates
+            (85 + 208 + 665 + 155 + 180 = 1293 inside 81/66 gutters); below
+            that the `ml-auto` shares the slack with the link row. */}
+        <div className="ml-auto hidden lg:block 2xl:ml-[155px]">
           <Button as={Link} to="/get-involved" variant="donate-nav">
             Donate Now
           </Button>
@@ -124,7 +148,7 @@ function Navbar() {
           base can render the new Figma dropdown card instead. */}
       <div
         id="mobile-menu"
-        className={`hidden w-full overflow-hidden bg-wb-200 transition-[grid-template-rows] duration-300 md:grid lg:hidden ${
+        className={`hidden w-full overflow-hidden bg-cream transition-[grid-template-rows] duration-300 md:grid lg:hidden ${
           open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
         }`}
       >
