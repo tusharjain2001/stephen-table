@@ -11,19 +11,19 @@ import heroGetInvolvedMobile from '../assets/mobile/mobile-get-invovled-hero.png
 import signupBanner from '../assets/images/signup-banner.png';
 import ctaBannerImg from '../assets/images/cta-banner.png';
 
-import iconProfile from '../assets/icons/icon-profile.svg';
+import iconProfileWhite from '../assets/icons/icon-profile-white.svg';
 import iconGroup from '../assets/icons/icon-group.svg';
 import iconHandshake from '../assets/icons/icon-handshake.svg';
-import iconTick from '../assets/icons/icon-tick.svg';
+import iconTickWhite from '../assets/icons/icon-tick-white.svg';
+import iconTickNavy from '../assets/icons/icon-tick-navy.svg';
 import iconDonate from '../assets/icons/icon-donate.svg';
-import iconRecurring from '../assets/icons/icon-recurring.svg';
+import iconRecurringMaroon from '../assets/icons/icon-recurring-maroon.svg';
 import iconClothes from '../assets/icons/icon-clothes.svg';
-import iconCandle from '../assets/icons/icon-candle.svg';
-import iconEmail from '../assets/icons/icon-email-brownbg.svg';
+import iconCandleMaroon from '../assets/icons/icon-candle-maroon.svg';
 
 const VOLUNTEER_CARDS = [
   {
-    icon: iconProfile,
+    icon: iconProfileWhite,
     title: 'Individual Volunteering',
     body: 'Make a personal impact by assisting seniors with practical support, companionship, and everyday activities.',
     items: [
@@ -32,9 +32,8 @@ const VOLUNTEER_CARDS = [
       'Transportation Assistance',
       'Community Events',
     ],
-    // Figma strokes are drawn inside the frame, so an inset ring rather than
-    // a CSS border — a border would add 2px to the 503px card.
-    bgClassName: 'shadow-[inset_0_0_0_1px_#c8af9d] bg-b-200',
+    dark: true,
+    tickIcon: iconTickWhite,
     font: 'font-sans',
   },
   {
@@ -48,7 +47,8 @@ const VOLUNTEER_CARDS = [
       'Holiday Gift Wrapping',
       'Hygiene & Wellness Kit Assembly',
     ],
-    bgClassName: 'shadow-[inset_0_0_0_1px_#cbd7e4] bg-bl-100',
+    dark: false,
+    tickIcon: iconTickNavy,
     font: 'font-neulis',
   },
 ];
@@ -69,8 +69,8 @@ const DONATE_TILES = [
     body: 'Make an immediate contribution to support our programs and services.',
   },
   {
-    icon: iconRecurring,
-    bgClassName: 'bg-wb-200',
+    icon: iconRecurringMaroon,
+    bgClassName: 'bg-[#ffeeeb]',
     title: 'Monthly Giving',
     body: 'Provide ongoing support to help us serve seniors throughout the year.',
   },
@@ -81,17 +81,24 @@ const DONATE_TILES = [
     body: 'Donate essential items such as clothing, hygiene supplies, or other requested resources.',
   },
   {
-    icon: iconCandle,
-    bgClassName: 'bg-wb-200',
+    icon: iconCandleMaroon,
+    iconSize: 39,
+    bgClassName: 'bg-[#ffeeeb]',
     title: 'Honor & Memorial Giving',
     body: 'Celebrate or remember a loved one through a meaningful charitable gift.',
   },
 ];
 
-function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
+function VolunteerCard({ icon, title, body, items, dark = false, tickIcon, font }) {
   return (
+    // Maroon rollout: the Individual card goes solid maroon with an inset
+    // white ring and all-white text (Figma strokes are inside, so a shadow
+    // substitutes for a CSS border); the Corporate card gets a light red
+    // tint with an inset maroon-tinted ring, its text unchanged.
     <div
-      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card p-6 sm:p-8 xl:p-[50px] ${bgClassName}`}
+      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card p-6 sm:p-8 xl:p-[50px] ${
+        dark ? 'bg-m-700 shadow-[inset_0_0_0_1px_#ffffff]' : 'bg-[#fff1ed] shadow-[inset_0_0_0_1px_rgba(115,0,0,0.19)]'
+      }`}
     >
       {/* The corporate card is Neulis Sans, which falls back to Poppins
           (~1.5 leading vs Neulis' ~1.32) and ran the card 40px tall. Pin the
@@ -102,19 +109,19 @@ function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
       <div className="flex flex-col gap-[16px]">
         <img src={icon} alt="" className="size-[37px]" aria-hidden="true" />
         <h3
-          className={`capitalize ${font} text-[28px] font-medium leading-[37px] text-bl-800 md:text-[24px] md:leading-[31px]`}
+          className={`capitalize ${font} text-[28px] font-medium leading-[37px] md:text-[24px] md:leading-[31px] ${dark ? 'text-white' : 'text-bl-800'}`}
         >
           {title}
         </h3>
-        <p className={`${font} text-[20px] leading-[26px] text-gray-59`}>{body}</p>
+        <p className={`${font} text-[20px] leading-[26px] ${dark ? 'text-white' : 'text-gray-59'}`}>{body}</p>
       </div>
       <div className="flex flex-col gap-[15px]">
-        <p className={`${font} text-[16px] font-medium uppercase leading-[21px] text-bl-600`}>Opportunities:</p>
+        <p className={`${font} text-[16px] font-medium uppercase leading-[21px] ${dark ? 'text-white' : 'text-bl-600'}`}>Opportunities:</p>
         <div className="flex flex-col gap-[7px]">
           {items.map((item) => (
             <div key={item} className="flex items-center gap-[6px]">
-              <img src={iconTick} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
-              <p className={`capitalize ${font} text-[20px] leading-[26px] text-bl-600`}>{item}</p>
+              <img src={tickIcon} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
+              <p className={`capitalize ${font} text-[20px] leading-[26px] ${dark ? 'text-white' : 'text-bl-600'}`}>{item}</p>
             </div>
           ))}
         </div>
@@ -123,10 +130,10 @@ function VolunteerCard({ icon, title, body, items, bgClassName, font }) {
   );
 }
 
-function DonateTile({ icon, bgClassName, title, body }) {
+function DonateTile({ icon, iconSize = 34, bgClassName, title, body }) {
   return (
     <div className={`flex h-full w-full min-h-[220px] flex-col gap-8 rounded-[11.9px] px-6 py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px] ${bgClassName}`}>
-      <img src={icon} alt="" className="size-[34px]" aria-hidden="true" />
+      <img src={icon} alt="" className="size-[var(--tile-icon-size)]" style={{ '--tile-icon-size': `${iconSize}px` }} aria-hidden="true" />
       <div className="flex flex-col gap-[9px]">
         <h3 className="font-sans text-[20px] font-medium leading-[30px] text-bl-800">{title}</h3>
         <p className="font-sans text-[16px] leading-[21px] text-gray-67">{body}</p>
@@ -147,6 +154,10 @@ function GetInvolved() {
         // default. `image` is md-and-up only once this is set, leaving the
         // desktop hero untouched.
         mobileImage={heroGetInvolvedMobile}
+        // Maroon rollout (Figma 790:993): espresso scrim -> navy, near-solid
+        // on the left (0.96) matching the redrawn frame.
+        overlayGradient="linear-gradient(to right, rgba(24,33,45,0.96) 0%, rgba(24,33,45,0.2) 100%)"
+        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
         mobileTextTop={516}
         // 371:2954 is now 385..499 on a 607 measure in a hero ending at 620,
@@ -197,7 +208,7 @@ function GetInvolved() {
               ))}
             </div>
 
-            <div className="flex flex-col gap-[25px] rounded-card bg-bl-100 shadow-[inset_0_0_0_1px_#cbd7e4] p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
+            <div className="flex flex-col gap-[25px] rounded-card bg-[#fff1ed] shadow-[inset_0_0_0_1px_rgba(115,0,0,0.19)] p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
               <div className="flex flex-col gap-[16px]">
                 <img src={iconHandshake} alt="" className="size-[37px]" aria-hidden="true" />
                 <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 md:leading-[31px]">
@@ -219,7 +230,7 @@ function GetInvolved() {
                 <div className="flex flex-col gap-[7px]">
                   {PARTNER_ITEMS.map((item) => (
                     <div key={item} className="flex items-center gap-[6px]">
-                      <img src={iconTick} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
+                      <img src={iconTickNavy} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
                       <p className="capitalize font-sans text-[20px] leading-[26px] text-bl-600">{item}</p>
                     </div>
                   ))}
@@ -273,30 +284,26 @@ function GetInvolved() {
         </div>
       </section>
 
-      {/* 370:1695 carries the redesigned scale (title 40->32, sub 20->16) and
-          sits 114 from the top of the 421 band, not the 125 that centring its
-          171px block would give. */}
+      {/* Maroon rollout: full conversion to the standard blue CTA banner —
+          default sage pills (email/phone) replace the custom white email
+          button, and the type scale/position match the redrawn 790:993
+          frame. */}
       <CtaBanner
         image={ctaBannerImg}
-        titleClassName="lg:text-[32px]"
-        subtitleClassName="lg:text-[16px]"
-        textTop={114}
+        bg="blue"
+        titleClassName="lg:text-[32px] lg:leading-[41px]"
+        subtitleClassName="lg:w-[451px] lg:max-w-full lg:text-[16px]"
+        barePillIcons
+        pillTextTransform="normal-case"
+        textTop={86}
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
-        actions={
-          <a
-            href="mailto:info@stephenstablecolorado.org"
-            className="flex w-fit items-center gap-[10px] rounded-btn bg-white px-[32px] py-[8px] font-sans text-[20px] font-medium text-wb-900"
-          >
-            <img src={iconEmail} alt="" className="size-[28px]" aria-hidden="true" />
-            info@stephenstablecolorado.org
-          </a>
-        }
       />
 
       {/* Figma 370:1705 carries all six questions — the exclusion here left
-          the section one collapsed row (71 + 16) short of the frame. */}
-      <FaqSection compactType eyebrowClassName="text-navy" />
+          the section one collapsed row (71 + 16) short of the frame.
+          Maroon rollout: standard blue eyebrow (drop the navy override). */}
+      <FaqSection compactType />
     </div>
   );
 }
