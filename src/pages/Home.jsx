@@ -222,7 +222,7 @@ function Home() {
         <div className="mx-auto grid max-w-[370px] grid-cols-2 gap-x-[20px] gap-y-[45px] px-[16px] md:max-w-[1440px] md:grid-cols-4 md:gap-x-8 md:gap-y-8 md:px-10 xl:flex xl:items-center xl:justify-center xl:gap-[80px] xl:px-0">
           {FEATURES.map((feature, index) => (
             <div key={feature.label} className="flex items-center gap-[40px] xl:gap-[80px]">
-              {index > 0 && <span className="hidden h-[48px] w-px bg-b-300 xl:block" />}
+              {index > 0 && <span className="hidden h-[48px] w-px bg-bl-600 xl:block" />}
               <div className="flex w-full flex-col items-center gap-[5.221px] md:gap-[8px]">
                 <img src={feature.icon} alt="" className="size-[32.63px] md:size-[40px]" />
                 <p
@@ -239,7 +239,12 @@ function Home() {
         </div>
       </section>
 
-      <StatsBand image={statsStreet} mobileImage={statsStreetMobile} stats={STATS} />
+      <StatsBand
+        image={statsStreet}
+        mobileImage={statsStreetMobile}
+        stats={STATS}
+        bgClassName="bg-m-600"
+      />
 
       {/* Who we serve */}
       <section className="w-full py-[60px] md:py-14 xl:py-[108px]">
