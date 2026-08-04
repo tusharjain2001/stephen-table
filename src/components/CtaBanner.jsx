@@ -54,6 +54,9 @@ const DEFAULT_PILLS = [
  *                  at 78 instead. The photo's left edge stays at 708 on every
  *                  frame, so the column's right margin is derived from this
  *                  rather than fixed.
+ * - `pillTextTransform` — text-transform class for the ≥lg pill labels
+ *                  (default `'capitalize'`; Home passes `'normal-case'` per the
+ *                  designer's "all lower case" comment on the email pill).
  * - `titleTransform` — CSS text-transform class for the H2, both mobile and
  *                  ≥lg (default `'capitalize'`, what every current caller
  *                  draws). Home's redesigned banner (mrunal's Figma comment)
@@ -74,6 +77,7 @@ function CtaBanner({
   textTop,
   textLeft = 72,
   titleTransform = 'capitalize',
+  pillTextTransform = 'capitalize',
   className = '',
 }) {
   // Photo edge (708) − column width (529) − column offset. At the default 72
@@ -221,7 +225,7 @@ function CtaBanner({
                   <PillTag
                     key={pill.label}
                     {...target}
-                    className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold capitalize lg:gap-[24px] lg:px-[32px] ${
+                    className={`flex items-center gap-[16px] rounded-btn px-[24px] py-[8px] font-sans text-[18px] font-semibold ${pillTextTransform} lg:gap-[24px] lg:px-[32px] ${
                       barePillIcons ? 'lg:text-[20px]' : 'lg:text-[24px]'
                     } ${pillClasses}`}
                   >

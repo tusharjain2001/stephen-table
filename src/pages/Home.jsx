@@ -353,10 +353,10 @@ function Home() {
       <CtaBanner
         image={ctaBannerImg}
         bg="blue"
-        title="here when you need us..."
-        titleTransform="lowercase"
+        title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
         pills={CONTACT_PILLS}
+        pillTextTransform="normal-case"
         titleClassName="lg:text-[32px] lg:leading-[41px]"
         subtitleClassName="lg:w-[451px] lg:max-w-full lg:text-[16px]"
         barePillIcons
