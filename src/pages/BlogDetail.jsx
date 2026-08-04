@@ -2,11 +2,10 @@ import CtaBanner from '../components/CtaBanner.jsx';
 
 import heroBlog from '../assets/images/hero-blog.png';
 import heroBlogMobile from '../assets/mobile/mobile-blogs-hero.png';
-import ctaBannerImg from '../assets/images/cta-banner.png';
-import blogImg1 from '../assets/images/blog-img-1.png';
-import blogImg2 from '../assets/images/blog-img-2.png';
-import blogImg3 from '../assets/images/blog-img-3.png';
-import blogImg4 from '../assets/images/blog-img-4.png';
+import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
+import blogGallery1 from '../assets/images/blog-gallery-1.png';
+import blogGallery2 from '../assets/images/blog-gallery-2.png';
+import blogGallery3 from '../assets/images/blog-gallery-3.png';
 
 const PARAGRAPHS = [
   "As we age, home becomes more than just a place to live, it becomes a place filled with memories, comfort, and familiarity. For many older adults, remaining in their own homes represents independence, dignity, and a continued connection to the communities they know and love. However, everyday tasks that once felt effortless can gradually become more challenging, making it important to create an environment that supports both safety and well-being.",
@@ -59,17 +58,16 @@ function BlogDetail() {
         <div
           className="absolute inset-0 sm:hidden"
           style={{
-            background: 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+            background: 'linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))',
           }}
         />
-        {/* 370:2563 is mirrored (x = width), so its 0.2→0.84 gradient reads
-            0.84→0.2 across the band — the same end-stop Services, Impact
-            Stories and Contact use, not the 0.9 this hero shipped. */}
+        {/* Maroon rollout (Figma 790:866): navy scrim, near-solid on the
+            left (matching Impact Stories' hand-off point). */}
         <div
           className="absolute inset-0 hidden sm:block"
           style={{
             background:
-              'linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)',
+              'linear-gradient(to right, #18212d 0%, rgba(24,33,45,0.2) 100%)',
           }}
         />
         {/* 370:2587 is 385..468 in a hero that ends at 542, i.e. 74 clear of
@@ -110,57 +108,39 @@ function BlogDetail() {
       </section>
 
       {/* Image gallery */}
+      {/* Maroon rollout (Figma 790:866): the 4-image masonry becomes a
+          single row of three images. */}
       <section className="w-full pb-12 xl:pb-[90px]">
         <div className="mx-auto max-w-[1440px] px-6 md:px-10 xl:px-[72px]">
-          {/* xl (≥1280): pixel-exact fixed masonry from Figma. The redraw
-              narrows it to the article's 1076 measure (370:2796..2799 run
-              182..1258): three 348 columns on 16px gutters over a 19px row
-              gap, with the right-hand tile spanning both rows. */}
-          <div className="relative mx-auto hidden h-[682px] w-[1076px] 2xl:block">
-            <img
-              src={blogImg1}
-              alt=""
-              className="absolute left-0 top-0 h-[315px] w-[348px] rounded-card object-cover"
-            />
-            <img
-              src={blogImg2}
-              alt=""
-              className="absolute left-[364px] top-0 h-[315px] w-[348px] rounded-card object-cover"
-            />
-            <img
-              src={blogImg3}
-              alt=""
-              className="absolute left-[728px] top-0 h-[682px] w-[348px] rounded-card object-cover"
-            />
-            <img
-              src={blogImg4}
-              alt=""
-              className="absolute left-0 top-[334px] h-[348px] w-[712px] rounded-card object-cover"
-            />
+          {/* 2xl (≥1440): pixel-exact row from Figma — three 348x315 tiles
+              on 16px gutters, 1076 total (matching the article's measure). */}
+          <div className="mx-auto hidden h-[315px] w-[1076px] gap-[16px] 2xl:flex">
+            <img src={blogGallery1} alt="" className="h-[315px] w-[348px] rounded-card object-cover" />
+            <img src={blogGallery2} alt="" className="h-[315px] w-[348px] rounded-card object-cover" />
+            <img src={blogGallery3} alt="" className="h-[315px] w-[348px] rounded-card object-cover" />
           </div>
 
-          {/* <xl: simple responsive grid instead of the fixed-pixel masonry */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:hidden">
-            <img src={blogImg1} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
-            <img src={blogImg2} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
-            <img src={blogImg3} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
-            <img src={blogImg4} alt="" className="h-[240px] w-full rounded-card object-cover sm:col-span-2 sm:h-[280px]" />
+          {/* <2xl: simple responsive grid, 1-col base up to a 3-col row at sm+ */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 2xl:hidden">
+            <img src={blogGallery1} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
+            <img src={blogGallery2} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
+            <img src={blogGallery3} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
           </div>
         </div>
       </section>
 
       <CtaBanner
-        image={ctaBannerImg}
-        pillTheme="white"
+        image={ctaBannerBlueImg}
+        bg="blue"
         title="Here When You Need Us..."
         subtitle="Whether you need assistance or want to support our community, we'd love to hear from you."
         // 539:3229/3230 drop to 32/16 with the title on an explicit 41px box,
         // and 539:3232 has the bare 28px glyph rather than the s-300 badge.
-        // Unlike About and Impact Stories, this frame keeps the column on the
-        // default 72 rather than 78.
         titleClassName="lg:text-[32px] lg:leading-[41px]"
         subtitleClassName="lg:w-[439px] lg:max-w-full lg:text-[16px]"
         barePillIcons
+        pillTextTransform="normal-case"
+        textLeft={78}
       />
     </div>
   );
