@@ -37,8 +37,11 @@ function Contact() {
     setSubmitted(true);
   }
 
+  // 790:1488 repaints the form band BL/200 → BL/400 (#8099b3), a value that
+  // sits between the existing bl-300 and bl-500. Only Contact used bl-200, so
+  // the old token is now unreferenced but left in the palette.
   return (
-    <div className="bg-bl-200">
+    <div className="bg-bl-400">
       <PageHero
         image={heroContact}
         // Base (<768) gets its own 402×745 portrait export, matching the
@@ -48,11 +51,11 @@ function Contact() {
         // this is set, so the desktop hero is untouched.
         mobileImage={heroContactMobile}
         height={548}
-        // The redraw adds a scrim this frame did not have: 377:3034 is one of
-        // this file's mirrored rects (x = width), so its 0.2→0.84 gradient
-        // reads 0.84→0.2 across the band — the same end-stop Services and
-        // Impact Stories use, not PageHero's 0.9 default.
-        overlayGradient="linear-gradient(to right, rgba(56,41,31,0.84) 0%, rgba(56,41,31,0.2) 100%)"
+        // The scrim is no longer warm. 790:1490 draws it in `bl-900` #18212d
+        // rather than espresso, and takes the dark end 0.84 → 0.92. It is
+        // still one of this file's mirrored rects (x = width), so the
+        // 0.2→0.92 it reports reads 0.92→0.2 across the band.
+        overlayGradient="linear-gradient(to right, rgba(24,33,45,0.92) 0%, rgba(24,33,45,0.2) 100%)"
         mobileTextTop={587}
         // 377:3036 sits at x=76 y=500 w=789 h=54 inside the 72..620 band, so
         // the title box ends 66px above the bottom edge (was 65 at h=72).
