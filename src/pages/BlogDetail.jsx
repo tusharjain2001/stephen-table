@@ -82,7 +82,10 @@ function BlogDetail() {
         {/* Base: 803:6576 sits at y=471 in a band starting at 72, i.e. 399
             down, on a 34px gutter — 71 clear of the 610 bottom edge. */}
         <div className="absolute inset-x-[34px] top-[399px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
-          <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:tracking-[1.6px] xl:leading-[41px]">
+          {/* Hand-coded hero rather than PageHero, so the SemiBold weight the
+              component now carries has to be repeated here. Its 41px line box
+              is pinned, so the heavier face cannot change the block's 83. */}
+          <h1 className="capitalize font-display text-[32px] font-semibold tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:tracking-[1.6px] xl:leading-[41px]">
             Helping seniors age safely at home
           </h1>
           <p className="font-sans text-[16px] text-wb-400 sm:text-[20px]">

@@ -234,10 +234,8 @@ function Home() {
         // exactly Playfair's `normal` at 36. Pinned rather than left implicit
         // so the block height can't drift with the font stack.
         titleLeading={48}
-        // 830:8 is Playfair Display **SemiBold**, not the regular weight the
-        // h1 inherits from `body` (Tailwind's preflight resets headings to
-        // `font-weight: inherit`). Playfair 600 is already in the index.html
-        // font request, so this costs no extra download.
+        // The SemiBold weight 830:8 draws now lives on PageHero's h1 — every
+        // hero wants it — so this only carries the measures.
         //
         // The 430 column now breaks the H1 the way the frame does on its own
         // ("Helping Seniors Age / Safely And Experience A / True Sense Of
@@ -252,7 +250,7 @@ function Home() {
         // no height moves, but not the frame's words. The cap is on the H1
         // alone; the subtitle keeps the full 370. `md:max-w-none` holds the
         // tablet tier exactly where it already was.
-        titleClassName="font-semibold max-w-[335px] md:max-w-none"
+        titleClassName="max-w-[335px] md:max-w-none"
         title="Helping seniors age safely and experience a true sense of belonging."
         // 830:9 reads "We provide practical..." — it looks like an unfinished
         // Figma fragment, and this used to ship the longer real sentence

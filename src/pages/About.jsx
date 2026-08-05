@@ -129,11 +129,6 @@ function About() {
         titleSizeMd={36}
         titleTrackingMd={1.8}
         titleLeading={46}
-        // SemiBold, as on Home's and Donate's heroes — an unstyled
-        // `font-display` h1 otherwise inherits `body`'s 400. "About us" is one
-        // line inside the 482 measure at either weight, so the block stays 46
-        // and its 95px clearance is unchanged.
-        titleClassName="font-semibold"
         title="About us"
         // subtitleClassName is deliberately omitted: the pre-mobile-pass
         // "text-[24px]" override never actually won at md/xl (the

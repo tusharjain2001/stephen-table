@@ -138,6 +138,15 @@
  *                    wants "Nominate a Senior" rather than "Nominate A
  *                    Senior" at every tier.
  * - `titleClassName`
+ *
+ * The H1 is `font-semibold` for every caller. Figma draws it SemiBold —
+ * 830:8 names Playfair Display directly, the rest name Lettertype, which we
+ * substitute Playfair for — and an unstyled `font-display` heading otherwise
+ * inherits `body`'s 400, because Tailwind's preflight resets headings to
+ * `font-weight: inherit`. It lives here rather than in eight `titleClassName`
+ * props since no caller wants the regular weight. Note the heavier face is
+ * wider: any hero whose measure is fitted to a specific word break (Home's
+ * base `max-w-[335px]`) had that break re-checked at 600.
  * - `subtitle`     — optional sub copy under the title
  * - `subtitleClassName`
  * - `children`     — optional extra content under the subtitle (e.g. the
@@ -270,7 +279,7 @@ function PageHero({
         >
           {title && (
             <h1
-              className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
+              className={`font-display font-semibold text-[32px] tracking-[1.6px] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
                 titleCapitalizeBase ? 'capitalize' : ''
               } ${titleCapitalize ? 'md:capitalize' : 'md:normal-case'} ${
                 mobileTitleLeading
