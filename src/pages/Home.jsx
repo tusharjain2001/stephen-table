@@ -195,27 +195,47 @@ function Home() {
         // navy-blue (bl-900) scrim instead of the site-wide espresso.
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
-        // 803:6013's hero rect is 610 tall (the 746 image inside it overflows
-        // and is clipped), and 803:6271 — the only mobile text block on the
-        // site that carries a CTA row — sits at y=345 in a band starting at
-        // 71, i.e. 274 down, and ends **65 clear of the band's bottom**.
+        // 830:11326 re-drew the mobile page. The band stays 610 (830:11328 is
+        // 402 × 610 pinned at y=0, and no longer an oversized rect clipped by
+        // the box), but the copy block 830:11493 is a different shape from
+        // 803:6271: **centred**, on a 35px gutter rather than 16, and sitting
+        // **72 clear** of the band's bottom instead of 65.
         //
-        // Those two numbers cannot both be honoured, because the frame's
-        // subtitle is the unfinished "We provide practical..." fragment (one
-        // 21px line) where we ship the real three-line copy. Our block is
-        // 313 against the frame's 271, so the **65** is what gets matched —
-        // anchored from the bottom rather than positioned at 610 − 65 − 313,
-        // so a narrower phone that wraps the H1 to five lines spends the
-        // extra height on the empty space above the copy rather than on the
-        // buttons' clearance. Top-anchored at 274 the row sat 11px off the
-        // band's bottom edge, which is the crowding this pass exists to fix.
+        // Its 332 measure is exactly 402 − 2 × 35, so the block needs no width
+        // cap of its own — the old `max-w-[335px]` on the H1 was fitted to the
+        // 16px gutter's 370 and is gone.
+        //
+        // Still bottom-anchored: 830:11493's own y=391 (320 below the band's
+        // top) and its 72 clearance both hold at 402 now that the subtitle is
+        // the frame's one-line fragment — 111 + 16 + 21 + 36 + 34 = 218, and
+        // 610 − 72 − 218 = 320. Anchoring from the bottom keeps the CTA row on
+        // the frame's line at narrower widths too, where a fourth H1 line
+        // would otherwise eat its clearance.
         mobileHeight={610}
-        mobileTextBottom={65}
-        mobileTextInset={16}
-        // 803:6273 is the site's only multi-line mobile H1 — four lines on a
-        // 41px box. Playfair draws its `normal` at 43, i.e. 172 against the
-        // frame's 164, and all 8px of that landed on the CTA clearance.
-        mobileTitleLeading={41}
+        mobileTextBottom={72}
+        // 35 is 830:11493's gutter, and it only holds the frame's three-line
+        // H1 at the frame's own 402: line 3 ("True Sense Of Belonging.")
+        // measures 323.5px at 28/600, so the block has to stay ≥ ~324 or
+        // "Belonging." drops to a fourth line. At 35 a side that needs a 396px
+        // viewport, which most phones are under (iPhone SE 375, iPhone 13
+        // 390) — so below 396 the gutter gives way instead of the wrap.
+        //
+        // 326 rather than 324 leaves 2.5px for font rendering. The 35 cap
+        // keeps 402 exactly on the frame; the 16 floor stops the gutter going
+        // negative under ~358, where the line has to break anyway.
+        mobileTextInset="max(16px, min(35px, calc((100vw - 326px) / 2)))"
+        // 830:11495 is 28px with no tracking, where every earlier mobile frame
+        // (and so PageHero's default) is 32/1.6.
+        mobileTitleSize={28}
+        mobileTitleTracking={0}
+        // 830:11493 is an items-center / text-center stack — the H1, the
+        // subtitle and the GET HELP / DONATE row are all centred at base.
+        // Undone from md up, so no desktop tier moves.
+        mobileCentered
+        // 111 over three lines = a 37px box, which is Playfair's `normal` at
+        // 28 (37.35). Pinned for the same reason the old 41 was: the block's
+        // height sets where the bottom-anchored CTA row lands.
+        mobileTitleLeading={37}
         // 830:6 is a 430 × 267 block at x=72, ending 94 clear of the band's
         // bottom edge (259 + 267 = 526 in a band running 72…620). The 485
         // measure and the 78/100 offsets it replaces were 799:2928's.
@@ -242,15 +262,11 @@ function Home() {
         // Belonging."), so the old `xl:max-w-[460px]` pin — fitted to the
         // wider 485 measure — is gone.
         //
-        // Base keeps its own cap: 803:6272 is a **335** measure inside a 370
-        // gutter-to-gutter block, which is what breaks the mobile H1
-        // "Helping Seniors Age / Safely And / Experience A True / Sense Of
-        // Belonging." Left on the full 370 it reads "…Age / Safely And
-        // Experience / A True Sense Of / Belonging." — still four lines, so
-        // no height moves, but not the frame's words. The cap is on the H1
-        // alone; the subtitle keeps the full 370. `md:max-w-none` holds the
-        // tablet tier exactly where it already was.
-        titleClassName="max-w-[335px] md:max-w-none"
+        // Base no longer needs one either. The old `max-w-[335px]` was fitted
+        // to 803:6272 inside a 370-wide block; 830:11493's measure is the
+        // block's own 332 on the new 35px gutter, which wraps the H1 to the
+        // frame's three lines unaided — and capping at 335 there would only
+        // sit outside the block and do nothing.
         title="Helping seniors age safely and experience a true sense of belonging."
         // 830:9 reads "We provide practical..." — it looks like an unfinished
         // Figma fragment, and this used to ship the longer real sentence
@@ -267,7 +283,11 @@ function Home() {
         // longer has 42px of overflow to soak up.
         subtitle="We provide practical..."
       >
-        <div className="mt-[20px] flex flex-wrap items-center gap-[21px]">
+        {/* `mobileCentered` centres this row as a block, which is all 830:11497
+            needs at 402 (129 + 21 + 120 = 270 inside the 332 measure).
+            `justify-center` only matters below ~390, where the row wraps and
+            the second pill would otherwise hug the left edge. */}
+        <div className="mt-[20px] flex flex-wrap items-center justify-center gap-[21px] md:justify-start">
           <Button variant="hero-primary" style={{ backgroundColor: 'var(--color-s-200)' }}>
             GET HELP
           </Button>

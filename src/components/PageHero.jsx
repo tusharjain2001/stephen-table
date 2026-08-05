@@ -114,6 +114,19 @@
  *                    36/1.8 here too — left on the default, the redesign was
  *                    invisible below 1280 and the tablet step was actually
  *                    *larger* than the desktop design it interpolates.
+ * - `mobileTitleSize` / `mobileTitleTracking` — the H1's px size and
+ *                    letter-spacing at base (<768), defaulting to the 32/1.6
+ *                    step the 803:6011 mobile frames draw. Home's redrawn
+ *                    830:11495 is **28 with no tracking**, so it passes its
+ *                    own pair rather than moving the default — the other eight
+ *                    mobile frames have not been re-fetched.
+ * - `mobileCentered` — centre the whole text block at base (<768): the copy,
+ *                    the H1, and anything passed as `children`. Home's
+ *                    830:11493 is an `items-center` / `text-center` stack
+ *                    where every earlier mobile frame is left-aligned, so this
+ *                    defaults to false and is explicitly undone from `md` up.
+ *                    Note it centres the CTA row too, which is why Home's row
+ *                    needs no `justify-*` of its own.
  * - `mobileTitleLeading` — px line box for the H1 at base (<768). Omit to
  *                    keep `leading-[normal]`, which every one-line mobile
  *                    title is fine on. Home passes 41 because 803:6273 is
@@ -177,6 +190,9 @@ function PageHero({
   titleTracking = 2.8,
   titleSizeMd = 44,
   titleTrackingMd = 2.2,
+  mobileTitleSize = 32,
+  mobileTitleTracking = 1.6,
+  mobileCentered = false,
   mobileTitleLeading,
   titleLeading,
   titleCapitalizeBase = true,
@@ -257,7 +273,9 @@ function PageHero({
             mobileTextBottom
               ? 'bottom-[var(--hero-text-bottom-base)]'
               : 'top-[var(--hero-text-top-base)]'
-          } flex w-auto flex-col gap-[16px] md:bottom-0 md:left-10 md:right-10 md:top-auto md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]`}
+          } flex w-auto flex-col gap-[16px] ${
+            mobileCentered ? 'items-center text-center md:items-start md:text-left' : ''
+          } md:bottom-0 md:left-10 md:right-10 md:top-auto md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]`}
           style={{
             '--hero-text-left': `${textLeft}px`,
             '--hero-text-w': `${textWidth}px`,
@@ -266,11 +284,17 @@ function PageHero({
             ...(mobileTextBottom
               ? { '--hero-text-bottom-base': `${mobileTextBottom}px` }
               : {}),
-            '--hero-text-inset-base': `${mobileTextInset}px`,
+            // Number → px. A string is emitted raw, so a caller can make the
+            // gutter fluid (Home does, to hold its H1's designed line break
+            // below the frame's 402 — see its `mobileTextInset`).
+            '--hero-text-inset-base':
+              typeof mobileTextInset === 'number' ? `${mobileTextInset}px` : mobileTextInset,
             '--hero-title-size': `${titleSize}px`,
             '--hero-title-track': `${titleTracking}px`,
             '--hero-title-size-md': `${titleSizeMd}px`,
             '--hero-title-track-md': `${titleTrackingMd}px`,
+            '--hero-title-size-base': `${mobileTitleSize}px`,
+            '--hero-title-track-base': `${mobileTitleTracking}px`,
             ...(titleLeading ? { '--hero-title-leading': `${titleLeading}px` } : {}),
             ...(mobileTitleLeading
               ? { '--hero-title-leading-base': `${mobileTitleLeading}px` }
@@ -279,7 +303,7 @@ function PageHero({
         >
           {title && (
             <h1
-              className={`font-display font-semibold text-[32px] tracking-[1.6px] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
+              className={`font-display font-semibold text-[length:var(--hero-title-size-base)] tracking-[var(--hero-title-track-base)] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
                 titleCapitalizeBase ? 'capitalize' : ''
               } ${titleCapitalize ? 'md:capitalize' : 'md:normal-case'} ${
                 mobileTitleLeading
