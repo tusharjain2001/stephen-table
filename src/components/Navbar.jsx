@@ -96,7 +96,7 @@ function Navbar() {
             (85 + 208 + 665 + 155 + 180 = 1293 inside 81/66 gutters); below
             that the `ml-auto` shares the slack with the link row. */}
         <div className="ml-auto hidden lg:block 2xl:ml-[155px]">
-          <Button as={Link} to="/get-involved" variant="donate-nav">
+          <Button as={Link} to="/donation" variant="donate-nav">
             Donate Now
           </Button>
         </div>
@@ -170,7 +170,7 @@ function Navbar() {
             ))}
             <Button
               as={Link}
-              to="/get-involved"
+              to="/donation"
               variant="donate-nav"
               onClick={() => setOpen(false)}
               className="w-fit"
@@ -220,7 +220,7 @@ function Navbar() {
           </div>
           <Button
             as={Link}
-            to="/get-involved"
+            to="/donation"
             variant="donate-nav"
             onClick={() => setOpen(false)}
             className="w-full justify-center"

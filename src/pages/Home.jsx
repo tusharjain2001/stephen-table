@@ -227,7 +227,9 @@ function Home() {
           <Button variant="hero-primary" style={{ backgroundColor: 'var(--color-s-200)' }}>
             GET HELP
           </Button>
-          <Button variant="outline-light">DONATE</Button>
+          <Button as={Link} to="/donation" variant="outline-light">
+            DONATE
+          </Button>
         </div>
       </PageHero>
 

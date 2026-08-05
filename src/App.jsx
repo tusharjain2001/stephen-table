@@ -8,6 +8,7 @@ import GetInvolved from './pages/GetInvolved.jsx';
 import ImpactStories from './pages/ImpactStories.jsx';
 import BlogDetail from './pages/BlogDetail.jsx';
 import Contact from './pages/Contact.jsx';
+import Donation from './pages/Donation.jsx';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="impact-stories" element={<ImpactStories />} />
         <Route path="stories/helping-seniors-age-safely" element={<BlogDetail />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="donation" element={<Donation />} />
       </Route>
     </Routes>
   );
