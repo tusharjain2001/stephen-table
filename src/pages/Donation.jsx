@@ -4,6 +4,7 @@ import Button from '../components/Button.jsx';
 import FaqSection from '../components/FaqSection.jsx';
 
 import heroDonate from '../assets/images/hero-donate.jpg';
+import heroDonateMobile from '../assets/mobile/donate-mobile-image.png';
 
 /**
  * Donate page — Figma `790:386`, 1440 × 2952:
@@ -53,15 +54,44 @@ function Donation() {
           uses, and a 1px sweep confirms the optimum at 55.8%. */}
       <PageHero
         image={heroDonate}
+        // 402 × 610 — exactly the mobile band, so it lands 1:1 at 402 with no
+        // cropping, where the desktop 1536 × 1024 landscape had to be covered
+        // into a portrait box. `image` now only renders from md up.
+        //
+        // It is a plain photo, not a flattened export: its luma runs 146 at
+        // the top, 73 through the middle and 126 at the bottom, i.e. no
+        // top-light/bottom-dark wash in the pixels. So the base scrim stays a
+        // live CSS gradient (`mobileOverlay` default) rather than being turned
+        // off the way About's flattened mobile export needs.
+        mobileImage={heroDonateMobile}
         height={548}
         flipImage
         imagePosition="50% 55.74%"
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.9) 0%, rgba(24,33,45,0.83) 11.797%, rgba(24,33,45,0.2) 100%)"
-        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         // The 803:6011 mobile redraw has no Donate frame — this is the one
-        // route it never got — so the hero rides PageHero's new 610/394
-        // defaults. Its 3-line mobile H1 lands 88 clear of the band's bottom,
-        // inside the 75–99 the eight drawn frames span.
+        // route it never got — so the hero rides PageHero's 610 band.
+        //
+        // Its H1 has to be two lines, and at the inherited 32/1.6 it cannot
+        // be at any width a phone has: the shortest possible second line,
+        // "Create Lasting Change.", measures ~374px, against the 344 a 29px
+        // gutter leaves at 402. Home's redrawn mobile type (28, no tracking)
+        // brings that to ~297 and takes line 1 to "Partner With Us To
+        // Create" — the same break 799:3356 draws on desktop.
+        //
+        // 37 is Playfair's `normal` at 28 (37.35), pinned so the two-line
+        // block stays exactly 74 and the clearance below can be relied on.
+        mobileTitleSize={28}
+        mobileTitleTracking={0}
+        mobileTitleLeading={37}
+        // 29 at 402, giving way below ~358 so the second line keeps its ~300
+        // of measure rather than breaking to a third. Same treatment as Home;
+        // the 16 floor is where the wrap has to give anyway.
+        mobileTextInset="max(16px, min(29px, calc((100vw - 300px) / 2)))"
+        // Was 394 — PageHero's default — when the H1 ran three lines and left
+        // 87 clear of the band's bottom. At two lines that gap would open to
+        // 142 and the title would float high, so the top moves down to hold
+        // the same 87 (610 − 87 − 74).
+        mobileTextTop={449}
         textLeft={72}
         // 799:3356 is 482 × 92 at y=456 inside the 548 band — a two-line 46px
         // box sitting 72 clear of the hero's bottom edge, with no subtitle.

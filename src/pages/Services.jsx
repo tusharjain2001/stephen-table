@@ -316,7 +316,6 @@ function Services() {
         // the extra flat black/20 wash is dropped, matching the plain
         // two-stop treatment shared with Nominate/Get Involved.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
-        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         // 803:7108 sits at y=394 in the redrawn 610-tall band, which is
         // PageHero's default — the old 571 belonged to the 745 band.
         // 484:3770 keeps its 618 measure but the redraw dropped the H1 to

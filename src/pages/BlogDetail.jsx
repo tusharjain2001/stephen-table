@@ -64,7 +64,7 @@ function BlogDetail() {
         <div
           className="absolute inset-0 sm:hidden"
           style={{
-            background: 'linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))',
+            background: 'linear-gradient(to bottom, rgba(24,33,45,0.45), rgba(24,33,45,0.97))',
           }}
         />
         {/* Maroon rollout (Figma 790:866): navy scrim, near-solid on the
@@ -81,7 +81,9 @@ function BlogDetail() {
             41px box and the byline 28 → 20, so the block is 41 + 16 + 26 = 83. */}
         {/* Base: 803:6576 sits at y=471 in a band starting at 72, i.e. 399
             down, on a 34px gutter — 71 clear of the 610 bottom edge. */}
-        <div className="absolute inset-x-[34px] top-[399px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
+        {/* Centred at base to match what PageHero now does on the other eight
+            heroes; `sm:` (this hero's desktop tier, not `md:`) puts it back. */}
+        <div className="absolute inset-x-[34px] top-[399px] flex flex-col items-center gap-[16px] text-center sm:inset-x-10 sm:items-start sm:text-left sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
           {/* Hand-coded hero rather than PageHero, so the SemiBold weight the
               component now carries has to be repeated here. Its 41px line box
               is pinned, so the heavier face cannot change the block's 83. */}

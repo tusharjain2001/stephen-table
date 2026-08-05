@@ -190,10 +190,8 @@ function Home() {
         // default.
         overlay="gradient"
         overlayGradient="linear-gradient(270deg, rgba(24,33,45,0.2) 12.26%, rgba(24,33,45,0.81) 67.58%, #18212d 104.69%)"
-        // The mobile frame keeps the same top-light/bottom-dark vertical
-        // wash every page uses, just recolored to match the redesign's
-        // navy-blue (bl-900) scrim instead of the site-wide espresso.
-        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
+        // The base scrim is PageHero's darkened navy default now — the
+        // 0.2 → 0.9 pair this used to spell out is what that default became.
         height={548}
         // 830:11326 re-drew the mobile page. The band stays 610 (830:11328 is
         // 402 × 610 pinned at y=0, and no longer an oversized rect clipped by
@@ -228,10 +226,8 @@ function Home() {
         // (and so PageHero's default) is 32/1.6.
         mobileTitleSize={28}
         mobileTitleTracking={0}
-        // 830:11493 is an items-center / text-center stack — the H1, the
-        // subtitle and the GET HELP / DONATE row are all centred at base.
-        // Undone from md up, so no desktop tier moves.
-        mobileCentered
+        // 830:11493 is an items-center / text-center stack. That is now
+        // PageHero's default for every page, so this needs no prop.
         // 111 over three lines = a 37px box, which is Playfair's `normal` at
         // 28 (37.35). Pinned for the same reason the old 41 was: the block's
         // height sets where the bottom-anchored CTA row lands.

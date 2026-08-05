@@ -15,10 +15,16 @@
  *                    pixels (top ~165 luma, bottom ~56), so layering the CSS
  *                    wash on top would double-darken it to near-solid brown.
  * - `mobileOverlayGradient` — CSS gradient for the base (<768) scrim, when
- *                    `mobileOverlay` is `'gradient'`. Defaults to the espresso
- *                    top-light/bottom-dark wash every current page uses. The
- *                    home redesign's clean (unscrimmed) hero export needs a
- *                    blue wash instead, so it passes its own value here.
+ *                    `mobileOverlay` is `'gradient'`. Defaults to the navy
+ *                    top-light/bottom-dark wash, **0.45 → 0.97**. Seven pages
+ *                    used to pass an identical navy 0.2 → 0.9 string here and
+ *                    Contact alone was left on an espresso default its own
+ *                    redrawn desktop scrim had already abandoned; the darker
+ *                    navy is now the default and all eight overrides are gone.
+ *                    Deeper than any mobile frame draws — asked for directly,
+ *                    so the centred H1 holds contrast over the bright part of
+ *                    each photo. Blog Detail's hand-coded hero carries the
+ *                    same pair inline.
  * - `imagePosition`— CSS `object-position` for the photo. The default centres
  *                    the crop; Home needs `50% 34%` because its 548px band
  *                    shows a higher slice of hero-main.png than centring
@@ -121,12 +127,15 @@
  *                    own pair rather than moving the default — the other eight
  *                    mobile frames have not been re-fetched.
  * - `mobileCentered` — centre the whole text block at base (<768): the copy,
- *                    the H1, and anything passed as `children`. Home's
- *                    830:11493 is an `items-center` / `text-center` stack
- *                    where every earlier mobile frame is left-aligned, so this
- *                    defaults to false and is explicitly undone from `md` up.
- *                    Note it centres the CTA row too, which is why Home's row
- *                    needs no `justify-*` of its own.
+ *                    the H1, and anything passed as `children`. **Defaults to
+ *                    true**, and is explicitly undone from `md` up so no
+ *                    desktop tier is affected. Home's redrawn 830:11493 is an
+ *                    `items-center` / `text-center` stack; the other eight
+ *                    mobile frames are left-aligned and centring them was
+ *                    asked for directly, so this is a deliberate departure
+ *                    from those frames rather than something they draw.
+ *                    Note it centres `children` too, which is why Home's CTA
+ *                    row needs no `justify-*` of its own above 390.
  * - `mobileTitleLeading` — px line box for the H1 at base (<768). Omit to
  *                    keep `leading-[normal]`, which every one-line mobile
  *                    title is fine on. Home passes 41 because 803:6273 is
@@ -174,7 +183,7 @@ function PageHero({
   overlay = 'gradient',
   overlayGradient = 'linear-gradient(to right, rgba(56,41,31,0.9) 0%, rgba(56,41,31,0.2) 100%)',
   mobileOverlay = 'gradient',
-  mobileOverlayGradient = 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
+  mobileOverlayGradient = 'linear-gradient(to bottom, rgba(24,33,45,0.45), rgba(24,33,45,0.97))',
   height = 548,
   mobileHeight = 610,
   flatOverlay = false,
@@ -192,7 +201,7 @@ function PageHero({
   titleTrackingMd = 2.2,
   mobileTitleSize = 32,
   mobileTitleTracking = 1.6,
-  mobileCentered = false,
+  mobileCentered = true,
   mobileTitleLeading,
   titleLeading,
   titleCapitalizeBase = true,

@@ -72,7 +72,6 @@ function ImpactStories() {
         // that regression. `mobileFlatOverlay` (the base-tier wash) is
         // unaffected and stays as before.
         overlayGradient="linear-gradient(to right, #18212d 0%, rgba(24,33,45,0.2) 100%)"
-        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         // 803:6306 sits at y=397 in the redrawn 610-tall band, 93 clear of
         // its bottom edge.
         mobileTextTop={397}

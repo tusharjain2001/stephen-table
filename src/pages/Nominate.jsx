@@ -94,11 +94,21 @@ function Nominate() {
         // Maroon rollout (Figma 790:1625): espresso scrim -> navy, matching
         // Services/Get Involved/Impact.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
-        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
         // 803:7659 sits at y=392 in the redrawn 610-tall band, 98 clear of
         // its bottom edge.
         mobileTextTop={392}
+        // The subtitle needs a **342px** measure to hold the frame's three
+        // lines ("…companionship, / …to help / …independently."), and the
+        // default 29px gutter only clears that from 400 up — so at 402 it is
+        // three lines and at 390 or 375 it silently becomes four, costing the
+        // block 21px off its clearance.
+        //
+        // 344 leaves 2px of headroom and resolves to exactly 29 at 402, so
+        // the frame width is untouched; below ~400 the gutter gives way
+        // instead of the wrap. The 16 floor takes over under 374, which is
+        // where a 342 measure stops fitting at all.
+        mobileTextInset="max(16px, min(29px, calc((100vw - 344px) / 2)))"
         // 367:770 is now 313..427 in the 548 hero, i.e. 121 clear of the
         // bottom, not 85: the redraw took the H1 to 36/1.8 on a 46 line box
         // and the subtitle to 20, which wraps to 2 lines where 24px took 3.

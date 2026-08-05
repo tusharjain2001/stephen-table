@@ -111,7 +111,6 @@ function About() {
         // flattened export is what previously baked the espresso wash in —
         // the base scrim here is a live CSS gradient, not baked pixels.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.9) 0%, rgba(24,33,45,0.83) 11.797%, rgba(24,33,45,0.2) 100%)"
-        mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
         // 803:6903 sits at y=394 in the redrawn 610-tall band — PageHero's
         // own default now, so no override is needed here.
