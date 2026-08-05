@@ -16,8 +16,10 @@ const INITIAL_FORM = {
   agree: false,
 };
 
+// 830:11072 keeps the two name fields **side by side** at 402 — each a
+// 158.16 half on a 19.68 gutter — where this used to stack them below md.
 function FieldRow({ children }) {
-  return <div className="flex flex-col gap-4 md:flex-row md:gap-[29px]">{children}</div>;
+  return <div className="flex gap-[19.68px] md:gap-[29px]">{children}</div>;
 }
 
 function Contact() {
@@ -38,10 +40,12 @@ function Contact() {
   }
 
   // 790:1488 repaints the form band BL/200 → BL/400 (#8099b3), a value that
-  // sits between the existing bl-300 and bl-500. Only Contact used bl-200, so
-  // the old token is now unreferenced but left in the palette.
+  // sits between the existing bl-300 and bl-500 — but only on desktop.
+  // 830:11064 keeps the *mobile* band on bl-200 #cbd7e4, so the two frames
+  // genuinely disagree and bl-200 is referenced again rather than dead.
+  // The hero above is opaque, so this colour only ever shows behind the form.
   return (
-    <div className="bg-bl-400">
+    <div className="bg-bl-200 sm:bg-bl-400">
       <PageHero
         image={heroContact}
         // Base (<768) gets its own 402×745 portrait export, matching the
@@ -80,11 +84,19 @@ function Contact() {
         titleLeading={54}
       />
 
-      <section id="contact-form" className="w-full scroll-mt-[96px] py-12 xl:py-[79px]">
-        <div className="mx-auto flex max-w-[1440px] justify-center px-6 md:px-10 xl:px-[72px]">
+      {/* 830:11064 draws the mobile band 402 × 645.418: `px-16 py-60` around a
+          368-wide card that pads 16 all round and stacks on a 28.502 gap.
+          Every value below is base-only; `md:` hands each one back to the
+          desktop number, which is unchanged. */}
+      {/* The restore tier here is `sm:` (640), not `md:` — the card already
+          carried an `sm:px-10` that a `md:` override would lose to below 768.
+          640 is clear of every phone, so the base values are the mobile frame's
+          and everything from `sm` up is byte-identical to what shipped. */}
+      <section id="contact-form" className="w-full scroll-mt-[96px] py-[60px] sm:py-12 xl:py-[79px]">
+        <div className="mx-auto flex max-w-[1440px] justify-center px-[16px] sm:px-6 md:px-10 xl:px-[72px]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[1273px] flex-col gap-[42px] rounded-card bg-white px-6 pb-8 pt-8 sm:px-10 xl:px-[55px] xl:pb-[51px] xl:pt-[52px] 2xl:max-w-[1076px] 2xl:px-[46.489px]"
+            className="flex w-full max-w-[1273px] flex-col gap-[28.502px] rounded-[8px] bg-white p-[16px] sm:gap-[42px] sm:rounded-card sm:px-10 sm:py-8 xl:px-[55px] xl:pb-[51px] xl:pt-[52px] 2xl:max-w-[1076px] 2xl:px-[46.489px]"
           >
             {/* 381:5531 is 849 tall; its content frame (381:5532) is 746 and
                 sits at 52 from the top, so the bottom pad is 51, not 47.
@@ -94,16 +106,20 @@ function Contact() {
                 container, and nothing inside it re-wraps at either width, so
                 the card stays 849 and the section 1007. */}
             {/* 381:5533 h=36 */}
-            <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600 xl:text-[28px] xl:leading-[36px]">
+            {/* 830:11067 draws the mobile heading at 20 on its own 26 box. */}
+            <h2 className="capitalize font-sans text-[20px] font-medium text-bl-600 sm:text-[24px] xl:text-[28px] xl:leading-[36px]">
               Get in Touch with us
             </h2>
 
-            <div className="flex flex-col gap-[38px]">
+            {/* 830:11069 spaces the field stack from the consent row by 25.788
+                and 830:11071 spaces the fields themselves by 16.287. */}
+            <div className="flex flex-col gap-[25.788px] sm:gap-[38px]">
               <div className="flex flex-col gap-[6px]">
-                <div className="flex flex-col gap-[24px]">
+                <div className="flex flex-col gap-[16.287px] sm:gap-[24px]">
                   <FieldRow>
                     <FormField
-                      className="w-full md:flex-1 2xl:w-[477.011px] 2xl:flex-none"
+                      className="min-w-0 flex-1 2xl:w-[477.011px] 2xl:flex-none"
+                      fieldHeightBase={40.717}
                       label="First Name"
                       required
                       name="firstName"
@@ -111,7 +127,8 @@ function Contact() {
                       onChange={updateField}
                     />
                     <FormField
-                      className="w-full md:flex-1 2xl:w-[477.011px] 2xl:flex-none"
+                      className="min-w-0 flex-1 2xl:w-[477.011px] 2xl:flex-none"
+                      fieldHeightBase={40.717}
                       label="Last Name"
                       required
                       name="lastName"
@@ -123,6 +140,7 @@ function Contact() {
                     label="Email ID"
                     required
                     type="email"
+                    fieldHeightBase={40.717}
                     name="email"
                     value={form.email}
                     onChange={updateField}
@@ -131,6 +149,8 @@ function Contact() {
                     as="select"
                     label="Reason for Contact"
                     required
+                    fieldHeightBase={40.717}
+                    hideChevronBase
                     name="reason"
                     value={form.reason}
                     onChange={updateField}
@@ -151,8 +171,10 @@ function Contact() {
                       textarea as well as over the select. It is almost
                       certainly a copy-paste of 381:5552 in the design file,
                       but it is in the frame, so it is drawn here. */}
-                  <label className="flex flex-col gap-[2px]">
-                    <span className="font-form text-[20px] leading-[24px] text-gray-94">
+                  <label className="flex flex-col gap-[1.357px] sm:gap-[2px]">
+                    {/* 830:11087 sets the mobile label to 14, matching what
+                        FormField already does at base for the others. */}
+                    <span className="font-form text-[14px] text-gray-94 sm:text-[20px] sm:leading-[24px]">
                       Write a Message <span className="text-error">*</span>
                     </span>
                     <div className="relative">
@@ -161,39 +183,50 @@ function Contact() {
                         // default, so its wrapper picked up 5px of descender
                         // space under the box and the field measured 166
                         // instead of the 161 in 381:5553.
-                        className="block h-[135px] w-full resize-none rounded-none border border-gray-d9 bg-field px-[16px] py-[16px] font-form text-[16px] text-espresso outline-none"
+                        // 830:11088 is 91.614 tall at base — the same step
+                        // FormField's own textarea already takes.
+                        className="block h-[91.614px] w-full resize-none rounded-none border border-gray-d9 bg-field px-[16px] py-[16px] font-form text-[14px] text-espresso outline-none sm:h-[135px] sm:text-[16px]"
                         name="message"
                         value={form.message}
                         onChange={updateField}
                       />
                       {/* 381:5556 sits at x=1097 y=51.5 in the 1163-wide field
-                          frame; the field frame starts 26px above the box. */}
+                          frame; the field frame starts 26px above the box.
+                          Hidden below `sm`: 830:11089 keeps this stray chevron
+                          at x=744 in a 336-wide field, i.e. off the canvas, so
+                          the mobile frame does not show one over the message
+                          box at all. Desktop still draws it. */}
                       <img
                         src={iconChevronDown}
                         alt=""
                         aria-hidden="true"
-                        className="pointer-events-none absolute right-[48px] top-[25.5px] h-[9px] w-[18px]"
+                        className="pointer-events-none absolute right-[48px] top-[25.5px] hidden h-[9px] w-[18px] sm:block"
                       />
                     </div>
                   </label>
                 </div>
 
-                {/* 381:5557 h=21 */}
-                <p className="font-sans text-[17px] leading-[21px] text-error">
+                {/* 381:5557 h=21. Hidden at base: 830:11069 runs the field
+                    stack straight into the consent row on a 25.788 gap with no
+                    note between them, and there is no void left for it the way
+                    Nominate's frame leaves one. The red asterisks still mark
+                    every required field, and desktop is unchanged. */}
+                <p className="hidden font-sans text-[17px] leading-[21px] text-error sm:block">
                   Fields marked * are mandatory
                 </p>
               </div>
 
-              {/* 381:5558 is 723.145 x 24 */}
-              <label className="flex w-full max-w-[723.145px] items-center gap-[14px]">
+              {/* 381:5558 is 723.145 x 24; 830:11090 draws the mobile row as a
+                  15.608 box on a 9.501 gap with 14px copy. */}
+              <label className="flex w-full max-w-[723.145px] items-center gap-[9.501px] sm:gap-[14px]">
                 <input
                   type="checkbox"
                   name="agree"
                   checked={form.agree}
                   onChange={updateField}
-                  className="size-[23px] shrink-0 appearance-none rounded-none border border-gray-c7 bg-field checked:bg-bl-600"
+                  className="size-[15.608px] shrink-0 appearance-none rounded-none border-[0.679px] border-gray-c7 bg-field checked:bg-bl-600 sm:size-[23px] sm:border"
                 />
-                <span className="flex-1 font-form text-[20px] leading-[24px] text-gray-94">
+                <span className="flex-1 font-form text-[14px] text-gray-94 sm:text-[20px] sm:leading-[24px]">
                   I agree to be contacted regarding my inquiry.
                 </span>
               </label>

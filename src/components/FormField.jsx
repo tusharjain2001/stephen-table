@@ -25,6 +25,8 @@ function FormField({
   required = false,
   labelSize = 20,
   labelLeading = 24,
+  fieldHeightBase = 42.4,
+  hideChevronBase = false,
   className = '',
   fieldClassName = '',
   children,
@@ -54,11 +56,21 @@ function FormField({
         </span>
       )}
 
+      {/* `fieldHeightBase` is driven through a CSS variable rather than an
+          extra class on `fieldClassName`: an override there would tie with
+          this rule on specificity inside the same (base) media block, and the
+          winner would be whichever Tailwind happened to emit last — the
+          coin-flip that silently killed the hero `subtitleClassName` overrides
+          on five pages. Default 42.4 keeps Nominate exactly where it was;
+          Contact's 830:11075 draws 40.717. */}
       <div className="relative">
         <Component
           className={`w-full rounded-none border-[0.71px] border-gray-d9 bg-field px-[16px] font-form text-[14px] text-espresso outline-none md:border md:text-[16px] ${
-            isTextarea ? 'block h-[91.6px] resize-none py-[16px] md:h-[135px]' : 'h-[42.4px] md:h-[60px]'
+            isTextarea
+              ? 'block h-[91.6px] resize-none py-[16px] md:h-[135px]'
+              : 'h-[var(--ff-h-base)] md:h-[60px]'
           } ${isSelect ? 'appearance-none pr-[40px] md:pr-[90px]' : ''} ${fieldClassName}`}
+          style={isTextarea ? undefined : { '--ff-h-base': `${fieldHeightBase}px` }}
           {...props}
         >
           {children}
@@ -73,7 +85,14 @@ function FormField({
             // forms (381:5552 Contact, 381:5722 Nominate) — 48px in from the
             // right edge, not the 66 that was here. Mobile frame shrinks it
             // to 12.7x6.35 at right-16.
-            className="pointer-events-none absolute right-[16px] top-1/2 h-[6.35px] w-[12.7px] -translate-y-1/2 md:right-[48px] md:h-[9px] md:w-[18px]"
+            //
+            // `hideChevronBase` drops it below `sm` for callers whose mobile
+            // frame does not draw one — Contact's 830:11085 leaves it at
+            // x=744 in a 336-wide field, i.e. off the canvas. Nominate's
+            // mobile form has not been re-fetched, so the default keeps it.
+            className={`pointer-events-none absolute right-[16px] top-1/2 h-[6.35px] w-[12.7px] -translate-y-1/2 md:right-[48px] md:h-[9px] md:w-[18px] ${
+              hideChevronBase ? 'hidden sm:block' : ''
+            }`}
           />
         )}
       </div>
