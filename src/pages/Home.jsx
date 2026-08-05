@@ -216,40 +216,58 @@ function Home() {
         // 41px box. Playfair draws its `normal` at 43, i.e. 172 against the
         // frame's 164, and all 8px of that landed on the CTA clearance.
         mobileTitleLeading={41}
-        textLeft={78}
-        textWidth={485}
-        textBottom={100}
+        // 830:6 is a 430 × 267 block at x=72, ending 94 clear of the band's
+        // bottom edge (259 + 267 = 526 in a band running 72…620). The 485
+        // measure and the 78/100 offsets it replaces were 799:2928's.
+        textLeft={72}
+        textWidth={430}
+        textBottom={94}
         titleSize={36}
-        titleTracking={1.8}
-        // 342:22 is 92px over two lines. Playfair stands in for Lettertype and
-        // its `normal` leading at 36px is 48, which would make the block 4px
-        // taller and drag the buttons off their designed baseline — so the
-        // line box is pinned.
-        titleLeading={46}
-        // The 485px text column reproduces the design's word wrap up to lg,
-        // but at xl Playfair (standing in for Lettertype) breaks the first
-        // line a word later than 799:2928's render ("…Age Safely" vs
-        // "…Age"). Canvas-measured against the rendered h1's own computed
-        // font: "Helping Seniors Age" is 360px and "…Age Safely" is 477px,
-        // while line 3 "True Sense Of Belonging." needs >=450px — so the H1
-        // alone is pinned to 460px (comfortably inside that 450–476 window)
-        // to reproduce the frame's 3-line break exactly.
+        // 830:8 carries **no letter-spacing** — the 1.8px this used to pass
+        // (2.4 before the redesign) is gone from the layer entirely. `md` is
+        // set with it so the tablet tier gets the same type style rather than
+        // keeping the old 2.2 step, which is the tier a Windows box at 125%
+        // scaling actually lands on.
+        titleTracking={0}
+        titleTrackingMd={0}
+        // 830:8 is 144 tall over three lines, i.e. a 48px box — which is
+        // exactly Playfair's `normal` at 36. Pinned rather than left implicit
+        // so the block height can't drift with the font stack.
+        titleLeading={48}
+        // 830:8 is Playfair Display **SemiBold**, not the regular weight the
+        // h1 inherits from `body` (Tailwind's preflight resets headings to
+        // `font-weight: inherit`). Playfair 600 is already in the index.html
+        // font request, so this costs no extra download.
         //
-        // Base does the same thing for the same reason: 803:6272 is a **335**
-        // measure inside a 370 gutter-to-gutter block, which is what breaks
-        // the mobile H1 "Helping Seniors Age / Safely And / Experience A True
-        // / Sense Of Belonging." Left on the full 370 it reads "…Age / Safely
-        // And Experience / A True Sense Of / Belonging." — still four lines,
-        // so no height moves, but not the frame's words. The cap is on the H1
-        // alone; the subtitle keeps the full 370 (its real copy is three
-        // lines there against the frame placeholder's one). `md:max-w-none`
-        // holds the tablet tier exactly where it already was.
-        titleClassName="max-w-[335px] md:max-w-none xl:max-w-[460px]"
+        // The 430 column now breaks the H1 the way the frame does on its own
+        // ("Helping Seniors Age / Safely And Experience A / True Sense Of
+        // Belonging."), so the old `xl:max-w-[460px]` pin — fitted to the
+        // wider 485 measure — is gone.
+        //
+        // Base keeps its own cap: 803:6272 is a **335** measure inside a 370
+        // gutter-to-gutter block, which is what breaks the mobile H1
+        // "Helping Seniors Age / Safely And / Experience A True / Sense Of
+        // Belonging." Left on the full 370 it reads "…Age / Safely And
+        // Experience / A True Sense Of / Belonging." — still four lines, so
+        // no height moves, but not the frame's words. The cap is on the H1
+        // alone; the subtitle keeps the full 370. `md:max-w-none` holds the
+        // tablet tier exactly where it already was.
+        titleClassName="font-semibold max-w-[335px] md:max-w-none"
         title="Helping seniors age safely and experience a true sense of belonging."
-        // Design node 799:2928's subhead text is an unflagged, unfinished
-        // Figma fragment ("We provide practical..."); the current copy is
-        // kept verbatim per the redesign brief.
-        subtitle="Providing practical home support, meaningful fellowship, and community connections for older adults across Colorado."
+        // 830:9 reads "We provide practical..." — it looks like an unfinished
+        // Figma fragment, and this used to ship the longer real sentence
+        // instead. Shipping the frame's string verbatim was asked for
+        // directly, and it is what makes the block land on its drawn
+        // geometry: one 26px line takes 830:6 to its authored
+        // 144 + 16 + 26 + 36 + 45 = 267, so the bottom-anchored block starts
+        // at the frame's y=259 rather than 43px above it.
+        //
+        // It does the same on mobile — 803:6274 carries the identical
+        // fragment, and the 313-tall block the old copy produced there
+        // (against the frame's 271) is what `mobileTextBottom` exists to
+        // absorb. That anchor still holds the CTA row at 65 clear; it just no
+        // longer has 42px of overflow to soak up.
+        subtitle="We provide practical..."
       >
         <div className="mt-[20px] flex flex-wrap items-center gap-[21px]">
           <Button variant="hero-primary" style={{ backgroundColor: 'var(--color-s-200)' }}>
