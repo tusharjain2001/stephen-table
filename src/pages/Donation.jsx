@@ -73,6 +73,11 @@ function Donation() {
         titleSizeMd={36}
         titleTrackingMd={1.8}
         titleLeading={46}
+        // Same SemiBold H1 as Home's redrawn hero (830:8). Playfair 600 is
+        // wider than the 400 an unstyled `font-display` h1 inherits from
+        // `body`, so the break was re-checked: "Partner With Us To Create" is
+        // still inside the 482 measure and the block stays two lines / 92.
+        titleClassName="font-semibold"
       />
 
       {/* Donation band — 799:5811, 1075 tall */}

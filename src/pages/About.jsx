@@ -129,6 +129,11 @@ function About() {
         titleSizeMd={36}
         titleTrackingMd={1.8}
         titleLeading={46}
+        // SemiBold, as on Home's and Donate's heroes — an unstyled
+        // `font-display` h1 otherwise inherits `body`'s 400. "About us" is one
+        // line inside the 482 measure at either weight, so the block stays 46
+        // and its 95px clearance is unchanged.
+        titleClassName="font-semibold"
         title="About us"
         // subtitleClassName is deliberately omitted: the pre-mobile-pass
         // "text-[24px]" override never actually won at md/xl (the
@@ -138,7 +143,7 @@ function About() {
         // component's own base text-[16px] mobile default. Omitting it
         // keeps ≥768 byte-identical while landing exactly on the Figma
         // mobile subtitle size.
-        subtitle="We provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
+        subtitle="we provide practical home support, meaningful fellowship, and community connections for older adults across Northern Colorado."
       />
 
       {/* Mission / Vision */}

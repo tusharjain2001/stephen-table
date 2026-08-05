@@ -71,7 +71,16 @@
   --color-error: #c80000;
 
   /* Fonts */
-  --font-display: "Lettertype", "Playfair Display", serif;
+  /* Figma's display face is Lettertype, which is not licensed here and was
+     never loaded — no @font-face, and it is not in index.html's font request
+     — so every `font-display` element already fell through to Playfair. Named
+     directly now: 830:8 specifies "Playfair Display" on the layer itself, and
+     leaving a face in the stack that nothing can resolve only makes the
+     declaration read as though the metrics might change. The line-box pins
+     documented in CLAUDE.md (SectionChip 27, About's 37/31/26, PageHero's
+     46/48, StatsBand's 41) exist because Playfair's `normal` differs from
+     Lettertype's and stay load-bearing either way. */
+  --font-display: "Playfair Display", serif;
   --font-sans: "DM Sans", sans-serif;
   --font-neulis: "Neulis Sans", "Poppins", sans-serif;
   --font-form: "Acumin Pro", "Inter", sans-serif;
