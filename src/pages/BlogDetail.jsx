@@ -82,12 +82,26 @@ function BlogDetail() {
         {/* Base: 803:6576 sits at y=471 in a band starting at 72, i.e. 399
             down, on a 34px gutter — 71 clear of the 610 bottom edge. */}
         {/* Centred at base to match what PageHero now does on the other eight
-            heroes; `sm:` (this hero's desktop tier, not `md:`) puts it back. */}
-        <div className="absolute inset-x-[34px] top-[399px] flex flex-col items-center gap-[16px] text-center sm:inset-x-10 sm:items-start sm:text-left sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
+            heroes; `sm:` (this hero's desktop tier, not `md:`) puts it back.
+            830:10802 re-drew the mobile block: 334 × 144 (an 86px two-line H1 +
+            16 + a 42px two-line byline) at x=34, y=506 — 434 below the band's
+            top and 32 clear of its bottom, where this sat at 399.
+            The H1 needs a 295px measure to stay two lines, which a fixed 34px
+            gutter only gives from a 363px viewport up; 297 resolves to exactly
+            34 at 402 and lets the gutter shrink below that instead of the
+            wrap, down to a 16px floor. Same guard as Services / Impact /
+            Nominate, spelled inline because this hero is not PageHero. */}
+        <div
+          style={{ '--blog-hero-inset': 'max(16px, min(34px, calc((100vw - 297px) / 2)))' }}
+          className="absolute inset-x-[var(--blog-hero-inset)] top-[434px] flex flex-col items-center gap-[16px] text-center sm:inset-x-10 sm:items-start sm:text-left sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
           {/* Hand-coded hero rather than PageHero, so the SemiBold weight the
               component now carries has to be repeated here. Its 41px line box
-              is pinned, so the heavier face cannot change the block's 83. */}
-          <h1 className="capitalize font-display text-[32px] font-semibold tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:tracking-[1.6px] xl:leading-[41px]">
+              is pinned, so the heavier face cannot change the block's 83.
+              Base drops the tracking (830:10803 carries none, like every other
+              830-series mobile H1) and pins a 43px box, which is Playfair's
+              `normal` at 32 — two lines then measure the frame's 86 exactly,
+              and `sm:` hands both back to the desktop values. */}
+          <h1 className="capitalize font-display text-[32px] font-semibold leading-[43px] tracking-[0px] text-white sm:text-[32px] sm:leading-[normal] sm:tracking-[1.3px] xl:tracking-[1.6px] xl:leading-[41px]">
             Helping seniors age safely at home
           </h1>
           <p className="font-sans text-[16px] text-wb-400 sm:text-[20px]">

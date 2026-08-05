@@ -56,10 +56,14 @@ function Contact() {
         // still one of this file's mirrored rects (x = width), so the
         // 0.2→0.92 it reports reads 0.92→0.2 across the band.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.92) 0%, rgba(24,33,45,0.2) 100%)"
-        // 803:7791 is a bare title (no subtitle) sitting at y=431 in the
-        // redrawn 610-tall band, on a 34px gutter rather than the shared 29.
-        mobileTextTop={431}
+        // 830:11063 is still a bare title (no subtitle) on the 34px gutter
+        // this page uses rather than the shared 29, but the redraw moved it
+        // down: 334 × 43 at y=500 in the 610 band, i.e. 67 clear of the bottom
+        // edge where 803:7791 sat at 431. One line at any phone width — "Contact
+        // Us" needs a 200px measure — so no fluid gutter is required here.
+        mobileTextTop={500}
         mobileTextInset={34}
+        mobileTitleTracking={0}
         // 377:3036 sits at x=76 y=500 w=789 h=54 inside the 72..620 band, so
         // the title box ends 66px above the bottom edge (was 65 at h=72).
         textLeft={76}

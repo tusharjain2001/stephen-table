@@ -316,8 +316,19 @@ function Services() {
         // the extra flat black/20 wash is dropped, matching the plain
         // two-stop treatment shared with Nominate/Get Involved.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
-        // 803:7108 sits at y=394 in the redrawn 610-tall band, which is
-        // PageHero's default — the old 571 belonged to the 745 band.
+        // 830:12391 re-drew the mobile block: 344 × 122 (a 43px one-line H1 +
+        // 16 + a 63px three-line subtitle) at x=29, y=445 in the 610 band, so
+        // it now clears the bottom edge by 43 rather than sitting at 803:7108's
+        // 394. The 29px gutter and the centred, untracked type are the shared
+        // 830-series treatment.
+        mobileTextTop={445}
+        mobileTitleTracking={0}
+        // The subtitle needs a **342px** measure for its three lines, and a
+        // fixed 29px gutter only clears that from 400 up. 344 resolves to
+        // exactly 29 at 402 — so the frame width is untouched — and below that
+        // the gutter gives way instead of the wrap. (Nominate ships the
+        // identical sentence and the identical guard.)
+        mobileTextInset="max(16px, min(29px, calc((100vw - 344px) / 2)))"
         // 484:3770 keeps its 618 measure but the redraw dropped the H1 to
         // 36/1.8 on a 46 line box (Playfair's `normal` at 36 is 48) and moved
         // the block to 95 clear of the hero's bottom edge, not 54.

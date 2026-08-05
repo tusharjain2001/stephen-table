@@ -158,9 +158,15 @@ function GetInvolved() {
         // on the left (0.96) matching the redrawn frame.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.96) 0%, rgba(24,33,45,0.2) 100%)"
         height={548}
-        // 803:6897 sits at y=391 in the redrawn 610-tall band (was 516 in a
-        // 745 one), leaving 99px of clearance under the subtitle.
-        mobileTextTop={391}
+        // 830:10165 re-drew the mobile block: 344 × 122 (a 43px one-line H1 +
+        // 16 + a 63px three-line subtitle) at x=29, y=450 in the 610 band —
+        // 38 clear of the bottom edge, where 803:6897 sat at 391 with 99.
+        mobileTextTop={450}
+        mobileTitleTracking={0}
+        // No fluid gutter here, unlike Services/Impact: this subtitle holds
+        // three lines down to a 291px measure, which the fixed 29px gutter
+        // still gives at a 349px viewport.
+
         // 371:2954 is now 385..499 on a 607 measure in a hero ending at 620,
         // i.e. 121 clear of the bottom: H1 56->36 / 2.8->1.8 on a 46 line box
         // and the subtitle 24->20, which wraps to 2 lines where 24 took 3.

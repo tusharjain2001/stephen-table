@@ -72,9 +72,16 @@ function ImpactStories() {
         // that regression. `mobileFlatOverlay` (the base-tier wash) is
         // unaffected and stays as before.
         overlayGradient="linear-gradient(to right, #18212d 0%, rgba(24,33,45,0.2) 100%)"
-        // 803:6306 sits at y=397 in the redrawn 610-tall band, 93 clear of
-        // its bottom edge.
-        mobileTextTop={397}
+        // 830:12906 re-drew the mobile block: 344 × 122 (a 43px one-line H1 +
+        // 16 + a 63px three-line subtitle) at x=29, y=445 in the 610 band —
+        // 43 clear of the bottom edge, where 803:6306 sat at 397 with 93.
+        mobileTextTop={445}
+        mobileTitleTracking={0}
+        // The subtitle needs a **326px** measure for its three lines, which a
+        // fixed 29px gutter only gives from a 384px viewport up. 328 resolves
+        // to 29 at 402 — frame width untouched — and holds the wrap down to
+        // 360 by letting the gutter shrink instead.
+        mobileTextInset="max(16px, min(29px, calc((100vw - 328px) / 2)))"
         textLeft={76}
         textWidth={628}
         // 371:2948 sits at y=313 h=140 inside the 548 hero, i.e. 95 up from
