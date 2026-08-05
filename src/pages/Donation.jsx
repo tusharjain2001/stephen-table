@@ -96,10 +96,15 @@ function Donation() {
                 carries the rule as its own `border-t`, which reproduces
                 799:5794–5800 at 68/132/196/260/324/388/452, and the first
                 column's `border-r` is the full-height divider (799:5791) at
-                x=329. Cells hug those coordinates rather than being padded
-                symmetrically: the amount sits 44 from the card's left edge
-                (43 inside the stroke) and the impact copy 87 past the
-                divider. */}
+                x=329.
+
+                Deliberate override of the frame: 799:5767–5773 hug the left
+                edge rather than being padded symmetrically — the amount sits
+                44 from the card's left edge (43 inside the stroke) and the
+                impact copy 87 past the divider — but from `md` up both columns
+                are centred instead, so the body rows line up under the two
+                centred header labels. Base keeps the left hug; the 803:6011
+                mobile section has no Donate frame to check against. */}
             <div className="w-full max-w-[1076px] overflow-hidden rounded-card border border-bl-600">
               <table className="w-full table-fixed border-separate border-spacing-0 text-left">
                 <colgroup>
@@ -119,10 +124,10 @@ function Donation() {
                 <tbody>
                   {TIERS.map((tier) => (
                     <tr key={tier.amount}>
-                      <td className="h-[52px] border-r border-t border-bl-600 pl-[16px] font-sans text-[14px] font-medium capitalize text-bl-600 md:h-[58px] md:pl-[24px] md:text-[16px] xl:h-[64px] xl:pl-[43px] xl:text-[20px]">
+                      <td className="h-[52px] border-r border-t border-bl-600 pl-[16px] font-sans text-[14px] font-medium capitalize text-bl-600 md:h-[58px] md:px-[16px] md:text-center md:text-[16px] xl:h-[64px] xl:text-[20px]">
                         {tier.amount}
                       </td>
-                      <td className="h-[52px] border-t border-bl-600 px-[16px] font-sans text-[12px] font-medium capitalize text-bl-600 md:h-[58px] md:px-[24px] md:text-[14px] xl:h-[64px] xl:pl-[87px] xl:pr-[24px] xl:text-[16px]">
+                      <td className="h-[52px] border-t border-bl-600 px-[16px] font-sans text-[12px] font-medium capitalize text-bl-600 md:h-[58px] md:px-[24px] md:text-center md:text-[14px] xl:h-[64px] xl:px-[40px] xl:text-[16px]">
                         {tier.impact}
                       </td>
                     </tr>
