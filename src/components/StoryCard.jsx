@@ -24,6 +24,12 @@ import iconArrowBadge from '../assets/icons/icon-arrow-badge.svg';
  *                      card is the designed 418.4 wide — below it the grid
  *                      equalises row height anyway.
  * - `body`           — card body copy
+ * - `bodyWidth`      — px measure for the body at `2xl` only, same idea as
+ *                      `titleWidth`. Impact Stories' middle card (790:1331)
+ *                      authors its copy at 360 inside the 375.4px column,
+ *                      which is what holds it to three lines / 63px like the
+ *                      other two; left to fill it wraps to two and the copy
+ *                      block is 110 rather than the frame's 131.
  * - `bodyClassName`  — body color override (defaults to `text-gray-59`;
  *                      Home's "How we help" tiles draw it black per 377:3067)
  * - `ctaLabel`       — CTA button text, defaults to `'learn more'` (Impact
@@ -53,6 +59,7 @@ function StoryCard({
   titleSize = 24,
   titleWidth,
   body,
+  bodyWidth,
   bodyClassName = 'text-gray-59',
   ctaLabel = 'learn more',
   ctaHref,
@@ -89,7 +96,7 @@ function StoryCard({
           with a 16px gap at both joins, inside 17.2px padding. Mobile frame
           (662:9459) uses 15.2px padding and a 14.1px title-body gap. */}
       <div
-        className="flex flex-col p-[15.2px] gap-[var(--card-cta-gap-mobile)] md:gap-[var(--card-cta-gap)] md:p-[17.2px]"
+        className="flex flex-1 flex-col p-[15.2px] gap-[var(--card-cta-gap-mobile)] md:gap-[var(--card-cta-gap)] md:p-[17.2px]"
         style={{ '--card-cta-gap': `${ctaGap}px`, '--card-cta-gap-mobile': `${mobileCtaGap}px` }}
       >
         <div className="flex flex-col gap-[14.1px] md:gap-[16px]">
@@ -107,16 +114,28 @@ function StoryCard({
             </h3>
           )}
           {body && (
-            <p className={`font-sans text-[14.15px] md:text-[16px] ${bodyClassName}`}>{body}</p>
+            <p
+              className={`font-sans text-[14.15px] md:text-[16px] ${
+                bodyWidth ? '2xl:w-[var(--card-body-w)] 2xl:max-w-full' : ''
+              } ${bodyClassName}`}
+              style={bodyWidth ? { '--card-body-w': `${bodyWidth}px` } : undefined}
+            >
+              {body}
+            </p>
           )}
         </div>
 
+        {/* 790:1324/1332/1340 put the CTA at the same y in all three cards —
+            the copy block above it is a fixed 131px box in the frame. Poppins
+            can reflow a title or body by a line, so instead of pinning that
+            height the CTA is pushed to the bottom of the (grid-equalised)
+            card, which lands all three on one baseline either way. */}
         {ctaHref ? (
-          <Button as={Link} to={ctaHref} variant="learn-more" className="self-start">
+          <Button as={Link} to={ctaHref} variant="learn-more" className="mt-auto self-start">
             {ctaLabel}
           </Button>
         ) : (
-          <Button variant="learn-more" onClick={onCtaClick} className="self-start">
+          <Button variant="learn-more" onClick={onCtaClick} className="mt-auto self-start">
             {ctaLabel}
           </Button>
         )}

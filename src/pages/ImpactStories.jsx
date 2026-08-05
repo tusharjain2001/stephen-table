@@ -28,6 +28,9 @@ const STORIES = [
   {
     title: 'The Power of Community and Companionship',
     titleWidth: 332,
+    // 790:1331 authors this one paragraph at 360 inside the 375.4 column —
+    // that measure is what keeps it three lines / 63px like its neighbours.
+    bodyWidth: 360,
     body: 'Discover how meaningful relationships and social connections improve the well-being of seniors.',
   },
   {
@@ -111,6 +114,7 @@ function ImpactStories() {
                   titleSize={20}
                   titleWidth={story.titleWidth}
                   body={story.body}
+                  bodyWidth={story.bodyWidth}
                   ctaLabel="read More →"
                   ctaHref={story.ctaHref}
                   ctaGap={24}
@@ -144,6 +148,7 @@ function ImpactStories() {
                   titleSize={20}
                   titleWidth={story.titleWidth}
                   body={story.body}
+                  bodyWidth={story.bodyWidth}
                   ctaLabel="read More →"
                   ctaHref={story.ctaHref}
                   ctaGap={24}
