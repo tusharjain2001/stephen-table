@@ -159,7 +159,9 @@ function GetInvolved() {
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.96) 0%, rgba(24,33,45,0.2) 100%)"
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
-        mobileTextTop={516}
+        // 803:6897 sits at y=391 in the redrawn 610-tall band (was 516 in a
+        // 745 one), leaving 99px of clearance under the subtitle.
+        mobileTextTop={391}
         // 371:2954 is now 385..499 on a 607 measure in a hero ending at 620,
         // i.e. 121 clear of the bottom: H1 56->36 / 2.8->1.8 on a 46 line box
         // and the subtitle 24->20, which wraps to 2 lines where 24 took 3.

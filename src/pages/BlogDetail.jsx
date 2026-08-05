@@ -37,17 +37,23 @@ function BlogDetail() {
           breakpoint here rather than `md:`, matching this hero's existing
           sm/xl-only breakpoint scheme (nothing changes ≥640, which already
           covers the whole ≥768 tablet/desktop range untouched). */}
-      <section className="relative h-[745px] w-full overflow-hidden sm:h-[340px] xl:h-[470px]">
+      {/* Base band 745 -> 610, matching 803:6571 and every other page's
+          mobile hero in the 803:6011 redraw. The 746 image rect inside that
+          frame is left at its old size and simply clipped, which is what
+          `object-cover` does here. */}
+      <section className="relative h-[610px] w-full overflow-hidden sm:h-[340px] xl:h-[470px]">
         <img
           src={heroBlog}
           alt=""
           className="absolute inset-0 hidden h-full w-full object-cover sm:block"
         />
-        {/* Base (<640) uses its own 402×746 portrait export. */}
+        {/* Base (<640) uses its own 402×746 portrait export, top-anchored so
+            the 136px the 610 band no longer fits comes off the bottom, the
+            way 803:6572 pins its rect at y=0. */}
         <img
           src={heroBlogMobile}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover sm:hidden"
+          className="absolute inset-0 h-full w-full object-cover object-top sm:hidden"
         />
         {/* Base (mobile) scrim, same wash every other page's mobile hero
             carries. Note this export already ramps 193/104/47/30 top-to-bottom
@@ -73,7 +79,9 @@ function BlogDetail() {
         {/* 370:2587 is 385..468 in a hero that ends at 542, i.e. 74 clear of
             the bottom (was 42). The redraw took the H1 40 → 32 / 2 → 1.6 on a
             41px box and the byline 28 → 20, so the block is 41 + 16 + 26 = 83. */}
-        <div className="absolute inset-x-[29px] top-[551px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
+        {/* Base: 803:6576 sits at y=471 in a band starting at 72, i.e. 399
+            down, on a 34px gutter — 71 clear of the 610 bottom edge. */}
+        <div className="absolute inset-x-[34px] top-[399px] flex flex-col gap-[16px] sm:inset-x-10 sm:bottom-0 sm:top-auto sm:gap-[10px] sm:pb-8 xl:inset-x-auto xl:left-[82px] xl:w-[738px] xl:gap-[16px] xl:pb-[74px]">
           <h1 className="capitalize font-display text-[32px] tracking-[1.6px] text-white sm:text-[32px] sm:tracking-[1.3px] xl:tracking-[1.6px] xl:leading-[41px]">
             Helping seniors age safely at home
           </h1>

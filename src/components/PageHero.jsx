@@ -51,10 +51,18 @@
  *                    Task 14) so the hero never eats the whole viewport on
  *                    a tablet.
  * - `mobileHeight` — px height of the hero band at base (<768, true mobile).
- *                    The Figma mobile frames run the hero near full-screen
- *                    on every page (745, or 746 for Home) regardless of the
- *                    page's xl `height` — unlike the md tier, this is not a
- *                    proportional scale-down of `height`.
+ *                    The 803:6011 mobile redraw settles this at **610** on
+ *                    every page (803:6013 / 803:6301 / 803:6571 / 803:6894 /
+ *                    803:6901 / 803:7105 / 803:7655 / 803:7788 are all 402 ×
+ *                    610), down from the near-full-screen 745/746 the first
+ *                    mobile pass shipped. That band was taller than the
+ *                    viewport once the browser chrome is counted, so the
+ *                    bottom of the copy — the CTA row on Home — was pushed
+ *                    below the fold. It is unrelated to the page's xl
+ *                    `height`; unlike the md tier this is not a proportional
+ *                    scale-down. The image rects *inside* those frames are
+ *                    still authored 745/746 and simply overflow the 610 box,
+ *                    which is what `object-cover` reproduces.
  * - `flatOverlay`  — extra flat `rgba(0,0,0,0.2)` wash on top of the base
  *                    (≥768) gradient. Currently unused: it was applied to
  *                    Impact Stories, but that frame (535:2545) carries only
@@ -71,8 +79,25 @@
  *                    start of the text block at xl (default 96)
  * - `mobileTextTop`  — px offset from the TOP of the hero to the text block
  *                    at base (mobile). The mobile frames anchor the copy
- *                    from the top of the hero, not the bottom (default 499;
- *                    Get Involved 516, Contact 587, Home 410).
+ *                    from the top of the hero, not the bottom. The 610-tall
+ *                    redraw moves every one of these up: default 394
+ *                    (About 803:6903, Services 803:7108), Get Involved 391,
+ *                    Nominate 392, Impact Stories 397, Contact 431, Home 274
+ *                    (its block also carries the CTA row). Each is the
+ *                    frame's own y on "Frame 158", so the copy keeps the
+ *                    75–99px of bottom clearance the frames draw instead of
+ *                    running past the band.
+ * - `mobileTextBottom` — px clearance from the BOTTOM of the hero to the end
+ *                    of the text block at base, replacing `mobileTextTop`
+ *                    when set. Only Home passes it, and only because it is
+ *                    the one mobile block with a CTA row under the copy:
+ *                    top-anchored, every extra line the H1 takes at a
+ *                    narrower viewport eats that row's clearance instead of
+ *                    the empty space above it (3px left at 320 against 65 at
+ *                    402). Anchoring from the bottom holds the buttons where
+ *                    803:6275 puts them at every base width. Text-only
+ *                    heroes have nothing to protect down there and stay on
+ *                    `mobileTextTop`, which is what their frames author.
  * - `mobileTextInset`— px left/right gutter for the text block at base
  *                    (default 29; Home 16).
  * - `title`        — H1 copy
@@ -89,6 +114,14 @@
  *                    36/1.8 here too — left on the default, the redesign was
  *                    invisible below 1280 and the tablet step was actually
  *                    *larger* than the desktop design it interpolates.
+ * - `mobileTitleLeading` — px line box for the H1 at base (<768). Omit to
+ *                    keep `leading-[normal]`, which every one-line mobile
+ *                    title is fine on. Home passes 41 because 803:6273 is
+ *                    the only multi-line one: Playfair stands in for
+ *                    Lettertype and draws its `normal` at 43, so four lines
+ *                    came out 172 against the frame's 164 — 8px that lands
+ *                    straight on the CTA row's clearance. `md:` is held at
+ *                    `normal` so the tablet tier is untouched.
  * - `titleLeading` — px line box for the H1 at xl. Omit to keep
  *                    `leading-[normal]`, which is what most heroes want.
  *                    Contact passes 72 because its title frame (377:3036) is
@@ -121,19 +154,21 @@ function PageHero({
   mobileOverlay = 'gradient',
   mobileOverlayGradient = 'linear-gradient(to bottom, rgba(56,41,31,0.2), rgba(56,41,31,0.9))',
   height = 548,
-  mobileHeight = 745,
+  mobileHeight = 610,
   flatOverlay = false,
   mobileFlatOverlay = false,
   textLeft = 72,
   textWidth = 618,
   textBottom = 96,
-  mobileTextTop = 499,
+  mobileTextTop = 394,
+  mobileTextBottom,
   mobileTextInset = 29,
   title,
   titleSize = 56,
   titleTracking = 2.8,
   titleSizeMd = 44,
   titleTrackingMd = 2.2,
+  mobileTitleLeading,
   titleLeading,
   titleCapitalizeBase = true,
   titleCapitalize = true,
@@ -164,11 +199,18 @@ function PageHero({
           style={{ objectPosition: imagePosition }}
         />
       )}
+      {/* Top-anchored, not centred: the mobile frames all keep their image
+          rect at its old 745/746 height and pin it to y=0 inside the redrawn
+          610 band (803:6895, 803:7107, 803:7657, 803:7790, …), so the 135px
+          that no longer fits comes off the bottom. `object-cover`'s default
+          centring would take half of it off the top instead and drop the
+          framing ~67px. Landscape exports (About's flattened 1440×548) cover
+          by height and are unaffected either way. */}
       {mobileImage && (
         <img
           src={mobileImage}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover md:hidden"
+          className="absolute inset-0 h-full w-full object-cover object-top md:hidden"
         />
       )}
 
@@ -202,18 +244,28 @@ function PageHero({
           navbar and the sections below instead of hugging the viewport edge. */}
       <div className="absolute inset-0 mx-auto w-full max-w-[1440px]">
         <div
-          className="absolute left-[var(--hero-text-inset-base)] right-[var(--hero-text-inset-base)] top-[var(--hero-text-top-base)] flex w-auto flex-col gap-[16px] md:bottom-0 md:left-10 md:right-10 md:top-auto md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]"
+          className={`absolute left-[var(--hero-text-inset-base)] right-[var(--hero-text-inset-base)] ${
+            mobileTextBottom
+              ? 'bottom-[var(--hero-text-bottom-base)]'
+              : 'top-[var(--hero-text-top-base)]'
+          } flex w-auto flex-col gap-[16px] md:bottom-0 md:left-10 md:right-10 md:top-auto md:gap-[14px] md:pb-10 xl:left-[var(--hero-text-left)] xl:right-auto xl:w-[var(--hero-text-w)] xl:gap-[16px] xl:pb-[var(--hero-text-pb)]`}
           style={{
             '--hero-text-left': `${textLeft}px`,
             '--hero-text-w': `${textWidth}px`,
             '--hero-text-pb': `${textBottom}px`,
             '--hero-text-top-base': `${mobileTextTop}px`,
+            ...(mobileTextBottom
+              ? { '--hero-text-bottom-base': `${mobileTextBottom}px` }
+              : {}),
             '--hero-text-inset-base': `${mobileTextInset}px`,
             '--hero-title-size': `${titleSize}px`,
             '--hero-title-track': `${titleTracking}px`,
             '--hero-title-size-md': `${titleSizeMd}px`,
             '--hero-title-track-md': `${titleTrackingMd}px`,
             ...(titleLeading ? { '--hero-title-leading': `${titleLeading}px` } : {}),
+            ...(mobileTitleLeading
+              ? { '--hero-title-leading-base': `${mobileTitleLeading}px` }
+              : {}),
           }}
         >
           {title && (
@@ -221,8 +273,10 @@ function PageHero({
               className={`font-display text-[32px] tracking-[1.6px] text-white md:text-[length:var(--hero-title-size-md)] md:tracking-[var(--hero-title-track-md)] xl:text-[length:var(--hero-title-size)] xl:tracking-[var(--hero-title-track)] ${
                 titleCapitalizeBase ? 'capitalize' : ''
               } ${titleCapitalize ? 'md:capitalize' : 'md:normal-case'} ${
-                titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''
-              } ${titleClassName}`}
+                mobileTitleLeading
+                  ? 'leading-[var(--hero-title-leading-base)] md:leading-[normal]'
+                  : ''
+              } ${titleLeading ? 'xl:leading-[var(--hero-title-leading)]' : ''} ${titleClassName}`}
             >
               {title}
             </h1>

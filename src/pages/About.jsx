@@ -113,7 +113,9 @@ function About() {
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.9) 0%, rgba(24,33,45,0.83) 11.797%, rgba(24,33,45,0.2) 100%)"
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
-        mobileTextTop={571}
+        // 803:6903 sits at y=394 in the redrawn 610-tall band — PageHero's
+        // own default now, so no override is needed here.
+
         // 342:816 is 482 wide and sits 385..525 in a hero that ends at 620,
         // i.e. 95 clear of the bottom. The redraw dropped the H1 to 36/1.8
         // (342:817 h=46 — Playfair's `normal` at 36 is 48, hence the pin) and

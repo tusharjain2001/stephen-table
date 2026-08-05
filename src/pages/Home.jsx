@@ -195,9 +195,27 @@ function Home() {
         // navy-blue (bl-900) scrim instead of the site-wide espresso.
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
-        mobileHeight={746}
-        mobileTextTop={410}
+        // 803:6013's hero rect is 610 tall (the 746 image inside it overflows
+        // and is clipped), and 803:6271 — the only mobile text block on the
+        // site that carries a CTA row — sits at y=345 in a band starting at
+        // 71, i.e. 274 down, and ends **65 clear of the band's bottom**.
+        //
+        // Those two numbers cannot both be honoured, because the frame's
+        // subtitle is the unfinished "We provide practical..." fragment (one
+        // 21px line) where we ship the real three-line copy. Our block is
+        // 313 against the frame's 271, so the **65** is what gets matched —
+        // anchored from the bottom rather than positioned at 610 − 65 − 313,
+        // so a narrower phone that wraps the H1 to five lines spends the
+        // extra height on the empty space above the copy rather than on the
+        // buttons' clearance. Top-anchored at 274 the row sat 11px off the
+        // band's bottom edge, which is the crowding this pass exists to fix.
+        mobileHeight={610}
+        mobileTextBottom={65}
         mobileTextInset={16}
+        // 803:6273 is the site's only multi-line mobile H1 — four lines on a
+        // 41px box. Playfair draws its `normal` at 43, i.e. 172 against the
+        // frame's 164, and all 8px of that landed on the CTA clearance.
+        mobileTitleLeading={41}
         textLeft={78}
         textWidth={485}
         textBottom={100}
@@ -216,7 +234,17 @@ function Home() {
         // while line 3 "True Sense Of Belonging." needs >=450px — so the H1
         // alone is pinned to 460px (comfortably inside that 450–476 window)
         // to reproduce the frame's 3-line break exactly.
-        titleClassName="xl:max-w-[460px]"
+        //
+        // Base does the same thing for the same reason: 803:6272 is a **335**
+        // measure inside a 370 gutter-to-gutter block, which is what breaks
+        // the mobile H1 "Helping Seniors Age / Safely And / Experience A True
+        // / Sense Of Belonging." Left on the full 370 it reads "…Age / Safely
+        // And Experience / A True Sense Of / Belonging." — still four lines,
+        // so no height moves, but not the frame's words. The cap is on the H1
+        // alone; the subtitle keeps the full 370 (its real copy is three
+        // lines there against the frame placeholder's one). `md:max-w-none`
+        // holds the tablet tier exactly where it already was.
+        titleClassName="max-w-[335px] md:max-w-none xl:max-w-[460px]"
         title="Helping seniors age safely and experience a true sense of belonging."
         // Design node 799:2928's subhead text is an unflagged, unfinished
         // Figma fragment ("We provide practical..."); the current copy is

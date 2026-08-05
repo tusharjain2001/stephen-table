@@ -58,6 +58,10 @@ function Donation() {
         imagePosition="50% 55.74%"
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.9) 0%, rgba(24,33,45,0.83) 11.797%, rgba(24,33,45,0.2) 100%)"
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
+        // The 803:6011 mobile redraw has no Donate frame — this is the one
+        // route it never got — so the hero rides PageHero's new 610/394
+        // defaults. Its 3-line mobile H1 lands 88 clear of the band's bottom,
+        // inside the 75–99 the eight drawn frames span.
         textLeft={72}
         // 799:3356 is 482 × 92 at y=456 inside the 548 band — a two-line 46px
         // box sitting 72 clear of the hero's bottom edge, with no subtitle.

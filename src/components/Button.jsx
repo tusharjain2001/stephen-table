@@ -28,11 +28,18 @@ const VARIANTS = {
   // same `py-[12px]` on both, the filled pill measured 44.8 and the outlined
   // one 48.8, so the row read as two different button sizes. Height + `py-0`
   // makes the stroke free, exactly as `learn-more` / `outline-soft` do.
-  // Base (<768) keeps its own mobile-frame padding.
+  //
+  // Base (<768) has exactly the same problem and needs exactly the same fix:
+  // 803:6276 and 803:6278 are both 34 tall, but padded to it the filled pill
+  // came out 34 and the outlined one 38 — visibly taller, and 2px off-centre
+  // against its neighbour in an `items-center` row. Both are now pinned to
+  // 34. The widths follow too: the frame is 129 / 120 with the stroke drawn
+  // *inside*, so the outlined pill takes `px-[30px]` (30 + 2 + 56 + 2 + 30)
+  // where the filled one keeps 32 (32 + 65 + 32).
   'hero-primary':
-    'rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold uppercase text-navy md:h-[45px] md:bg-s-300 md:px-[44px] md:py-0 md:text-[16px] md:normal-case',
+    'rounded-btn bg-s-200 h-[34px] px-[32px] py-0 font-sans text-[14px] font-semibold uppercase text-navy md:h-[45px] md:bg-s-300 md:px-[44px] md:py-0 md:text-[16px] md:normal-case',
   'outline-light':
-    'rounded-btn border-2 border-cream bg-transparent px-[32px] py-[8px] font-sans text-[14px] font-semibold uppercase text-white md:h-[45px] md:px-[44px] md:py-0 md:text-[16px] md:normal-case',
+    'rounded-btn h-[34px] border-2 border-cream bg-transparent px-[30px] py-0 font-sans text-[14px] font-semibold uppercase text-white md:h-[45px] md:px-[44px] md:py-0 md:text-[16px] md:normal-case',
   // Figma frames these at exactly 39.211px tall (377:3068) with the stroke
   // drawn inside; a CSS border sits outside the padding box and would add
   // 4.3px, so the height is pinned instead. Mobile frame (662:9459) pins the

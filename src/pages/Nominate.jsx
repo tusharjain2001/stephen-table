@@ -96,6 +96,9 @@ function Nominate() {
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
         height={548}
+        // 803:7659 sits at y=392 in the redrawn 610-tall band, 98 clear of
+        // its bottom edge.
+        mobileTextTop={392}
         // 367:770 is now 313..427 in the 548 hero, i.e. 121 clear of the
         // bottom, not 85: the redraw took the H1 to 36/1.8 on a 46 line box
         // and the subtitle to 20, which wraps to 2 lines where 24px took 3.

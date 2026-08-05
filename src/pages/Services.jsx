@@ -317,7 +317,8 @@ function Services() {
         // two-stop treatment shared with Nominate/Get Involved.
         overlayGradient="linear-gradient(to right, rgba(24,33,45,0.84) 0%, rgba(24,33,45,0.2) 100%)"
         mobileOverlayGradient="linear-gradient(to bottom, rgba(24,33,45,0.2), rgba(24,33,45,0.9))"
-        mobileTextTop={571}
+        // 803:7108 sits at y=394 in the redrawn 610-tall band, which is
+        // PageHero's default — the old 571 belonged to the 745 band.
         // 484:3770 keeps its 618 measure but the redraw dropped the H1 to
         // 36/1.8 on a 46 line box (Playfair's `normal` at 36 is 48) and moved
         // the block to 95 clear of the hero's bottom edge, not 54.
