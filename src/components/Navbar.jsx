@@ -15,10 +15,13 @@ const NAV_LINKS = [
 /**
  * Site navbar. Figma defines the ≥1280 desktop layout (Implementation Plan
  * §3.1 "Navbar") and, as of the mobile pass, the 402px mobile dropdown menu
- * (Batch 1 Task 2). `799:2935` re-drew the desktop bar: the background moved
- * wb-200 → cream (#fffcf7) and the text wordmark became the crest mark
- * (`logo-crest.png`, 85 × 58.128). The link row and the Donate pill are
- * unchanged in type — only their x positions moved, see the notes inline.
+ * (Batch 1 Task 2). `830:15` re-drew the desktop bar again: the mark is now
+ * the crest **plus** the "STEPHEN’S / TABLE" wordmark as one 152.946 × 49.153
+ * lockup (was the 85 × 58.128 crest alone), the gutters go back to a plain
+ * 72/72, and the link row is a centred `flex-1` rather than the pair of
+ * literal 208/155 margins the narrower mark needed. Type is unchanged
+ * throughout — DM Sans Medium 20 links on a 41 gap, and the same 180 × 37
+ * `donate-nav` pill. See the notes inline.
  * The breakpoint pass (§5, Task 14) adds:
  * - `lg` (1024–1279): full link row kept, gap 41→24. The redesigned frame
  *   (342:773) sets logo and links to 20px at 1440 too, so the type no longer
@@ -37,19 +40,27 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-cream">
-      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-[16px] md:px-10 lg:px-12 xl:pl-[81px] xl:pr-[80px] 2xl:pr-[66px]">
-        {/* 799:2937 replaces the old text wordmark with the crest mark, an
-            85 × 58.128 box sitting on the 81px left gutter. It is taller than
-            the bar's own 15px padding allows (58.128 in a 42 content box), so
-            the bar centres it on the full 72 instead — which is exactly what
-            the frame does: y=6.936, i.e. 6.94 clear top and bottom.
-            The mark is 85 wide against the old wordmark's 150, so nothing
-            below 1440 is tighter than before.
-            Rendered at the SVG's own 85 × 59 rather than the frame's 58.128:
-            the export rounds the box up, but the artwork inside still sits at
-            y 4.0–55.1, so the extra 0.87 is empty padding at the bottom and
-            the ink lands where Figma puts it. Scaling to 58.128 would squash
-            it 1.5% instead. */}
+      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-[16px] md:px-10 lg:px-12 xl:px-[72px]">
+        {/* 830:15 puts the bar back on the ordinary 72px gutter (830:16 is
+            1296 wide at x=72) — the 81/66 pair the previous frame needed is
+            gone, so this is `xl:px-[72px]` like every other section.
+            830:2035 is the crest + wordmark lockup, 152.946 × 49.153: the
+            71.876-wide crest, a 7.07 gap, then "STEPHEN’S / TABLE" set in
+            Cormorant Garamond Bold 14.563/14.871. All of that is baked into
+            `newlogonavbar.svg`, so it ships as one image rather than a crest
+            plus live text — the wordmark is a vectorised export, not a font
+            the project loads.
+            Rendered at the SVG's own 153 × 50 rather than the frame's
+            152.946 × 49.153: Figma rounds the export box up but leaves the
+            artwork in place (ink sits at 7.41…151.19 × 3.39…46.53 in both),
+            so the extra 0.05/0.85 is empty padding and the ink lands where
+            the frame puts it. This is the same treatment the old 85 × 58.128
+            crest and the 125 × 86 footer mark already get; scaling back down
+            to 49.153 would squash it instead.
+            Both axes are pinned only at `xl`. Below that `w-auto` keeps the
+            lockup's 3.06:1 aspect — pinning `w` against a `h` it no longer
+            matches is what flattened the crest into an oval when the asset
+            was swapped from the 85 × 59 mark to this one. */}
         <Link
           to="/"
           className="shrink-0"
@@ -58,22 +69,28 @@ function Navbar() {
           <img
             src={logoCrest}
             alt="Stephen's Table"
-            className="h-[44px] w-auto md:h-[52px] xl:h-[59px] xl:w-[85px]"
+            className="h-[40px] w-auto md:h-[44px] xl:h-[50px] xl:w-[153px]"
           />
         </Link>
 
-        {/* Desktop nav (≥1024). 799:2936 sets a literal 208px gap between the
-            mark and the link row, putting "About us" at x=374; the remaining
-            slack then falls between "Contact" and Donate, so the links sit
-            near the centre of the bar and the button alone is pinned to the
-            right gutter — they are not one right-hugging group.
-            The 208 is `2xl:` because it does not fit below the design width:
-            at 1280 the bar has 1119 to spend against 208 + 665 + 155 + 180 +
-            85 = 1293. Between 1024 and 1439 the `ml-auto` pair splits the
-            slack instead, which keeps the row centred as it narrows.
+        {/* Desktop nav (≥1024). 830:89 is `flex-[1_0_0] justify-center`: the
+            link row takes whatever the lockup and the button leave and
+            centres its content inside it, so the two slacks come out equal
+            rather than being authored. At 1440 that is
+            1296 − 152.946 − 180 = 963.054 for the row, and centring its
+            665-wide content in it puts "About us" at
+            72 + 152.946 + 149.027 = 373.97 — the frame's x to the pixel.
+            This replaces the `2xl:ml-[208px]` / `2xl:ml-[155px]` pair the
+            old 85px mark needed. Those were literal frame coordinates that
+            only added up at exactly 1440 and had to be held at `2xl`;
+            `flex-1` reproduces them there and keeps the row centred as the
+            bar narrows, so it needs no breakpoint of its own.
+            `min-w-0` because a flex item defaults to `min-width: auto` — with
+            `whitespace-nowrap` labels the row would refuse to shrink and push
+            the button off the gutter instead of overflowing visibly.
             `whitespace-nowrap` stops a squeezed row from breaking a label in
             half ("About / Us") before the hamburger tier takes over. */}
-        <div className="hidden items-center gap-5 lg:ml-auto lg:flex xl:gap-[41px] 2xl:ml-[208px]">
+        <div className="hidden items-center gap-5 lg:flex lg:min-w-0 lg:flex-1 lg:justify-center xl:gap-[41px]">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -89,13 +106,12 @@ function Navbar() {
           ))}
         </div>
 
-        {/* 799:3008 is a 1000px frame holding a 779-wide link row (the labels
-            themselves only measure 665) + a 41 gap + the 180 button, so the
-            gap that actually renders between "Contact" and Donate is 155.
-            Fixed at 2xl so the whole bar lands on its frame coordinates
-            (85 + 208 + 665 + 155 + 180 = 1293 inside 81/66 gutters); below
-            that the `ml-auto` shares the slack with the link row. */}
-        <div className="ml-auto hidden lg:block 2xl:ml-[155px]">
+        {/* 830:95 is the 180 × 37 pill on the right gutter, ending at
+            1368 = 1440 − 72. It needs no margin of its own now that the link
+            row above is `flex-1` — that absorbs the slack and leaves the
+            button hugging the gutter at every width. `shrink-0` keeps it at
+            its designed 180 rather than letting the row squeeze it. */}
+        <div className="hidden shrink-0 lg:block">
           <Button as={Link} to="/donation" variant="donate-nav">
             Donate Now
           </Button>
