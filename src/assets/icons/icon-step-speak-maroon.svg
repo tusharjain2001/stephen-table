@@ -1,7 +1,15 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="30.0625" height="31.6043" viewBox="0 0 30.0625 31.6043" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Re-seated in the 37x37 box StepCard renders every step icon at.
+     830:7793/7800/7810/7820 are 37/30/30/32 frames whose ink measures
+     29x27 / 26x26 / 26x27 / 24x30, but this export is cropped to its own
+     ink, so at size-[37px] it drew ~34x34 against the frame's 26x27.
+     Scaling here rather than in StepCard keeps the four titles on one
+     baseline (Figma's own frames would stagger them by up to 7px). -->
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(5.985 5.34) scale(0.8328)">
 <g id="Group">
 <path id="Vector" d="M11.9479 13.4898C15.3537 13.4898 18.1146 10.7288 18.1146 7.32309C18.1146 3.91734 15.3537 1.15642 11.9479 1.15642C8.54216 1.15642 5.78125 3.91734 5.78125 7.32309C5.78125 10.7288 8.54216 13.4898 11.9479 13.4898Z" stroke="#660000" stroke-width="2.3125"/>
 <path id="Vector_2" d="M11.9479 30.4481C17.908 30.4481 22.7396 27.6872 22.7396 24.2814C22.7396 20.8757 17.908 18.1148 11.9479 18.1148C5.98784 18.1148 1.15625 20.8757 1.15625 24.2814C1.15625 27.6872 5.98784 30.4481 11.9479 30.4481Z" stroke="#660000" stroke-width="2.3125"/>
 <path id="Vector_3" d="M25.8229 1.15642C25.8229 1.15642 28.9063 3.00642 28.9063 7.32309C28.9063 11.6398 25.8229 13.4898 25.8229 13.4898M22.7396 4.23976C22.7396 4.23976 24.2813 5.16476 24.2813 7.32309C24.2813 9.48142 22.7396 10.4064 22.7396 10.4064" stroke="#660000" stroke-width="2.3125" stroke-linecap="round"/>
+</g>
 </g>
 </svg>
