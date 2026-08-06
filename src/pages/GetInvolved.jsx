@@ -76,6 +76,8 @@ const DONATE_TILES = [
   },
   {
     icon: iconClothes,
+    // 830:10113 draws this one glyph larger than its neighbours' 34.315.
+    iconSize: 36.552,
     bgClassName: 'bg-bl-100',
     title: 'In-Kind Donations',
     body: 'Donate essential items such as clothing, hygiene supplies, or other requested resources.',
@@ -138,7 +140,11 @@ function VolunteerCard({ icon, title, body, items, dark = false, tickIcon, font 
 
 function DonateTile({ icon, iconSize = 34, bgClassName, title, body }) {
   return (
-    <div className={`flex h-full w-full min-h-[220px] flex-col gap-8 rounded-[11.9px] px-6 py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px] ${bgClassName}`}>
+    // Base comes from 830:10094/10102/10110/10118: the tile is the desktop
+    // one's full 263.427 tall on a 34.443 x 30.31 inset with the same 47.742
+    // icon->copy gap, not the 220 / 24 / 28 / 32 it had been shrunk to. `md:`
+    // restores every one of those, so >=768 is untouched.
+    <div className={`flex h-full w-full min-h-[263.427px] flex-col gap-[47.742px] rounded-[11.9px] px-[34.443px] py-[30.31px] md:min-h-[220px] md:gap-8 md:px-6 md:py-7 xl:px-[29px] xl:py-[30px] 2xl:h-[263.4px] 2xl:w-[312.6px] 2xl:gap-[47.7px] ${bgClassName}`}>
       <img src={icon} alt="" className="size-[var(--tile-icon-size)]" style={{ '--tile-icon-size': `${iconSize}px` }} aria-hidden="true" />
       <div className="flex flex-col gap-[9px]">
         <h3 className="font-sans text-[20px] font-medium leading-[30px] text-bl-800">{title}</h3>
