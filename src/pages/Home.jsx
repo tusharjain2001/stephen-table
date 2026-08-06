@@ -156,13 +156,24 @@ function GetInvolvedCard({ icon, iconSize = 46, title, body, bg, textWidth, offs
       }`}
       style={{ '--card-offset-l': `${offsetLeft}px`, '--card-offset-t': `${offsetTop}px` }}
     >
-      <img src={icon} alt="" style={{ width: iconSize, height: iconSize }} />
+      {/* 830:11470/11478/11486 draw all three mobile icons at a flat 30, where
+          desktop keeps the per-card 46/49/46. The size used to be an inline
+          style, which cannot carry a breakpoint — it is a variable now so base
+          can pin 30 and `md` up restores the desktop value untouched. */}
+      <img
+        src={icon}
+        alt=""
+        className="size-[30px] md:size-[var(--card-icon-size)]"
+        style={{ '--card-icon-size': `${iconSize}px` }}
+      />
       <div
         className="flex w-full min-w-0 max-w-full flex-col gap-[12px] xl:max-w-[var(--card-text-w)] 2xl:w-[var(--card-text-w)]"
         style={{ '--card-text-w': `${textWidth}px` }}
       >
         <h3
-          className={`font-sans text-[28px] font-medium ${isDark ? 'text-white' : 'text-m-600'} md:text-[26px] xl:text-[24px]`}
+          // 830:11473 is DM Sans Medium 24, not the 28 base carried before —
+          // `md`/`xl` keep the 26/24 the desktop frames ask for.
+          className={`font-sans text-[24px] font-medium ${isDark ? 'text-white' : 'text-m-600'} md:text-[26px] xl:text-[24px]`}
         >
           {title}
         </h3>
