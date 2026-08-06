@@ -385,7 +385,14 @@ function Services() {
       </section>
 
       {/* Practical Home Support */}
-      <section className="w-full bg-gradient-to-b from-cream to-[#e6ecf2] py-[60px] md:py-14 xl:py-[106px]">
+      {/* The three service bands are deep-link targets for Home's "How we help"
+          cards (both the Learn More CTA and the card's arrow badge). `scroll-mt`
+          clears the 72px sticky navbar, which would otherwise cover the top of
+          the band that ScrollToTop just scrolled to. */}
+      <section
+        id="practical-home-support"
+        className="w-full scroll-mt-[72px] bg-gradient-to-b from-cream to-[#e6ecf2] py-[60px] md:py-14 xl:py-[106px]"
+      >
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[48px] md:gap-10 xl:gap-[76px]">
           <SectionHeader
             align="between"
@@ -404,7 +411,7 @@ function Services() {
       </section>
 
       {/* Fellowship */}
-      <section className="w-full py-[60px] md:py-14 xl:py-[110.286px]">
+      <section id="fellowship" className="w-full scroll-mt-[72px] py-[60px] md:py-14 xl:py-[110.286px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"
@@ -423,7 +430,10 @@ function Services() {
       </section>
 
       {/* Community Connections */}
-      <section className="w-full bg-bl-50 py-[60px] md:py-14 xl:py-[102.5625px]">
+      <section
+        id="community-connections"
+        className="w-full scroll-mt-[72px] bg-bl-50 py-[60px] md:py-14 xl:py-[102.5625px]"
+      >
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
           <SectionHeader
             align="between"

@@ -82,14 +82,26 @@ function StoryCard({
             className="h-[322px] w-full rounded-t-[15.2px] object-cover sm:h-[320px] md:rounded-t-[17.2px] 2xl:h-[364.7px]"
           />
         )}
-        {showArrowBadge && (
-          <img
-            src={iconArrowBadge}
-            alt=""
-            aria-hidden="true"
-            className="absolute right-[19.6px] top-[18.6px] size-[31.8px] md:right-[21px] md:top-[21px] md:size-[36px]"
-          />
-        )}
+        {showArrowBadge &&
+          // The badge reads as an affordance, so when the card has a target it
+          // is the same link as the CTA rather than decoration. Without a
+          // `ctaHref` it stays a plain aria-hidden image.
+          (ctaHref ? (
+            <Link
+              to={ctaHref}
+              aria-label={title ? `${title} — learn more` : 'learn more'}
+              className="absolute right-[19.6px] top-[18.6px] size-[31.8px] md:right-[21px] md:top-[21px] md:size-[36px]"
+            >
+              <img src={iconArrowBadge} alt="" aria-hidden="true" className="size-full" />
+            </Link>
+          ) : (
+            <img
+              src={iconArrowBadge}
+              alt=""
+              aria-hidden="true"
+              className="absolute right-[19.6px] top-[18.6px] size-[31.8px] md:right-[21px] md:top-[21px] md:size-[36px]"
+            />
+          ))}
       </div>
 
       {/* Figma 377:3065 stacks title (y17.2) → body (y64.2) → CTA (y143.2)

@@ -382,7 +382,7 @@ function Home() {
               image={cardPractical}
               title="Practical home support"
               body="Helping seniors remain safe and independent with home assistance, transportation, and minor household support."
-              ctaHref="/services"
+              ctaHref="/services#practical-home-support"
               showArrowBadge
               titleClassName="capitalize text-black"
               bodyClassName="text-gray-59 md:text-black"
@@ -391,7 +391,7 @@ function Home() {
               image={cardFellowship}
               title="Fellowship"
               body="Building meaningful relationships through companionship, shared activities, and a welcoming community."
-              ctaHref="/services"
+              ctaHref="/services#fellowship"
               showArrowBadge
               titleClassName="capitalize text-black"
               bodyClassName="text-gray-59 md:text-black"
@@ -400,7 +400,7 @@ function Home() {
               image={cardCommunity}
               title="Community Connections"
               body="Connecting seniors with trusted local resources, essential services, and community programs that enhance their well-being."
-              ctaHref="/services"
+              ctaHref="/services#community-connections"
               showArrowBadge
               titleClassName="capitalize text-black"
               bodyClassName="text-gray-59 md:text-black"
