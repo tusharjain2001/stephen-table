@@ -96,32 +96,38 @@ function VolunteerCard({ icon, title, body, items, dark = false, tickIcon, font 
     // substitutes for a CSS border); the Corporate card gets a light red
     // tint with an inset maroon-tinted ring, its text unchanged.
     <div
-      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card p-6 sm:p-8 xl:p-[50px] ${
+      className={`flex w-full flex-1 flex-col gap-[25px] rounded-card px-[16px] py-[40px] sm:p-8 xl:p-[50px] ${
         dark ? 'bg-m-700 shadow-[inset_0_0_0_1px_#ffffff]' : 'bg-[#fff1ed] shadow-[inset_0_0_0_1px_rgba(115,0,0,0.19)]'
       }`}
     >
       {/* The corporate card is Neulis Sans, which falls back to Poppins
           (~1.5 leading vs Neulis' ~1.32) and ran the card 40px tall. Pin the
           line boxes to Figma's: title 37 (31 from md — 367:1472 / 367:1496
-          dropped 28 -> 24 in the redraw, and the mobile frame was not
-          re-fetched), body/items 26, label 21. DM Sans already lands on
-          these, so both cards can share them. */}
+          dropped 28 -> 24 in the redraw), body/items 26, label 21. DM Sans
+          already lands on these, so both cards can share them.
+
+          Base (<768) is 830:9989's own scale, which is a long way below the
+          desktop one and had never been fetched: icon 30, title 20/26, body
+          14/18, the OPPORTUNITIES label 14/18 and the list items 12/16. Every
+          one of those carries an `md:` twin restoring the desktop value, so
+          >=768 is byte-identical. The 16/25/15/7/6 gaps and the 16px tick
+          already matched the frame and are shared. */}
       <div className="flex flex-col gap-[16px]">
-        <img src={icon} alt="" className="size-[37px]" aria-hidden="true" />
+        <img src={icon} alt="" className="size-[30px] md:size-[37px]" aria-hidden="true" />
         <h3
-          className={`capitalize ${font} text-[28px] font-medium leading-[37px] md:text-[24px] md:leading-[31px] ${dark ? 'text-white' : 'text-bl-800'}`}
+          className={`capitalize ${font} text-[20px] font-medium leading-[26px] md:text-[24px] md:leading-[31px] ${dark ? 'text-white' : 'text-bl-800'}`}
         >
           {title}
         </h3>
-        <p className={`${font} text-[20px] leading-[26px] ${dark ? 'text-white' : 'text-gray-59'}`}>{body}</p>
+        <p className={`${font} text-[14px] leading-[18px] md:text-[20px] md:leading-[26px] ${dark ? 'text-white' : 'text-gray-59'}`}>{body}</p>
       </div>
       <div className="flex flex-col gap-[15px]">
-        <p className={`${font} text-[16px] font-medium uppercase leading-[21px] ${dark ? 'text-white' : 'text-bl-600'}`}>Opportunities:</p>
+        <p className={`${font} text-[14px] font-medium uppercase leading-[18px] md:text-[16px] md:leading-[21px] ${dark ? 'text-white' : 'text-bl-600'}`}>Opportunities:</p>
         <div className="flex flex-col gap-[7px]">
           {items.map((item) => (
             <div key={item} className="flex items-center gap-[6px]">
               <img src={tickIcon} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
-              <p className={`capitalize ${font} text-[20px] leading-[26px] ${dark ? 'text-white' : 'text-bl-600'}`}>{item}</p>
+              <p className={`capitalize ${font} text-[12px] leading-[16px] md:text-[20px] md:leading-[26px] ${dark ? 'text-white' : 'text-bl-600'}`}>{item}</p>
             </div>
           ))}
         </div>
@@ -191,7 +197,9 @@ function GetInvolved() {
           62 below the header, then 44 above the sign-up banner, then 18
           between the two card rows. */}
       <section className="w-full bg-gradient-to-b from-[#fffcf6] to-wb-100 py-14 xl:h-[2019px] xl:py-0">
-        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-8 xl:gap-[62px]">
+        {/* Base gaps come from 830:9983: header block ends at 181 and the card
+            stack starts at 221, i.e. 40 (was 32). */}
+        <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-[40px] md:gap-8 xl:gap-[62px]">
           {/* 367:1602 is an explicit h-62 box; chip 47 / 20px lede 52 would
               otherwise hug to 52 and slide the whole stack 5px. */}
           <SectionHeader
@@ -202,34 +210,43 @@ function GetInvolved() {
           />
 
           <div className="flex w-full flex-col items-center gap-8 xl:gap-[44px]">
-          <div className="flex w-full flex-col gap-5 px-6 md:px-10 xl:gap-[18px] xl:px-[72px]">
+          {/* 830:9988 sits the cards on the frame's own 16px gutter — the same
+              one `SectionHeader` already uses at base, so the chip and the card
+              edges finally line up (they were 16 vs 24) — and spaces all three
+              24 apart. */}
+          <div className="flex w-full flex-col gap-[24px] px-[16px] md:gap-5 md:px-10 xl:gap-[18px] xl:px-[72px]">
             {/* 367:1552 is 503 tall where the taller of the two cards only
                 needs 497 — the individual card carries the slack in Figma
                 (50 top / 89 bottom) rather than both hugging. Pinned, because
                 the 6px propagates: the section is a fixed 2019 box with its
                 content centred, so a short row slides the partner card and
                 the sign-up banner 3px off their frames. */}
-            <div className="flex flex-col gap-5 md:flex-row xl:gap-[20px] 2xl:h-[503px]">
+            <div className="flex flex-col gap-[24px] md:flex-row md:gap-5 xl:gap-[20px] 2xl:h-[503px]">
               {VOLUNTEER_CARDS.map((card) => (
                 <VolunteerCard key={card.title} {...card} />
               ))}
             </div>
 
-            <div className="flex flex-col gap-[25px] rounded-card bg-[#fff1ed] shadow-[inset_0_0_0_1px_rgba(115,0,0,0.19)] p-6 sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
+            {/* 830:10045 draws this card on the same mobile scale as the two
+                above it — icon 30, title 20/26, body 14/18, label 14/18, items
+                12/16 inside 16 x 40 of padding — so the base tier matches
+                `VolunteerCard`'s and every value carries an `md:` twin holding
+                the desktop card exactly as it was. */}
+            <div className="flex flex-col gap-[25px] rounded-card bg-[#fff1ed] shadow-[inset_0_0_0_1px_rgba(115,0,0,0.19)] px-[16px] py-[40px] sm:p-8 xl:py-[50px] xl:pl-[50px] xl:pr-[103px]">
               <div className="flex flex-col gap-[16px]">
-                <img src={iconHandshake} alt="" className="size-[37px]" aria-hidden="true" />
-                <h3 className="capitalize font-sans text-[24px] font-medium text-bl-800 md:leading-[31px]">
+                <img src={iconHandshake} alt="" className="size-[30px] md:size-[37px]" aria-hidden="true" />
+                <h3 className="capitalize font-sans text-[20px] font-medium leading-[26px] text-bl-800 md:text-[24px] md:leading-[31px]">
                   corporate partnership
                 </h3>
                 {/* Figma 367:1525 holds this to 847px inside the 1143px
                     content box, so it breaks to two lines (h=52). */}
-                <p className="font-sans text-[18px] text-gray-59 xl:w-[847px] xl:text-[20px] xl:leading-[26px]">
+                <p className="font-sans text-[14px] leading-[18px] text-gray-59 md:text-[18px] md:leading-normal xl:w-[847px] xl:text-[20px] xl:leading-[26px]">
                   Partner with Stephen&apos;s Table Colorado to create lasting impact through
                   sponsorships, volunteer initiatives, and community programs.
                 </p>
               </div>
               <div className="flex flex-col gap-[15px]">
-                <p className="font-sans text-[16px] font-medium uppercase leading-[21px] text-bl-600">
+                <p className="font-sans text-[14px] font-medium uppercase leading-[18px] text-bl-600 md:text-[16px] md:leading-[21px]">
                   Ways to Partner:
                 </p>
                 {/* Figma 658:3321 ticks each item, same as the two cards
@@ -238,7 +255,7 @@ function GetInvolved() {
                   {PARTNER_ITEMS.map((item) => (
                     <div key={item} className="flex items-center gap-[6px]">
                       <img src={iconTickNavy} alt="" className="size-[16px] shrink-0" aria-hidden="true" />
-                      <p className="capitalize font-sans text-[20px] leading-[26px] text-bl-600">{item}</p>
+                      <p className="capitalize font-sans text-[12px] leading-[16px] text-bl-600 md:text-[20px] md:leading-[26px]">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -246,7 +263,9 @@ function GetInvolved() {
             </div>
           </div>
 
-          <div className="relative h-[360px] w-[calc(100%-48px)] overflow-hidden rounded-card sm:h-[440px] sm:w-[calc(100%-64px)] md:w-[calc(100%-80px)] xl:h-[569px] xl:w-[calc(100%-144px)] 2xl:w-[1296px]">
+          {/* Base gutter follows the cards above it (16, not 24) so the banner
+              lines up with them and with the section header. */}
+          <div className="relative h-[360px] w-[calc(100%-32px)] overflow-hidden rounded-card sm:h-[440px] sm:w-[calc(100%-64px)] md:w-[calc(100%-80px)] xl:h-[569px] xl:w-[calc(100%-144px)] 2xl:w-[1296px]">
             <img src={signupBanner} alt="" className="absolute inset-0 h-full w-full object-cover" />
             <div
               className="absolute inset-0"
