@@ -5,9 +5,15 @@
  * Props:
  * - `variant` — `'beige'` (default) | `'blue'` | `'onBrown'` | `'green-tint'` |
  *               `'green-solid'` (the latter two added for the home redesign,
- *               plan §3.4) | `'green-67'` | `'green-34'` | `'green-borderless'` |
+ *               plan §3.4) | `'green-67'` | `'green-34'` |
  *               `'beige-warm'` (added for the maroon rollout to About/
  *               Services/Nominate/Get Involved/Impact/Blog)
+ *
+ *   `'green-borderless'` (same #e9efe8 fill with the border matched to it)
+ *   is gone: its only caller was Services' "Practical home support" header,
+ *   which reads as a missing border next to the bl-300 stroke every other
+ *   chip on that page carries. It now uses `green-solid` — identical fill,
+ *   visible border.
  * - `className` — extra classes
  * - `children` — chip label text
  */
@@ -20,7 +26,6 @@ const VARIANTS = {
   'green-solid': 'border-bl-300 text-black bg-[#e9efe8]',
   'green-67': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.67)]',
   'green-34': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.34)]',
-  'green-borderless': 'border-[#e9efe8] text-bl-900 bg-[#e9efe8]',
   'beige-warm': 'border-wb-400 text-bl-900 bg-[rgba(232,220,198,0.2)]',
 };
 

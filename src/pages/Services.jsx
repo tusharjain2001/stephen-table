@@ -397,7 +397,7 @@ function Services() {
           <SectionHeader
             align="between"
             ledeSize={20}
-            chipVariant="green-borderless"
+            chipVariant="green-solid"
             chipLabel="Practical home support"
             lede="Supporting seniors and their families with practical care, community connections, and compassionate assistance."
             actions={<ServiceActions />}
