@@ -5,15 +5,17 @@
  * Props:
  * - `variant` — `'beige'` (default) | `'blue'` | `'onBrown'` | `'green-tint'` |
  *               `'green-solid'` (the latter two added for the home redesign,
- *               plan §3.4) | `'green-67'` | `'green-34'` |
- *               `'beige-warm'` (added for the maroon rollout to About/
- *               Services/Nominate/Get Involved/Impact/Blog)
+ *               plan §3.4) | `'green-67'` | `'green-34'`
  *
- *   `'green-borderless'` (same #e9efe8 fill with the border matched to it)
- *   is gone: its only caller was Services' "Practical home support" header,
- *   which reads as a missing border next to the bl-300 stroke every other
- *   chip on that page carries. It now uses `green-solid` — identical fill,
- *   visible border.
+ *   Two variants are gone, each after losing its only caller — every chip on
+ *   the site is now on the bl-300 (or bl-500) blue stroke:
+ *   - `'green-borderless'` matched its border to its own #e9efe8 fill, which
+ *     read as a missing border on Services' "Practical home support" header
+ *     next to the three bordered chips around it. Now `green-solid` — same
+ *     fill, visible stroke.
+ *   - `'beige-warm'` was the maroon rollout's wb-400 stroke on a warm fill,
+ *     left on Nominate's "how it works". That is the same four-step band
+ *     Services draws with `green-67`, which it now uses too.
  * - `className` — extra classes
  * - `children` — chip label text
  */
@@ -26,7 +28,6 @@ const VARIANTS = {
   'green-solid': 'border-bl-300 text-black bg-[#e9efe8]',
   'green-67': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.67)]',
   'green-34': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.34)]',
-  'beige-warm': 'border-wb-400 text-bl-900 bg-[rgba(232,220,198,0.2)]',
 };
 
 function SectionChip({ variant = 'beige', className = '', children }) {
