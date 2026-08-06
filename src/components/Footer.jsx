@@ -87,10 +87,12 @@ function Footer() {
           part of a bottom bar with it. */}
       <div className="flex flex-col items-center px-[16px] py-[60px] md:hidden">
         <div className="flex w-full max-w-[370px] flex-col gap-[21px]">
-          {/* 803:8997 is 348 wide inside the 370 — the hug width of the
-              column row below — so the content stops 22 short of the rule and
-              legal row, which run the full 370. */}
-          <div className="flex w-full max-w-[348px] flex-col gap-[28px]">
+          {/* 862:1236 is 348 wide inside the 370 — the hug width of the column
+              row below — and sits at **x=11**, i.e. centred, so it stops 11
+              short of the rule and legal row on *both* sides. 803:8997 had it
+              left-aligned at x=0, which put all 22 of the slack on the right
+              and read as a lopsided block. Hence `self-center`. */}
+          <div className="flex w-full max-w-[348px] flex-col gap-[28px] self-center">
             {/* 1. Logo + contact info + mini-divider + address */}
             <div className="flex w-full flex-col items-start gap-[22.159px]">
               {/* 803:8919 is 102.361 × 70 — the same crest scaled down. Width
