@@ -212,11 +212,13 @@ function Nominate() {
                 849 (48 + 640 + 68 + 46 + 47). */}
             <div className="flex flex-col gap-[36px] xl:gap-[51px]">
             <div className="flex flex-col gap-[11px]">
-              {/* Figma 381:5703 h=31 — DM Sans Medium 24 */}
-              <h2 className="capitalize font-sans text-[24px] font-medium text-bl-600">
+              {/* Figma 381:5703 h=31 — DM Sans Medium 24. Base runs the pair
+                  at 20 / 16 so the card header sits a step above the 14px
+                  fields under it rather than two. */}
+              <h2 className="capitalize font-sans text-[20px] font-medium text-bl-600 md:text-[24px]">
                 Complete the form to nominate a senior
               </h2>
-              <p className="font-sans text-[18px] text-gray-9c xl:text-[20px] 2xl:w-full">
+              <p className="font-sans text-[16px] text-gray-9c md:text-[18px] xl:text-[20px] 2xl:w-full">
                 If you are aware of a senior who needs help,
                 <br className="hidden md:inline" /> please provide their details below and our team
                 will contact them.
@@ -362,8 +364,11 @@ function Nominate() {
               </div>
             )}
 
-                {/* Figma 381:5723 h=21 */}
-                <p className="font-sans text-[17px] leading-[21px] text-error">
+                {/* Figma 381:5723 h=21. Base drops to 14 — the same size the
+                    fields themselves use below 768 (`FormField`'s own
+                    `text-[14px]`) — so the note no longer reads larger than
+                    the form it annotates. */}
+                <p className="font-sans text-[14px] leading-[18px] text-error md:text-[17px] md:leading-[21px]">
                   Fields marked * are mandatory
                 </p>
               </div>
@@ -378,7 +383,12 @@ function Nominate() {
                   // inside on both axes, so neither the height nor the width
                   // may be built out of padding + border — `px-[32px]` drew it
                   // 144.58. Pinned like `learn-more` and `outline-soft` are.
-                  className="flex h-[46px] items-center justify-center rounded-btn border-2 border-[#709585] px-[32px] font-sans text-[20px] font-semibold text-black 2xl:w-[134.145px] 2xl:px-0"
+                  //
+                  // Base (<768) is 830:10524, a much smaller 85 x 24 pill: a
+                  // 12px label on a 16 box inside 20 x 4. Height is pinned for
+                  // the same stroke-inside reason, and the 1px border keeps
+                  // the 2px one from eating 4 of the 24.
+                  className="flex h-[24px] items-center justify-center rounded-btn border border-[#709585] px-[20px] font-sans text-[12px] font-semibold text-black md:h-[46px] md:border-2 md:px-[32px] md:text-[20px] 2xl:w-[134.145px] 2xl:px-0"
                 >
                   Step 1/2
                 </button>
