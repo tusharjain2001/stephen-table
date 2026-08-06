@@ -68,10 +68,16 @@ const VARIANTS = {
   // are the only callers and all three frames now agree, and a `md:` override
   // in a className would tie with the variant's own `md:` rule on
   // specificity. Base (<768) keeps its own mobile-frame sizing.
+  // Base (<768): 830:12453/12455 are both a flat 370 x 34 on an 8px gap, and
+  // the stroke on the outlined one is inside that 34. It had been padded to
+  // 34.23 and pinned to **47** respectively, so the row rendered as two
+  // different-sized pills — the same stroke-inside trap the hero pair and the
+  // mobile GET HELP / DONATE row already hit. Both pin 34 now; `md:h-auto`
+  // hands `fill-soft` back to its padding so >=768 is byte-identical.
   'fill-soft':
-    'w-full rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:w-fit md:text-[20px]',
+    'h-[34px] w-full rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:h-auto md:w-fit md:text-[20px]',
   'outline-soft':
-    'h-[47px] w-full rounded-btn border border-[#8db2a1] bg-transparent px-[32px] font-sans text-[14px] font-semibold capitalize tracking-[0.7px] text-navy md:h-[42px] md:w-fit md:border-2 md:text-[20px] md:tracking-[1px]',
+    'h-[34px] w-full rounded-btn border border-[#8db2a1] bg-transparent px-[32px] font-sans text-[14px] font-semibold capitalize tracking-[0.7px] text-navy md:h-[42px] md:w-fit md:border-2 md:text-[20px] md:tracking-[1px]',
 };
 
 function Button({

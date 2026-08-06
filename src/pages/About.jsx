@@ -182,9 +182,12 @@ function About() {
             {/* Figma 342:828 sets 16px on a normal (21px) leading and
                 separates paragraphs with a single blank line, i.e. one more
                 21px line — not an arbitrary gap. 13 line boxes x 21 = its
-                273px height. Mobile frame drops the justify (md:text-justify)
-                and keeps the body at 20px. */}
-            <div className="flex flex-col gap-[20px] font-neulis text-[20px] text-gray-59 md:text-justify md:text-[18px] lg:w-[824px] xl:w-auto xl:min-w-0 xl:flex-1 xl:gap-[21px] xl:text-[16px] xl:leading-[21px]">
+                273px height. Mobile frame drops the justify
+                (md:text-justify). */}
+            {/* Base is 16 rather than the frame's 20: at 20 the six paragraphs
+                run most of a phone screen each and the section reads as a wall
+                of text. `md:` (18) and `xl:` (16) are untouched. */}
+            <div className="flex flex-col gap-[20px] font-neulis text-[16px] text-gray-59 md:text-justify md:text-[18px] lg:w-[824px] xl:w-auto xl:min-w-0 xl:flex-1 xl:gap-[21px] xl:text-[16px] xl:leading-[21px]">
               {STORY_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
