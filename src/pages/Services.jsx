@@ -178,7 +178,12 @@ function ServiceActions() {
     // Mobile frame (662:10555) stacks these full-width with an 8px gap;
     // md: restores the original wrapping row untouched.
     <div className="flex w-full flex-col gap-[8px] md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-[16px] xl:gap-[22px]">
-      <Button variant="fill-soft" className="shrink-0 whitespace-nowrap">
+      <Button
+        as={Link}
+        to="/contact"
+        variant="fill-soft"
+        className="shrink-0 whitespace-nowrap"
+      >
         REQUEST ASSISTANCE
       </Button>
       <Button
