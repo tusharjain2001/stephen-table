@@ -147,11 +147,27 @@ function BlogDetail() {
             <img src={blogGallery3} alt="" className="h-[315px] w-[348px] rounded-card object-cover" />
           </div>
 
-          {/* <2xl: simple responsive grid, 1-col base up to a 3-col row at sm+ */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 2xl:hidden">
-            <img src={blogGallery1} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
-            <img src={blogGallery2} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
-            <img src={blogGallery3} alt="" className="h-[240px] w-full rounded-card object-cover sm:h-[280px]" />
+          {/* Base (<640): a swipeable row rather than three stacked tiles.
+              Scroll-snap does the whole job in CSS — no carousel library and
+              no JS timer — so it keeps native momentum scrolling, the
+              trackpad/keyboard and screen readers all working.
+
+              `-mx-6 px-6` cancels the section's gutter on the scroller and
+              re-applies it as padding, so the strip scrolls edge to edge while
+              the first and last tiles still line up with the copy above. Tiles
+              are 85% wide, which leaves the next one peeking — the cue that
+              there is more to swipe to.
+
+              `sm:` up is the original 3-col grid, untouched. */}
+          <div
+            role="region"
+            aria-label="Article gallery"
+            tabIndex={0}
+            className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 2xl:hidden"
+          >
+            <img src={blogGallery1} alt="" className="h-[240px] w-[85%] shrink-0 snap-center rounded-card object-cover sm:h-[280px] sm:w-full sm:shrink" />
+            <img src={blogGallery2} alt="" className="h-[240px] w-[85%] shrink-0 snap-center rounded-card object-cover sm:h-[280px] sm:w-full sm:shrink" />
+            <img src={blogGallery3} alt="" className="h-[240px] w-[85%] shrink-0 snap-center rounded-card object-cover sm:h-[280px] sm:w-full sm:shrink" />
           </div>
         </div>
       </section>
