@@ -133,10 +133,41 @@ function Donation() {
                 44 from the card's left edge (43 inside the stroke) and the
                 impact copy 87 past the divider — but from `md` up both columns
                 are centred instead, so the body rows line up under the two
-                centred header labels. Base keeps the left hug; the 803:6011
-                mobile section has no Donate frame to check against. */}
+                centred header labels.
+
+                Base (<768) is not a table at all. 830:11974 stacks each tier
+                as a card: one 68px header bar reading "Donation Amount &
+                Impact", then rows of a centred 46px amount over a 344-wide
+                impact block, 12 in from the sides. Two columns inside 370
+                would put the impact copy on a ~230px measure and run every
+                row four lines deep. */}
             <div className="w-full max-w-[1076px] overflow-hidden rounded-card border border-bl-600">
-              <table className="w-full table-fixed border-separate border-spacing-0 text-left">
+              {/* 830:11975 — 370 x 68, its 263 x 26 label centred on both axes. */}
+              <div className="flex h-[68px] items-center justify-center bg-[#e8eaef] px-[16px] text-center font-sans text-[20px] font-semibold capitalize text-bl-600 md:hidden">
+                Donation Amount &amp; Impact
+              </div>
+              {/* Rows are 12 / 46 / block / 13 tall, which is what makes them
+                  133 (154 where the impact copy runs to three lines, as $100's
+                  830:11998 does). The impact block carries its own 10 of
+                  padding inside a 12px side margin — 12 + 10 + 324 + 10 + 12 =
+                  the frame's 368. */}
+              {TIERS.map((tier, index) => (
+                <div
+                  key={tier.amount}
+                  className={`flex flex-col pt-[12px] pb-[13px] md:hidden ${
+                    index > 0 ? 'border-t border-bl-600' : ''
+                  }`}
+                >
+                  <span className="flex h-[46px] items-center justify-center font-sans text-[20px] font-medium capitalize text-bl-600">
+                    {tier.amount}
+                  </span>
+                  <p className="mx-[12px] px-[10px] py-[10px] text-center font-sans text-[16px] font-medium capitalize leading-[21px] text-bl-600">
+                    {tier.impact}
+                  </p>
+                </div>
+              ))}
+
+              <table className="hidden w-full table-fixed border-separate border-spacing-0 text-left md:table">
                 <colgroup>
                   <col className="w-[30.54%]" />
                   <col />
