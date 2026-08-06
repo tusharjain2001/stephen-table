@@ -12,6 +12,13 @@ const NAV_LINKS = [
   { label: 'Contact', to: '/contact' },
 ];
 
+// The <768 dropdown leads with Home. On the desktop bar the logo lockup is
+// always visible and is itself the link to `/`, so the frame's five links are
+// enough there; inside a closed hamburger nothing points home but a logo the
+// panel covers. Kept as its own list so the desktop row stays exactly the five
+// 830:89 draws. (The 768–1023 tablet menu still uses NAV_LINKS.)
+const MOBILE_NAV_LINKS = [{ label: 'Home', to: '/' }, ...NAV_LINKS];
+
 /**
  * Site navbar. Figma defines the ≥1280 desktop layout (Implementation Plan
  * §3.1 "Navbar") and, as of the mobile pass, the 402px mobile dropdown menu
@@ -219,10 +226,13 @@ function Navbar() {
       >
         <div className="flex w-full flex-col gap-[16px]">
           <div className="flex flex-col">
-            {NAV_LINKS.map((link) => (
+            {MOBILE_NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
+                // `/` is a prefix of every route, so without `end` the Home
+                // row would take the active highlight on all eight pages.
+                end={link.to === '/'}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `whitespace-nowrap rounded-[8px] px-[32px] py-[8px] font-sans text-[24px] font-medium capitalize text-[#38291f] ${
