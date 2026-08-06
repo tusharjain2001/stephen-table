@@ -13,7 +13,7 @@ import ctaBannerImg from '../assets/images/cta-banner.png';
 
 import iconProfileWhite from '../assets/icons/icon-profile-white.svg';
 import iconGroup from '../assets/icons/new-icon-group.svg';
-import iconHandshake from '../assets/icons/icon-handshake.svg';
+import iconHandshake from '../assets/icons/new-icon-handshake.svg';
 import iconTickWhite from '../assets/icons/icon-tick-white.svg';
 import iconTickNavy from '../assets/icons/icon-tick-navy.svg';
 import iconDonate from '../assets/icons/icon-donate.svg';
