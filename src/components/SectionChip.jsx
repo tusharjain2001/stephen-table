@@ -35,8 +35,31 @@ const VARIANTS = {
   'green-34': 'border-bl-300 text-bl-900 bg-[rgba(233,239,232,0.34)]',
 };
 
-function SectionChip({ variant = 'beige', className = '', children }) {
-  const variantClasses = VARIANTS[variant] ?? VARIANTS.beige;
+// The same palettes behind `md:`, used only when a caller passes
+// `mobileVariant`. Spelled out rather than prefixed at runtime: Tailwind
+// generates CSS by scanning source text for whole class names, so a
+// template-built `md:${cls}` compiles to nothing at all.
+const MD_VARIANTS = {
+  beige: 'md:border-bl-300 md:text-bl-900 md:bg-[rgba(229,235,242,0.34)]',
+  blue: 'md:border-bl-500 md:text-bl-500 md:bg-[rgba(255,255,255,0.32)]',
+  onBrown: 'md:border-white md:text-white md:bg-[rgba(255,255,255,0.07)]',
+  'green-tint': 'md:border-bl-300 md:text-bl-900 md:bg-[rgba(182,210,197,0.3)]',
+  'green-solid': 'md:border-bl-300 md:text-black md:bg-[#e9efe8]',
+  'green-67': 'md:border-bl-300 md:text-bl-900 md:bg-[rgba(233,239,232,0.67)]',
+  'green-34': 'md:border-bl-300 md:text-bl-900 md:bg-[rgba(233,239,232,0.34)]',
+};
+
+function SectionChip({ variant = 'beige', mobileVariant, className = '', children }) {
+  const mobile = mobileVariant ? VARIANTS[mobileVariant] : undefined;
+
+  // With `mobileVariant` the base tier takes that palette and the requested
+  // one is re-emitted behind `md:`. Splitting the tiers rather than letting
+  // both palettes sit at base is deliberate: two arbitrary `bg-[...]` values
+  // with equal specificity resolve by Tailwind's own stylesheet order, not by
+  // the order they appear in the class attribute.
+  const variantClasses = mobile
+    ? `${mobile} ${MD_VARIANTS[variant] ?? MD_VARIANTS.beige}`
+    : (VARIANTS[variant] ?? VARIANTS.beige);
 
   return (
     <span

@@ -52,6 +52,9 @@ import SectionChip from './SectionChip.jsx';
 function SectionHeader({
   chipLabel,
   chipVariant = 'beige',
+  // Base-tier-only chip palette; forwarded to SectionChip, which re-emits
+  // `chipVariant` behind `md:`. Omit and the chip is one palette everywhere.
+  mobileChipVariant,
   lede,
   ledeWidth = 857,
   ledeSize = 24,
@@ -70,7 +73,7 @@ function SectionHeader({
       <div
         className={`flex w-full flex-col items-center gap-[16px] px-[16px] text-center md:items-start md:gap-6 md:px-10 md:text-left lg:flex-row lg:justify-between lg:gap-8 xl:px-[72px] ${className}`}
       >
-        <SectionChip variant={chipVariant} className="shrink-0">
+        <SectionChip variant={chipVariant} mobileVariant={mobileChipVariant} className="shrink-0">
           {chipLabel}
         </SectionChip>
         <div

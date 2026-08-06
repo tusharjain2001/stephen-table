@@ -418,10 +418,15 @@ function Services() {
       {/* Fellowship */}
       <section id="fellowship" className="w-full scroll-mt-[72px] py-[60px] md:py-14 xl:py-[110.286px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-[32px] md:gap-10 xl:gap-[96px]">
+          {/* At 402 the 0.34 fill reads as plain white against the band, so the
+              chip loses the green Practical Home Support's has one section up.
+              `mobileChipVariant` gives base the solid #e9efe8; `md:` up keeps
+              the green-34 this section's desktop frame draws. */}
           <SectionHeader
             align="between"
             ledeSize={20}
             chipVariant="green-34"
+            mobileChipVariant="green-solid"
             chipLabel="Fellowship"
             lede="Creating meaningful relationships and fostering a sense of belonging through companionship and engaging social activities."
             actions={<ServiceActions />}
@@ -444,6 +449,9 @@ function Services() {
             align="between"
             ledeSize={20}
             chipVariant="green-34"
+            // Same as Fellowship above — the 0.34 fill disappears at 402, and
+            // here it sits on the bl-50 band, so the chip reads blue-on-blue.
+            mobileChipVariant="green-solid"
             chipLabel="community connections"
             lede="Connecting seniors with trusted community resources, essential services, and programs that support their health, well-being, and independence."
             actions={<ServiceActions />}
