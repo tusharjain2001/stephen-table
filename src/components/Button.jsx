@@ -74,8 +74,11 @@ const VARIANTS = {
   // different-sized pills — the same stroke-inside trap the hero pair and the
   // mobile GET HELP / DONATE row already hit. Both pin 34 now; `md:h-auto`
   // hands `fill-soft` back to its padding so >=768 is byte-identical.
+  // Base side padding is 42 (830:10091 is 178 wide around a 94 label), not 32.
+  // It only shows on a hugging caller — Services' two pills are the frame's
+  // full 370 at base, where the label centres and the padding never binds.
   'fill-soft':
-    'h-[34px] w-full rounded-btn bg-s-200 px-[32px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:h-auto md:w-fit md:text-[20px]',
+    'h-[34px] w-full rounded-btn bg-s-200 px-[42px] py-[8px] font-sans text-[14px] font-semibold capitalize text-navy md:h-auto md:w-fit md:px-[32px] md:text-[20px]',
   'outline-soft':
     'h-[34px] w-full rounded-btn border border-[#8db2a1] bg-transparent px-[32px] font-sans text-[14px] font-semibold capitalize tracking-[0.7px] text-navy md:h-[42px] md:w-fit md:border-2 md:text-[20px] md:tracking-[1px]',
 };

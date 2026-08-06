@@ -308,7 +308,20 @@ function GetInvolved() {
             chipVariant="green-solid"
             chipLabel="donate"
             lede="Your generosity helps us provide practical support, meaningful companionship, and essential community resources for seniors across Northern Colorado."
-            actions={<Button variant="fill-soft" className="w-fit">DONATE NOW</Button>}
+            // 830:10091 is a 178 x 34 pill centred in the 370 block, not the
+            // full-width one `fill-soft` draws at base for Services. Capped
+            // with `max-w` rather than a `w-*` override, which would collide
+            // with the variant's own base `w-full` at equal specificity and
+            // resolve by Tailwind's stylesheet order. `md:` hands it back to
+            // the variant's `w-fit`, so desktop is unchanged.
+            actions={
+              <Button
+                variant="fill-soft"
+                className="mx-auto max-w-[178px] md:mx-0 md:max-w-none"
+              >
+                DONATE NOW
+              </Button>
+            }
           />
           <div className="grid w-full grid-cols-1 gap-5 px-6 sm:grid-cols-2 md:px-10 xl:px-[72px] 2xl:flex 2xl:gap-[14.9px]">
             {DONATE_TILES.map((tile) => (
