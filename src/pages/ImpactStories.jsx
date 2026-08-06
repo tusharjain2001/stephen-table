@@ -13,6 +13,7 @@ import story6 from '../assets/images/story-6.png';
 import ctaBannerBlueImg from '../assets/images/cta-banner-blue.png';
 import iconArrowPrev from '../assets/icons/icon-arrow-prev.svg';
 import iconArrowNext from '../assets/icons/icon-arrow-next.svg';
+import iconArrowDown from '../assets/icons/arrow-down.svg';
 
 // `titleWidth` is the frame's own per-card measure (370:2330 / 2337 / 2344).
 // All three titles are two lines / 52px tall in the design; at the redrawn
@@ -45,14 +46,27 @@ const BLOG_IMAGES = [story4, story5, story6];
 
 function Pagination() {
   return (
-    <div className="flex items-center justify-center gap-[13px]">
-      <button type="button" aria-label="Previous">
-        <img src={iconArrowPrev} alt="" className="size-[32px]" aria-hidden="true" />
-      </button>
-      <button type="button" aria-label="Next">
-        <img src={iconArrowNext} alt="" className="size-[32px]" aria-hidden="true" />
-      </button>
-    </div>
+    <>
+      {/* Base (<768) is 830:12939: a *single* 31.9268 chevron-down control,
+          not the prev/next pair. Figma's own export of that node is no use —
+          it writes the chevron pointing left and silently drops the -90 the
+          node carries — so this ships `arrow-down.svg`, which is the same
+          circle and #5C7694 1.409 stroke already rotated. */}
+      <div className="flex w-full items-center justify-center md:hidden">
+        <button type="button" aria-label="More stories">
+          <img src={iconArrowDown} alt="" className="size-[31.9268px]" aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="hidden items-center justify-center gap-[13px] md:flex">
+        <button type="button" aria-label="Previous">
+          <img src={iconArrowPrev} alt="" className="size-[32px]" aria-hidden="true" />
+        </button>
+        <button type="button" aria-label="Next">
+          <img src={iconArrowNext} alt="" className="size-[32px]" aria-hidden="true" />
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -108,8 +122,13 @@ function ImpactStories() {
               stroke — the only chips on the site whose label is not the near
               black bl-900. `green-34` is the same low-tint header chip
               Services' Fellowship / Community Connections bands use. */}
+          {/* 830:12911 centres the chip in the 370 block (72 of slack on both
+              sides) and the 0.34 fill washes out to white at 402, the same
+              pair of problems Services' Fellowship / Community chips had. */}
           <SectionHeader
             chipVariant="green-34"
+            mobileChipVariant="green-solid"
+            mobileAlign="center"
             chipLabel="Real World stories"
             lede="Impact stories shared by our clients, partners, sponsors and volunteers."
             ledeWidth={877}
@@ -142,8 +161,12 @@ function ImpactStories() {
       {/* Blogs */}
       <section className="flex w-full flex-col justify-center bg-[#fff1ed] py-14 xl:min-h-[981px] xl:py-16">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
+          {/* Same treatment as Real World stories above — the two headers are
+              the same shape and would otherwise disagree on this page alone. */}
           <SectionHeader
             chipVariant="green-34"
+            mobileChipVariant="green-solid"
+            mobileAlign="center"
             chipLabel="Blogs"
             lede="Be updated with all our latest activities here!"
             ledeWidth={877}
