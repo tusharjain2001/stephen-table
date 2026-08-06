@@ -5,7 +5,6 @@ import Button from '../components/Button.jsx';
 
 import heroContact from '../assets/images/hero-contact.png';
 import heroContactMobile from '../assets/mobile/mobile-contact-hero.png';
-import iconChevronDown from '../assets/icons/icon-chevron-down.svg';
 
 const INITIAL_FORM = {
   firstName: '',
@@ -167,17 +166,23 @@ function Contact() {
                     <option value="Other">Other</option>
                   </FormField>
 
-                  {/* Not FormField: 381:5553 carries a chevron over the
-                      textarea as well as over the select. It is almost
-                      certainly a copy-paste of 381:5552 in the design file,
-                      but it is in the frame, so it is drawn here. */}
+                  {/* Not FormField, because the message box is a textarea on a
+                      taller box than FormField's inputs.
+
+                      381:5553 also carries a chevron over this textarea, which
+                      used to be drawn here on the grounds that it is in the
+                      frame. It is a copy-paste of the select above it — this
+                      is a free-text field with nothing to drop down — so the
+                      frame is wrong and the glyph is gone. (830:11089 already
+                      parks it off-canvas at x=744 in a 336-wide field, i.e.
+                      the mobile frame never showed one either.) */}
                   <label className="flex flex-col gap-[1.357px] sm:gap-[2px]">
                     {/* 830:11087 sets the mobile label to 14, matching what
                         FormField already does at base for the others. */}
                     <span className="font-form text-[14px] text-gray-94 sm:text-[20px] sm:leading-[24px]">
                       Write a Message <span className="text-error">*</span>
                     </span>
-                    <div className="relative">
+                    <div>
                       <textarea
                         // `block` matters: a textarea is inline-block by
                         // default, so its wrapper picked up 5px of descender
@@ -189,18 +194,6 @@ function Contact() {
                         name="message"
                         value={form.message}
                         onChange={updateField}
-                      />
-                      {/* 381:5556 sits at x=1097 y=51.5 in the 1163-wide field
-                          frame; the field frame starts 26px above the box.
-                          Hidden below `sm`: 830:11089 keeps this stray chevron
-                          at x=744 in a 336-wide field, i.e. off the canvas, so
-                          the mobile frame does not show one over the message
-                          box at all. Desktop still draws it. */}
-                      <img
-                        src={iconChevronDown}
-                        alt=""
-                        aria-hidden="true"
-                        className="pointer-events-none absolute right-[48px] top-[25.5px] hidden h-[9px] w-[18px] sm:block"
                       />
                     </div>
                   </label>
