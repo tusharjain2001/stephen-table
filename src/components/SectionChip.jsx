@@ -32,8 +32,14 @@ function SectionChip({ variant = 'beige', className = '', children }) {
       // Figma draws the chip 47px tall (24px label + 8+8 padding + 2+2
       // border = a 27px line box). Playfair Display stands in for Lettertype
       // and its normal leading is 32, which made every chip 52. Mobile frame
-      // (662:9459) pins the same shape at 20px/24px/8px/1px tracking.
-      className={`inline-block rounded-btn border-2 px-[24px] py-[8px] font-display text-[20px] capitalize tracking-[1px] md:px-[24px] md:py-[8px] md:text-[24px] md:leading-[27px] md:tracking-[1.2px] ${variantClasses} ${className}`}
+      // (662:9459) pins the same shape at 20px/24px/8px.
+      //
+      // Tracking is a deliberate override of the frame: Figma authors these
+      // labels at 1px / 1.2px (5% of the font size at both tiers) and we ship
+      // 0. That narrows every chip by ~1px per character — the chip is a hug
+      // box, so only its own width moves; the section heights it sits in are
+      // driven by its 47px height, which is unchanged.
+      className={`inline-block rounded-btn border-2 px-[24px] py-[8px] font-display text-[20px] capitalize tracking-normal md:px-[24px] md:py-[8px] md:text-[24px] md:leading-[27px] ${variantClasses} ${className}`}
     >
       {children}
     </span>
