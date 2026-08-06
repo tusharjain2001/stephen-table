@@ -16,6 +16,11 @@
  *   - `'beige-warm'` was the maroon rollout's wb-400 stroke on a warm fill,
  *     left on Nominate's "how it works". That is the same four-step band
  *     Services draws with `green-67`, which it now uses too.
+ *
+ *   `'blue'` survives but has no caller: Impact Stories' two headers were the
+ *   last, and its bl-500 *label* made them the only chips not set in bl-900.
+ *   Both are `green-34` now. Reach for it only if a frame really does ask for
+ *   blue type.
  * - `className` — extra classes
  * - `children` — chip label text
  */

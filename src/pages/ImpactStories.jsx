@@ -104,8 +104,12 @@ function ImpactStories() {
       {/* Real World stories */}
       <section className="flex w-full flex-col justify-center bg-gradient-to-b from-cream to-[#fff1ed] py-14 xl:min-h-[981px] xl:py-16">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
+          {/* `blue` drew both of this page's chips in bl-500 type on a bl-500
+              stroke — the only chips on the site whose label is not the near
+              black bl-900. `green-34` is the same low-tint header chip
+              Services' Fellowship / Community Connections bands use. */}
           <SectionHeader
-            chipVariant="blue"
+            chipVariant="green-34"
             chipLabel="Real World stories"
             lede="Impact stories shared by our clients, partners, sponsors and volunteers."
             ledeWidth={877}
@@ -139,7 +143,7 @@ function ImpactStories() {
       <section className="flex w-full flex-col justify-center bg-[#fff1ed] py-14 xl:min-h-[981px] xl:py-16">
         <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 xl:gap-[64px]">
           <SectionHeader
-            chipVariant="blue"
+            chipVariant="green-34"
             chipLabel="Blogs"
             lede="Be updated with all our latest activities here!"
             ledeWidth={877}
