@@ -144,12 +144,16 @@ function Contact() {
                     value={form.email}
                     onChange={updateField}
                   />
+                  {/* This used to pass `hideChevronBase`, because 830:11085
+                      parks the mobile chevron at x=744 in a 336-wide field,
+                      i.e. off the canvas. That is the frame losing it rather
+                      than specifying its absence — a select with no affordance
+                      reads as a plain text input — so base draws it too. */}
                   <FormField
                     as="select"
                     label="Reason for Contact"
                     required
                     fieldHeightBase={40.717}
-                    hideChevronBase
                     name="reason"
                     value={form.reason}
                     onChange={updateField}
