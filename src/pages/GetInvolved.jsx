@@ -202,9 +202,16 @@ function GetInvolved() {
         <div className="mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center gap-[40px] md:gap-8 xl:gap-[62px]">
           {/* 367:1602 is an explicit h-62 box; chip 47 / 20px lede 52 would
               otherwise hug to 52 and slide the whole stack 5px. */}
+          {/* Both of this page's chips are `green-solid` at every tier, asked
+              for directly so they read the same as About's "Our Story". The
+              `beige` default they used to carry is bl-50 at 34%, which
+              vanished into the cream band at 402 and was only ever a shade off
+              white above it. This is a deliberate override of the frame — the
+              only chip change on the page that also moves desktop. */}
           <SectionHeader
             className="xl:h-[62px]"
             ledeSize={20}
+            chipVariant="green-solid"
             chipLabel="volunteering"
             lede="Join our mission by volunteering your time and skills to support seniors and strengthen our community."
           />
@@ -298,6 +305,7 @@ function GetInvolved() {
           <SectionHeader
             align="between"
             ledeSize={20}
+            chipVariant="green-solid"
             chipLabel="donate"
             lede="Your generosity helps us provide practical support, meaningful companionship, and essential community resources for seniors across Northern Colorado."
             actions={<Button variant="fill-soft" className="w-fit">DONATE NOW</Button>}
