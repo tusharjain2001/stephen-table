@@ -13,7 +13,17 @@ const INITIAL_FORM = {
   reason: '',
   message: '',
   agree: false,
+  // Honeypot — see the hidden input below. Never shown, always empty.
+  website: '',
 };
+
+// The mail backend (the stephen-backend repo, deployed to Vercel). Hardcoded
+// deliberately: this is the only network call the site makes, so a build-time
+// env var would be one more thing to set on the host for no benefit.
+//
+// This origin must also appear in the backend's ALLOWED_ORIGINS, or the
+// browser blocks the POST at CORS before it ever reaches the handler.
+const CONTACT_ENDPOINT = 'https://stephen-backend.vercel.app/api/contact';
 
 // 830:11072 keeps the two name fields **side by side** at 402 — each a
 // 158.16 half on a 19.68 gutter — where this used to stack them below md.
@@ -23,19 +33,45 @@ function FieldRow({ children }) {
 
 function Contact() {
   const [form, setForm] = useState(INITIAL_FORM);
-  const [submitted, setSubmitted] = useState(false);
+  // 'idle' | 'sending' | 'sent' | 'error'
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState('');
 
   function updateField(event) {
     const { name, value, type, checked } = event.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    // Clear a stale failure as soon as the visitor starts fixing it, so the
+    // red line doesn't sit under a form they've already corrected.
+    if (status === 'error') setStatus('idle');
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    // No backend wired up yet — stub submit handler; real submissions go to
-    // info@stephenstablecolorado.org for review and follow-up.
-    console.log('Contact message submitted', form);
-    setSubmitted(true);
+    if (status === 'sending') return;
+
+    setStatus('sending');
+    setError('');
+
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.success) {
+        // The backend returns a visitor-safe sentence in `error`; only fall
+        // back to a generic line if it didn't (network layer, HTML error page).
+        throw new Error(data.error || 'Something went wrong. Please try again.');
+      }
+
+      setStatus('sent');
+      setForm(INITIAL_FORM);
+    } catch (err) {
+      setStatus('error');
+      setError(err.message || 'Something went wrong. Please try again.');
+    }
   }
 
   // 790:1488 repaints the form band BL/200 → BL/400 (#8099b3), a value that
@@ -229,16 +265,37 @@ function Contact() {
               </label>
             </div>
 
+            {/* Honeypot. `hidden` is display:none, so it costs no layout and
+                never reaches the frame; a bot that fills every input trips it
+                and the backend drops the submission silently. Kept out of the
+                tab order and off autofill so no human can hit it. */}
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={updateField}
+              className="hidden"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
+
             <div className="flex justify-end">
-              <Button type="submit" variant="submit">
-                SEND MESSAGE
+              <Button type="submit" variant="submit" disabled={status === 'sending'}>
+                {status === 'sending' ? 'SENDING…' : 'SEND MESSAGE'}
               </Button>
             </div>
 
-            {submitted && (
-              <p className="font-sans text-[16px] text-s-800">
+            {status === 'sent' && (
+              <p className="font-sans text-[16px] text-s-800" role="status">
                 Thank you — your message has been sent to our team and we&apos;ll be in touch
-                soon.
+                soon. We&apos;ve emailed you a copy for your records.
+              </p>
+            )}
+
+            {status === 'error' && (
+              <p className="font-sans text-[16px] text-error" role="alert">
+                {error}
               </p>
             )}
           </form>
