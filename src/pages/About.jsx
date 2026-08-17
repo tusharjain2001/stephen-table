@@ -32,7 +32,12 @@ const STORY_PARAGRAPHS = [
 const LEADERS = [
   { image: leaderJim, name: 'Jim Nix', role: 'Chief Executive Officer (CEO)' },
   { image: leaderJess, name: 'Jess Nix', role: 'President of Advancement' },
-  { image: leaderRyan, name: 'Ryan Potter', role: 'Chief Operations Officer (COO)' },
+  {
+    image: leaderRyan,
+    name: 'Ryan Potter',
+    role: 'Chief Operations Officer',
+    bio: 'Ryan brings a diverse background in operations, logistics, team coordination, and relationship building. His experience in film and television production required him to manage complex logistics, lead teams, and adapt quickly in fast-moving environments. At Stephen’s Table, Ryan coordinates service initiatives while developing opportunities for seniors to stay active and connected. He is passionate about creating meaningful experiences that foster friendship, community and a continued sense of adventure.',
+  },
 ];
 
 function MissionBlock({ title, body }) {
@@ -60,7 +65,7 @@ function MissionBlock({ title, body }) {
 // card is re-pinned at xl rather than nudged: padding 4→3.281, radius
 // 16→13.123, photo 448.65→367.984, label pad 16.9→13.859, name 28→22.966,
 // role 20→16.404. The md tier keeps the pre-redraw numbers.
-function LeaderCard({ image, name, role }) {
+function LeaderCard({ image, name, role, bio }) {
   return (
     <div className="w-full max-w-[419.34px] rounded-[14.117px] bg-white p-[3.529px] md:rounded-card md:p-[4px] xl:rounded-[13.123px] xl:p-[3.281px]">
       <div className="w-full rounded-[14.117px] bg-cream md:rounded-card xl:rounded-[13.123px]">
@@ -79,6 +84,7 @@ function LeaderCard({ image, name, role }) {
               tier below 1280. */}
           <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[22.966px] md:leading-[30px]">{name}</h3>
           <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[16.404px] md:leading-[21px]">{role}</p>
+          {bio && <p className="font-neulis text-[14px] leading-[19px] text-gray-59">{bio}</p>}
         </div>
       </div>
     </div>
