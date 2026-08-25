@@ -29,9 +29,23 @@ const STORY_PARAGRAPHS = [
   'At the heart of our work is the belief that small acts of kindness can create lasting impact. We know that a helping hand, a friendly conversation, or access to the right resources can make all the difference in helping someone remain safe, independent, and connected to their community.',
 ];
 
+// Every leader carries a bio now: 961:355 / 961:353 / 961:349 are the three
+// back faces of the flip card below. Figma draws all three capitalized, the
+// same file-wide text style the roles above already use, so they ship as
+// drawn rather than "fixed" to sentence case.
 const LEADERS = [
-  { image: leaderJim, name: 'Jim Nix', role: 'Chief Executive Officer (CEO)' },
-  { image: leaderJess, name: 'Jess Nix', role: 'President of Advancement' },
+  {
+    image: leaderJim,
+    name: 'Jim Nix',
+    role: 'Chief Executive Officer (CEO)',
+    bio: 'Jim’s professional experience is centered around leadership, operations and logistics, and executing strategic goals and objectives. His leadership and influence has made profound impacts in financial services, higher education and nonprofit executive management roles. Most importantly, he has successfully built relationships by leading, mentoring, coaching, and encouraging people to fully develop their personal and professional potential.',
+  },
+  {
+    image: leaderJess,
+    name: 'Jess Nix',
+    role: 'President of Advancement',
+    bio: 'Jess has extensive experience cultivating, building and maintaining trusted relationships through her experience in professional sports, rodeo and non-profit industries. In addition, she has successfully led fundraising campaigns to help organizations meet critical needs, including capital improvements, and operating expenditures. She is also innovative when it comes to problem solving, developing and executing new ideas to help people and the community.',
+  },
   {
     image: leaderRyan,
     name: 'Ryan Potter',
@@ -65,27 +79,60 @@ function MissionBlock({ title, body }) {
 // card is re-pinned at xl rather than nudged: padding 4→3.281, radius
 // 16→13.123, photo 448.65→367.984, label pad 16.9→13.859, name 28→22.966,
 // role 20→16.404. The md tier keeps the pre-redraw numbers.
+// 961:386 "Flip Animation": the bio is not a fourth line under the role, it
+// is the *back* of the card — hovering flips it over. 961:349 is 343.95 x
+// 459.70, which is exactly what the front face already measures at xl
+// (3.281 + 367.984 + 13.859 + 30 + 6.442 + 21 + 13.859 + 3.281), so the two
+// faces are the same box and the flip has nothing to resize.
+//
+// The back face is cream edge to edge on 16/10 padding with the copy centred
+// — it does not repeat the front's 3.281px white ring, only the radius.
+//
+// The two faces share one grid cell rather than being absolutely positioned:
+// below 1440 the card is not the designed 459.70 tall, and stacking them in
+// flow lets the pair size itself from whichever face is taller instead of
+// needing a pinned height per tier.
 function LeaderCard({ image, name, role, bio }) {
   return (
-    <div className="w-full max-w-[419.34px] rounded-[14.117px] bg-white p-[3.529px] md:rounded-card md:p-[4px] xl:rounded-[13.123px] xl:p-[3.281px]">
-      <div className="w-full rounded-[14.117px] bg-cream md:rounded-card xl:rounded-[13.123px]">
-        <img
-          src={image}
-          alt={name}
-          className="h-[395.858px] w-full rounded-t-[14.117px] object-cover md:h-[400px] md:rounded-t-card xl:h-[367.984px] xl:rounded-t-[13.123px]"
-        />
-        <div className="flex flex-col gap-[6.93px] p-[14.908px] md:gap-[7.9px] md:p-[16.9px] xl:gap-[6.442px] xl:p-[13.859px]">
-          {/* Figma 342:938 h=30, 342:939 h=21 — see the Poppins note above;
-              the mobile frame's 24.705/17.647px sizes don't call out a
-              custom leading, so base uses "normal". */}
-          {/* Type moves at md, not xl: the md grid puts these cards at ~340
-              and the lg grid at ~280-365, both at or under the design's
-              343.948 column, so the pre-redraw 28/20 read oversized on every
-              tier below 1280. */}
-          <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[22.966px] md:leading-[30px]">{name}</h3>
-          <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[16.404px] md:leading-[21px]">{role}</p>
-          {bio && <p className="font-neulis text-[14px] leading-[19px] text-gray-59">{bio}</p>}
+    // Hover alone would strand this on touch and keyboard, so the card is
+    // focusable and flips on focus as well. Cards without a bio stay inert.
+    <div
+      className="group w-full max-w-[419.34px] rounded-[14.117px] perspective-[1200px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bl-600 md:rounded-card xl:rounded-[13.123px]"
+      tabIndex={bio ? 0 : undefined}
+    >
+      <div className="grid transform-3d transition-transform duration-500 ease-in-out group-hover:rotate-y-180 group-focus:rotate-y-180 motion-reduce:transition-none">
+        <div className="col-start-1 row-start-1 w-full rounded-[14.117px] bg-white p-[3.529px] backface-hidden md:rounded-card md:p-[4px] xl:rounded-[13.123px] xl:p-[3.281px]">
+          <div className="w-full rounded-[14.117px] bg-cream md:rounded-card xl:rounded-[13.123px]">
+            <img
+              src={image}
+              alt={name}
+              className="h-[395.858px] w-full rounded-t-[14.117px] object-cover md:h-[400px] md:rounded-t-card xl:h-[367.984px] xl:rounded-t-[13.123px]"
+            />
+            <div className="flex flex-col gap-[6.93px] p-[14.908px] md:gap-[7.9px] md:p-[16.9px] xl:gap-[6.442px] xl:p-[13.859px]">
+              {/* Figma 342:938 h=30, 342:939 h=21 — see the Poppins note above;
+                  the mobile frame's 24.705/17.647px sizes don't call out a
+                  custom leading, so base uses "normal". */}
+              {/* Type moves at md, not xl: the md grid puts these cards at ~340
+                  and the lg grid at ~280-365, both at or under the design's
+                  343.948 column, so the pre-redraw 28/20 read oversized on every
+                  tier below 1280. */}
+              <h3 className="font-neulis text-[24.705px] font-medium text-bl-600 md:text-[22.966px] md:leading-[30px]">{name}</h3>
+              <p className="font-neulis text-[17.647px] capitalize text-bl-600 md:text-[16.404px] md:leading-[21px]">{role}</p>
+            </div>
+          </div>
         </div>
+
+        {bio && (
+          <div className="col-start-1 row-start-1 flex flex-col items-center justify-center rounded-[14.117px] bg-cream px-[16px] py-[10px] rotate-y-180 backface-hidden md:rounded-card xl:rounded-[13.123px]">
+            {/* 961:342 is 311.95 wide (343.95 less the 16px sides) and 336 tall
+                over 16 lines, i.e. the same 21px line box the role above is
+                pinned to — Poppins' `normal` at 16.404 is 24.6, which would run
+                the block 58px past the frame. */}
+            <p className="w-full font-neulis text-[17.647px] capitalize text-bl-600 [word-break:break-word] md:text-[16.404px] md:leading-[21px]">
+              {bio}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
