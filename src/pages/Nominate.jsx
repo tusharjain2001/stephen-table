@@ -50,7 +50,18 @@ const INITIAL_FORM = {
   address: '',
   city: '',
   zip: '',
+  // Honeypot — see the hidden input below. Never shown, always empty.
+  website: '',
 };
+
+// Same backend as the contact form (the stephen-backend repo on Vercel), and
+// hardcoded for the same reason: these are the only two network calls the site
+// makes, so a build-time env var would be one more thing to set on the host
+// for no benefit.
+//
+// This origin must also appear in the backend's ALLOWED_ORIGINS, or the
+// browser blocks the POST at CORS before it ever reaches the handler.
+const NOMINATE_ENDPOINT = 'https://stephen-backend.vercel.app/api/nominate';
 
 // 381:5711 — the redraw takes every field label to 16 on a 19px box, which
 // is what makes each field frame 19 + 2 + 60 = 81 rather than 86.
@@ -63,22 +74,56 @@ function FieldRow({ children }) {
 function Nominate() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(INITIAL_FORM);
-  const [submitted, setSubmitted] = useState(false);
+  // 'idle' | 'sending' | 'sent' | 'error'
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState('');
 
   function updateField(event) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    // Clear a stale failure as soon as the visitor starts fixing it, so the
+    // red line doesn't sit under a form they've already corrected.
+    if (status === 'error') setStatus('idle');
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+
+    // Step 1 is a page turn, not a submission — the browser has just
+    // validated the first half of the fields, so advance rather than post.
     if (step === 1) {
       setStep(2);
       return;
     }
-    // No backend wired up yet — stub submit handler.
-    console.log('Nomination submitted', form);
-    setSubmitted(true);
+
+    if (status === 'sending') return;
+
+    setStatus('sending');
+    setError('');
+
+    try {
+      const response = await fetch(NOMINATE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.success) {
+        // The backend returns a visitor-safe sentence in `error`; only fall
+        // back to a generic line if it didn't (network layer, HTML error page).
+        throw new Error(data.error || 'Something went wrong. Please try again.');
+      }
+
+      setStatus('sent');
+      setForm(INITIAL_FORM);
+      // Back to the first half, so the emptied form reads as a fresh one
+      // rather than a half-filled step 2.
+      setStep(1);
+    } catch (err) {
+      setStatus('error');
+      setError(err.message || 'Something went wrong. Please try again.');
+    }
   }
 
   return (
@@ -375,6 +420,21 @@ function Nominate() {
             </div>
             </div>
 
+            {/* Honeypot. `hidden` is display:none, so it costs no layout and
+                never reaches the frame; a bot that fills every input trips it
+                and the backend drops the submission silently. Kept out of the
+                tab order and off autofill so no human can hit it. */}
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={updateField}
+              className="hidden"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
+
             <div className="flex justify-end">
               {step === 1 ? (
                 <button
@@ -393,15 +453,22 @@ function Nominate() {
                   Step 1/2
                 </button>
               ) : (
-                <Button type="submit" variant="submit">
-                  SUBMIT
+                <Button type="submit" variant="submit" disabled={status === 'sending'}>
+                  {status === 'sending' ? 'SENDING…' : 'SUBMIT'}
                 </Button>
               )}
             </div>
 
-            {submitted && (
-              <p className="font-sans text-[16px] text-s-800">
-                Thank you — we&apos;ve received the nomination and will be in touch soon.
+            {status === 'sent' && (
+              <p className="font-sans text-[16px] text-s-800" role="status">
+                Thank you — we&apos;ve received the nomination and our team will reach out
+                soon. We&apos;ve emailed you a copy for your records.
+              </p>
+            )}
+
+            {status === 'error' && (
+              <p className="font-sans text-[16px] text-error" role="alert">
+                {error}
               </p>
             )}
           </form>
