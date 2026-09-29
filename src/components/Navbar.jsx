@@ -10,14 +10,15 @@ const NAV_LINKS = [
   { label: 'Services', to: '/services' },
   { label: 'Get Involved', to: '/get-involved' },
   { label: 'Impact Stories', to: '/impact-stories' },
+  { label: 'Support Us', to: '/donation' },
   { label: 'Contact', to: '/contact' },
 ];
 
 // The <768 dropdown leads with Home. On the desktop bar the logo lockup is
-// always visible and is itself the link to `/`, so the frame's five links are
-// enough there; inside a closed hamburger nothing points home but a logo the
-// panel covers. Kept as its own list so the desktop row stays exactly the five
-// 830:89 draws. (The 768–1023 tablet menu still uses NAV_LINKS.)
+// always visible and is itself the link to `/`, so NAV_LINKS is enough there;
+// inside a closed hamburger nothing points home but a logo the panel covers.
+// Kept as its own list so the desktop row doesn't gain a Home link.
+// (The 768–1023 tablet menu still uses NAV_LINKS.)
 const MOBILE_NAV_LINKS = [{ label: 'Home', to: '/' }, ...NAV_LINKS];
 
 /**
@@ -97,14 +98,16 @@ function Navbar() {
             `whitespace-nowrap` labels the row would refuse to shrink and push
             the button off the gutter instead of overflowing visibly.
             `whitespace-nowrap` stops a squeezed row from breaking a label in
-            half ("About / Us") before the hamburger tier takes over. */}
+            half ("About / Us") before the hamburger tier takes over.
+            The type scales 16 → 20 (reaching 20 at 1440) because the sixth
+            link, Support Us, overflows the row at 20px below ~1440. */}
         <div className="hidden items-center gap-5 lg:flex lg:min-w-0 lg:flex-1 lg:justify-center xl:gap-[41px]">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `whitespace-nowrap font-sans text-[20px] font-medium capitalize text-espresso transition-colors ${
+                `whitespace-nowrap font-sans text-[clamp(16px,1.39vw,20px)] font-medium capitalize text-espresso transition-colors ${
                   isActive ? 'underline underline-offset-8' : ''
                 }`
               }

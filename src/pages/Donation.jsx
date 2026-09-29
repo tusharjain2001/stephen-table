@@ -1,6 +1,7 @@
 import PageHero from '../components/PageHero.jsx';
 import SectionChip from '../components/SectionChip.jsx';
 import Button from '../components/Button.jsx';
+import { DONATE_HREF } from '../donate.js';
 import FaqSection from '../components/FaqSection.jsx';
 
 import heroDonate from '../assets/images/hero-donate.jpg';
@@ -199,7 +200,9 @@ function Donation() {
           </div>
 
           {/* 799:5807 — 199 × 42, centred on the 1440 frame */}
-          <Button variant="fill-soft">DONATE NOW</Button>
+          <Button as="a" href={DONATE_HREF} variant="fill-soft">
+            DONATE NOW
+          </Button>
         </div>
       </section>
 
