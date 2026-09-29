@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Button from './Button.jsx';
+import { DONATE_HREF } from '../donate.js';
 import iconMenu from '../assets/icons/icon-menu.svg';
 import logoCrest from '../assets/images/newlogonavbar.svg';
 
@@ -119,7 +120,7 @@ function Navbar() {
             button hugging the gutter at every width. `shrink-0` keeps it at
             its designed 180 rather than letting the row squeeze it. */}
         <div className="hidden shrink-0 lg:block">
-          <Button as={Link} to="/donation" variant="donate-nav">
+          <Button as="a" href={DONATE_HREF} variant="donate-nav">
             Donate Now
           </Button>
         </div>
@@ -192,8 +193,8 @@ function Navbar() {
               </NavLink>
             ))}
             <Button
-              as={Link}
-              to="/donation"
+              as="a"
+              href={DONATE_HREF}
               variant="donate-nav"
               onClick={() => setOpen(false)}
               className="w-fit"
@@ -245,8 +246,8 @@ function Navbar() {
             ))}
           </div>
           <Button
-            as={Link}
-            to="/donation"
+            as="a"
+            href={DONATE_HREF}
             variant="donate-nav"
             onClick={() => setOpen(false)}
             className="w-full justify-center"

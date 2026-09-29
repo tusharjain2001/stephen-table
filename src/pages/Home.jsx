@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Button from '../components/Button.jsx';
+import { DONATE_HREF } from '../donate.js';
 import PageHero from '../components/PageHero.jsx';
 import SectionChip from '../components/SectionChip.jsx';
 import StatsBand from '../components/StatsBand.jsx';
@@ -298,7 +299,7 @@ function Home() {
           <Button variant="hero-primary" style={{ backgroundColor: 'var(--color-s-200)' }}>
             GET HELP
           </Button>
-          <Button as={Link} to="/donation" variant="outline-light">
+          <Button as="a" href={DONATE_HREF} variant="outline-light">
             DONATE
           </Button>
         </div>
