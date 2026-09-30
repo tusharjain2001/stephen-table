@@ -488,7 +488,7 @@ function Home() {
               offsetTop={53}
               bg="dark"
               cta={
-                <Button as={Link} to="/get-involved" variant="learn-more-light" style={LEARN_MORE_FIXED_STYLE}>
+                <Button as="a" href={DONATE_HREF} variant="learn-more-light" style={LEARN_MORE_FIXED_STYLE}>
                   Donate Now
                 </Button>
               }

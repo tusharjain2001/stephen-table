@@ -1,4 +1,5 @@
 import Button from '../components/Button.jsx';
+import { DONATE_HREF } from '../donate.js';
 import PageHero from '../components/PageHero.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import CtaBanner from '../components/CtaBanner.jsx';
@@ -322,6 +323,8 @@ function GetInvolved() {
             // the variant's `w-fit`, so desktop is unchanged.
             actions={
               <Button
+                as="a"
+                href={DONATE_HREF}
                 variant="fill-soft"
                 className="mx-auto max-w-[178px] md:mx-0 md:max-w-none"
               >

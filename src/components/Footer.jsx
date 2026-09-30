@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { DONATE_HREF } from '../donate.js';
 import logoFooter from '../assets/images/newlogofooter.svg';
 import iconFacebook from '../assets/icons/icon-facebook.svg';
 import iconInstagram from '../assets/icons/icon-instagram.svg';
@@ -34,7 +35,7 @@ const LINK_COLUMNS = [
     heading: 'Take Action',
     items: [
       { label: 'Volunteer', to: '/get-involved' },
-      { label: 'Donate', to: '/get-involved' },
+      { label: 'Donate', href: DONATE_HREF },
       { label: 'Nominate a Senior', to: '/nominate' },
       { label: 'Contact Us', to: '/contact' },
       { label: 'Get Involved', to: '/get-involved' },
@@ -42,6 +43,20 @@ const LINK_COLUMNS = [
     ],
   },
 ];
+
+// Items with `href` leave the app (the Fundraise Up Donate Link, which the
+// installation script turns into the checkout modal); the rest are routes.
+function FooterLink({ item, className }) {
+  return item.href ? (
+    <a href={item.href} className={className}>
+      {item.label}
+    </a>
+  ) : (
+    <Link to={item.to} className={className}>
+      {item.label}
+    </Link>
+  );
+}
 
 const LEGAL_LINKS = [
   { label: 'Terms of Service', to: '#' },
@@ -144,9 +159,7 @@ function Footer() {
                   <ul className="flex w-full flex-col gap-[4px]">
                     {column.items.map((item) => (
                       <li key={item.label}>
-                        <Link to={item.to} className="font-sans text-[12px] leading-[16px] text-white">
-                          {item.label}
-                        </Link>
+                        <FooterLink item={item} className="font-sans text-[12px] leading-[16px] text-white" />
                       </li>
                     ))}
                   </ul>
@@ -249,12 +262,7 @@ function Footer() {
                         {/* 799:4201: list items are 23px tall on a 31px pitch
                             (leading normal + the 8px gap), unlike the contact
                             rows above which are explicitly 32px. */}
-                        <Link
-                          to={item.to}
-                          className="font-sans text-[18px] leading-[23px] text-white"
-                        >
-                          {item.label}
-                        </Link>
+                        <FooterLink item={item} className="font-sans text-[18px] leading-[23px] text-white" />
                       </li>
                     ))}
                   </ul>
