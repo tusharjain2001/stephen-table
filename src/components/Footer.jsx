@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { DONATE_HREF } from '../donate.js';
+import { useOpenVolunteerForm } from '../volunteerForm.js';
 import logoFooter from '../assets/images/newlogofooter.svg';
 import iconFacebook from '../assets/icons/icon-facebook.svg';
 import iconInstagram from '../assets/icons/icon-instagram.svg';
@@ -34,7 +35,7 @@ const LINK_COLUMNS = [
   {
     heading: 'Take Action',
     items: [
-      { label: 'Volunteer', to: '/get-involved' },
+      { label: 'Volunteer', opensVolunteerForm: true },
       { label: 'Donate', href: DONATE_HREF },
       { label: 'Nominate a Senior', to: '/nominate' },
       { label: 'Contact Us', to: '/contact' },
@@ -45,8 +46,19 @@ const LINK_COLUMNS = [
 ];
 
 // Items with `href` leave the app (the Fundraise Up Donate Link, which the
-// installation script turns into the checkout modal); the rest are routes.
+// installation script turns into the checkout modal); `opensVolunteerForm`
+// opens the volunteer sign-up popup; the rest are routes.
 function FooterLink({ item, className }) {
+  const openVolunteerForm = useOpenVolunteerForm();
+
+  if (item.opensVolunteerForm) {
+    return (
+      <button type="button" onClick={openVolunteerForm} className={`cursor-pointer text-left ${className}`}>
+        {item.label}
+      </button>
+    );
+  }
+
   return item.href ? (
     <a href={item.href} className={className}>
       {item.label}

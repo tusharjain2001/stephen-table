@@ -8,6 +8,9 @@ import iconChevronDown from '../assets/icons/icon-chevron-down.svg';
  * - `as`          — `'input'` (default) | `'textarea'` | `'select'`
  * - `label`       — field label text
  * - `required`    — shows a red `*` next to the label (default false)
+ * - `enforceRequired` — also sets the native `required` attribute, so the
+ *                   browser blocks submit while the field is empty. Opt-in:
+ *                   Contact and Nominate leave validation to the backend.
  * - `labelSize` / `labelLeading` — px label type and line box from `md` up
  *                   (default 20/24). Nominate's redrawn 381:5711 is 16 on a
  *                   19 box, which is what makes its field frames 19 + 2 + 60
@@ -23,6 +26,7 @@ function FormField({
   as = 'input',
   label,
   required = false,
+  enforceRequired = false,
   labelSize = 20,
   labelLeading = 24,
   fieldHeightBase = 42.4,
@@ -71,6 +75,7 @@ function FormField({
               : 'h-[var(--ff-h-base)] md:h-[60px]'
           } ${isSelect ? 'appearance-none pr-[40px] md:pr-[90px]' : ''} ${fieldClassName}`}
           style={isTextarea ? undefined : { '--ff-h-base': `${fieldHeightBase}px` }}
+          required={required && enforceRequired}
           {...props}
         >
           {children}

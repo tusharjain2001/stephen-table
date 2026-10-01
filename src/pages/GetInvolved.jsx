@@ -1,5 +1,6 @@
 import Button from '../components/Button.jsx';
 import { DONATE_HREF } from '../donate.js';
+import { useOpenVolunteerForm } from '../volunteerForm.js';
 import PageHero from '../components/PageHero.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import CtaBanner from '../components/CtaBanner.jsx';
@@ -156,6 +157,8 @@ function DonateTile({ icon, iconSize = 34, bgClassName, title, body }) {
 }
 
 function GetInvolved() {
+  const openVolunteerForm = useOpenVolunteerForm();
+
   return (
     <div>
       <PageHero
@@ -293,9 +296,13 @@ function GetInvolved() {
               <p className="text-center font-neulis text-[18px] text-white sm:text-[20px] md:leading-[29px]">
                 You can make a difference. Sign Up now.
               </p>
-              <span className="rounded-btn bg-s-200 px-[24px] py-[8px] text-center font-sans text-[18px] font-medium uppercase text-black md:text-[20px] xl:px-[32px]">
+              <button
+                type="button"
+                onClick={openVolunteerForm}
+                className="cursor-pointer rounded-btn bg-s-200 px-[24px] py-[8px] text-center font-sans text-[18px] font-medium uppercase text-black transition-opacity hover:opacity-90 md:text-[20px] xl:px-[32px]"
+              >
                 Sign up for Volunteering
-              </span>
+              </button>
             </div>
           </div>
           </div>
