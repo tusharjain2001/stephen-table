@@ -16,19 +16,6 @@ import Button from './Button.jsx';
 // it is hardcoded. This origin must be in the backend's ALLOWED_ORIGINS.
 const VOLUNTEER_ENDPOINT = 'https://stephen-backend.vercel.app/api/volunteer';
 
-const US_STATES = [
-  'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut',
-  'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois',
-  'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
-  'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada',
-  'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina',
-  'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington',
-  'West Virginia', 'Wisconsin', 'Wyoming',
-];
-
-const COUNTRIES = ['United States', 'Canada', 'Mexico', 'Other'];
-
 const INITIAL_FORM = {
   firstName: '',
   lastName: '',
@@ -41,7 +28,7 @@ const INITIAL_FORM = {
   city: '',
   state: '',
   zip: '',
-  country: 'United States',
+  country: '',
   // Honeypot — see Nominate.jsx. Never shown, always empty.
   website: '',
 };
@@ -92,15 +79,7 @@ function VolunteerDialog({ open, onClose }) {
 
   function updateField(event) {
     const { name, value } = event.target;
-    setForm((prev) => {
-      const next = { ...prev, [name]: value };
-      // The state list only applies to the US; switching country clears a
-      // US state that would otherwise ride along with a Canadian address.
-      if (name === 'country' && (value === 'United States') !== (prev.country === 'United States')) {
-        next.state = '';
-      }
-      return next;
-    });
+    setForm((prev) => ({ ...prev, [name]: value }));
     if (status === 'error') setStatus('idle');
   }
 
@@ -130,8 +109,6 @@ function VolunteerDialog({ open, onClose }) {
       setError(err.message || 'Something went wrong. Please try again.');
     }
   }
-
-  const isUS = form.country === 'United States';
 
   return (
     <dialog
@@ -301,39 +278,16 @@ function VolunteerDialog({ open, onClose }) {
                   value={form.city}
                   onChange={updateField}
                 />
-                {isUS ? (
-                  <FormField
-                    {...LABEL}
-                    as="select"
-                    className="w-full md:flex-1"
-                    label="State"
-                    required
-                    name="state"
-                    autoComplete="address-level1"
-                    value={form.state}
-                    onChange={updateField}
-                  >
-                    <option value="" disabled>
-                      Select state
-                    </option>
-                    {US_STATES.map((state) => (
-                      <option key={state} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </FormField>
-                ) : (
-                  <FormField
-                    {...LABEL}
-                    className="w-full md:flex-1"
-                    label="State / Province"
-                    required
-                    name="state"
-                    autoComplete="address-level1"
-                    value={form.state}
-                    onChange={updateField}
-                  />
-                )}
+                <FormField
+                  {...LABEL}
+                  className="w-full md:flex-1"
+                  label="State"
+                  required
+                  name="state"
+                  autoComplete="address-level1"
+                  value={form.state}
+                  onChange={updateField}
+                />
               </FieldRow>
               <FieldRow>
                 <FormField
@@ -348,7 +302,6 @@ function VolunteerDialog({ open, onClose }) {
                 />
                 <FormField
                   {...LABEL}
-                  as="select"
                   className="w-full md:flex-1"
                   label="Country"
                   required
@@ -356,13 +309,7 @@ function VolunteerDialog({ open, onClose }) {
                   autoComplete="country-name"
                   value={form.country}
                   onChange={updateField}
-                >
-                  {COUNTRIES.map((country) => (
-                    <option key={country} value={country}>
-                      {country}
-                    </option>
-                  ))}
-                </FormField>
+                />
               </FieldRow>
 
               <p className="font-sans text-[14px] leading-[18px] text-error">
